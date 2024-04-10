@@ -1,14 +1,10 @@
 body {
   margin: 0;
   height: 100%;
-  font-family: 'Times';
+  font-family: 'Source Code Pro';
   background-color: #fff;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-}
-
-body.dark {
-  background-color: #000;
 }
 
 code {
@@ -52,7 +48,7 @@ body {
 /* Replace list-style with transparent img to keep accessibility, remove default padding */
 ul,
 ol {
-  list-style-image: url('../svg/transparent-dot.svg');
+  list-style-image: url('../../../../public/svg/transparent-dot.svg');
   padding: 0;
 }
 
@@ -88,18 +84,4 @@ a:hover {
     transition-duration: 0.01ms !important;
     scroll-behavior: auto !important;
   }
-}
-
-.max-w-screen-p-incl {
-  max-width: calc(100vw - 4rem);
-}
-
-@media only screen and (min-width: 768px) {
-  .max-w-screen-p-incl {
-    max-width: calc(100vw - 5rem);
-  }
-}
-
-.break-word {
-  word-break: break-word;
 }

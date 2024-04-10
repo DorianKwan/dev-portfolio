@@ -1,5 +1,11 @@
-import Image from 'next/image';
+import { Page, Heading } from '@/app/components';
 
-export default function Home() {
-  return <main>Hello World!</main>;
-}
+const Home: React.FC = () => {
+  return (
+    <Page>
+      <Heading>Home</Heading>
+    </Page>
+  );
+};
+
+export default Home;

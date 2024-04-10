@@ -1,8 +1,14 @@
+import React from 'react';
+import { Metadata } from 'next';
 import { Html, Head, Main, NextScript } from 'next/document';
 
-export default function Document() {
+export const metadata: Metadata = {
+  title: "Bryce Sayers-Kwan's Portfolio",
+};
+
+const Document: React.FC = () => {
   return (
-    <Html>
+    <Html lang="en">
       <Head />
       <body>
         <Main />
@@ -10,4 +16,6 @@ export default function Document() {
       </body>
     </Html>
   );
-}
+};
+
+export default Document;
