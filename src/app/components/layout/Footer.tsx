@@ -43,7 +43,7 @@ export const Footer: React.FC = () => {
     return (
       <FooterLinkWrapper key={key}>
         <FooterLink href={to} target="_blank">
-          {icon as any}
+          {icon}
         </FooterLink>
       </FooterLinkWrapper>
     );
