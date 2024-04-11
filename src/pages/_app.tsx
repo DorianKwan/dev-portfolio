@@ -1,14 +1,14 @@
 import type { AppProps } from 'next/app';
-import { Source_Code_Pro } from 'next/font/google';
-import '../app/assets/styles/css-reset.css';
-import { Header, Main, Footer } from '@/app/components';
+import localFont from 'next/font/local';
 import styled from '@emotion/styled';
+import { Header, Main, Footer } from '@/app/components';
+import '../app/assets/styles/css-reset.css';
 
-const SourceCodePro = Source_Code_Pro({ subsets: ['greek'] });
+const Cascadia = localFont({ src: './Cascadia.ttf' });
 
 const App: React.FC<AppProps> = ({ Component, pageProps }) => {
   return (
-    <AppWrapper className={SourceCodePro.className}>
+    <AppWrapper className={Cascadia.className}>
       <Header />
       <Main>
         <Component {...pageProps} />
