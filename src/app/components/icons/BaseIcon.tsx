@@ -9,5 +9,13 @@ const StyledIconWrapper = styled.div`
     height: 2rem;
     width: 2rem;
     color: white;
+    transition: color 250ms ease-in-out;
+
+    &:hover,
+    &:active,
+    &:focus {
+      text-decoration: none;
+      color: ${({ theme }) => theme.colors.pink};
+    }
   }
 `;

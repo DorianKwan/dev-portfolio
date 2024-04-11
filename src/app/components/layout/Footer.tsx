@@ -4,6 +4,7 @@ import {
   LinkedInIcon,
   UpWorkIcon,
 } from '@/app/components/icons';
+import { theme } from '@/theme';
 import styled from '@emotion/styled';
 import Link from 'next/link';
 import React from 'react';
@@ -60,9 +61,21 @@ export const Footer: React.FC = () => {
 const StyledFooter = styled.footer`
   display: flex;
   justify-content: flex-end;
-  background-color: grey;
   height: 6rem;
-  padding: 0 4rem;
+  background: ${({ theme }) => theme.colors.background};
+  padding: 0 ${({ theme }) => theme.layoutSpacing.md};
+
+  @media only screen and (min-width: ${theme.breakpoints.lg}) {
+    padding: 0 ${({ theme }) => theme.layoutSpacing.lg};
+  }
+
+  @media only screen and (min-width: ${theme.breakpoints.xxl}) {
+    padding: 0 ${({ theme }) => theme.layoutSpacing.xxl};
+  }
+
+  @media only screen and (min-width: ${theme.breakpoints.xxxl}) {
+    padding: 0 ${({ theme }) => theme.layoutSpacing.xxxl};
+  }
 `;
 
 const FooterNav = styled.nav`

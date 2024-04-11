@@ -1,3 +1,4 @@
+import { theme } from '@/theme';
 import styled from '@emotion/styled';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
@@ -76,17 +77,33 @@ const StyledHeader = styled.header`
   gap: 3rem;
   width: 100%;
   height: 6rem;
-  background: grey;
-  color: white;
-  padding: 0 4rem;
+  background: ${({ theme }) => theme.colors.background};
+  color: ${({ theme }) => theme.colors.white};
+  padding: 0 ${({ theme }) => theme.layoutSpacing.md};
+
+  @media only screen and (min-width: ${theme.breakpoints.lg}) {
+    padding: 0 ${({ theme }) => theme.layoutSpacing.lg};
+  }
+
+  @media only screen and (min-width: ${theme.breakpoints.xxl}) {
+    padding: 0 ${({ theme }) => theme.layoutSpacing.xxl};
+  }
+
+  @media only screen and (min-width: ${theme.breakpoints.xxxl}) {
+    padding: 0 ${({ theme }) => theme.layoutSpacing.xxxl};
+  }
 `;
 
 const Logo = styled(Link)`
   font-size: 1.25rem;
-  color: white;
+  color: ${({ theme }) => theme.colors.white};
+  transition: color 250ms ease-in-out;
 
-  &:hover {
+  &:hover,
+  &:active,
+  &:focus {
     text-decoration: none;
+    color: ${({ theme }) => theme.colors.pink};
   }
 `;
 
@@ -106,14 +123,19 @@ const NavLink = styled(Link, {
   current?: boolean;
 }>`
   font-size: 1.125rem;
-  color: white;
-  border-bottom: ${({ current }) =>
-    current ? '0.125rem white solid' : 'none'};
+  color: ${({ current, theme }) =>
+    current ? theme.colors.stringText : theme.colors.white};
+  border-bottom: ${({ current, theme }) =>
+    current ? `0.125rem ${theme.colors.stringText} solid` : 'none'};
+  transition: color 250ms ease-in-out;
+  padding: 0.125rem 0;
+  font-weight: ${({ current, theme }) => (current ? 'bold' : 'normal')};
 
   &:hover,
   &:active,
   &:focus {
     text-decoration: none;
-    border-bottom: 0.125rem white solid;
+    color: ${({ theme, current }) =>
+      current ? theme.colors.stringText : theme.colors.pink};
   }
 `;
