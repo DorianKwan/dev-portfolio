@@ -1,8 +1,9 @@
-import { theme } from '@/theme';
-import styled from '@emotion/styled';
+import React, { useMemo } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import React, { useMemo } from 'react';
+import styled from '@emotion/styled';
+import { theme } from '@/theme';
+import { Blink } from '../special';
 
 interface NavigationLink {
   name: string;
@@ -62,7 +63,9 @@ export const Header: React.FC = () => {
 
   return (
     <StyledHeader>
-      <Logo href="/">Bryce Sayers-Kwan</Logo>
+      <Logo href="/">
+        Bryce Sayers-Kwan<Blink>_</Blink>
+      </Logo>
       <Nav>
         <NavLinks>{navLinks}</NavLinks>
       </Nav>
