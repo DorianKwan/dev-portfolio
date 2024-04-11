@@ -77,7 +77,7 @@ const StyledHeader = styled.header`
   gap: 3rem;
   width: 100%;
   height: 6rem;
-  background: ${({ theme }) => theme.colors.background};
+  background: transparent;
   color: ${({ theme }) => theme.colors.white};
   padding: 0 ${({ theme }) => theme.layoutSpacing.md};
 

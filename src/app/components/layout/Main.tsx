@@ -7,7 +7,7 @@ export const Main: React.FC<{ children: React.ReactNode }> = ({ children }) => {
 };
 
 const StyledMain = styled.main`
-  background: ${({ theme }) => theme.colors.background};
+  background: transparent;
   color: ${({ theme }) => theme.colors.white};
 
   padding: 2rem ${({ theme }) => theme.layoutSpacing.md};

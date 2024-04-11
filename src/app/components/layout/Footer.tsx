@@ -62,7 +62,7 @@ const StyledFooter = styled.footer`
   display: flex;
   justify-content: flex-end;
   height: 6rem;
-  background: ${({ theme }) => theme.colors.background};
+  background: transparent;
   padding: 0 ${({ theme }) => theme.layoutSpacing.md};
 
   @media only screen and (min-width: ${theme.breakpoints.lg}) {
