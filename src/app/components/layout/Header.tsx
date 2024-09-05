@@ -98,7 +98,7 @@ const StyledHeader = styled.header`
 `;
 
 const Logo = styled(Link)`
-  font-size: 1.25rem;
+  font-size: 1.5rem;
   color: ${({ theme }) => theme.colors.white};
   transition: color 250ms ease-in-out;
 
