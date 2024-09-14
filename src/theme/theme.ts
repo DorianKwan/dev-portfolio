@@ -16,9 +16,9 @@ export const theme = {
     availabilityBg: '#262626',
     availabilityBorder: '#C0C0C0',
     copyrightText: '#7A7A7A',
-    statusAvailable: '#007AFF',
+    statusAvailable: '#32CD32',
     statusNotAvailable: '#DC143C',
-    statusOpen: '',
+    statusOpenToWork: '#007AFF',
     copyText: '#6D7087',
   },
   breakpoints: {
