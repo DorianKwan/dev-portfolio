@@ -66,8 +66,7 @@ const StyledFooter = styled.footer`
   place-items: center;
   gap: 2rem;
   background: transparent;
-  padding: 0 ${({ theme }) => theme.layoutSpacing.md};
-  padding-bottom: 2rem;
+  padding: 2rem ${({ theme }) => theme.layoutSpacing.md};
 
   @media only screen and (min-width: ${theme.breakpoints.md}) {
     height: 6rem;

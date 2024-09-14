@@ -82,11 +82,13 @@ const StyledHeader = styled.header`
   background: transparent;
   color: ${({ theme }) => theme.colors.white};
   padding: 0 ${({ theme }) => theme.layoutSpacing.md};
+  margin-bottom: 2rem;
 
   @media only screen and (min-width: ${theme.breakpoints.xmd}) {
     display: grid;
     grid-template-columns: auto 1fr auto;
     place-items: center;
+    margin: 0;
   }
 
   @media only screen and (min-width: ${theme.breakpoints.lg}) {

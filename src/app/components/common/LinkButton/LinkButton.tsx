@@ -40,6 +40,8 @@ const StyledLinkButton = styled(Link, {
 })<LinkButtonProps>`
   display: flex;
   align-items: center;
+  place-content: center;
+  width: 100%;
   gap: 1rem;
   background: ${({ buttonType, theme }) =>
     buttonType === 'secondary' ? theme.colors.black : theme.colors.bluePurple};

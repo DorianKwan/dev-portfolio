@@ -91,6 +91,7 @@ const CTAContainer = styled.div`
   display: flex;
   flex-direction: column;
   gap: 1rem;
+  width: 100%;
 
   @media only screen and (min-width: ${theme.breakpoints.md}) {
     flex-direction: row;
