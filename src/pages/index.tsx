@@ -28,11 +28,11 @@ const Home: React.FC = () => {
             </CTAText>
           </WelcomeText>
           <CTAContainer>
-            <LinkButton href="https://github.com/DorianKwan">
+            <LinkButton href="https://github.com/DorianKwan" external>
               <GithubIcon size="1.25rem" />
               View my Github
             </LinkButton>
-            <LinkButton href="https://linkedin.com/in/brycesayerskwan">
+            <LinkButton href="https://linkedin.com/in/brycesayerskwan" external>
               <LinkedInIcon size="1.25rem" />
               View my Linkedin
             </LinkButton>
