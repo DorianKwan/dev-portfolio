@@ -1,17 +1,18 @@
 export const theme = {
   colors: {
     background: '#101116',
-    background2: '#060608',
     stringText: '#00a2ff',
     highlight: '#240000',
     text: '#EEFFFF',
     darkText: '#b4baff',
     errorText: '#dd3270',
-    babyBlue: '#00b0ff',
-    greyBlue: '#76c1ff',
-    pink: '#ee6dff',
-    lavender: '#d56bff',
+    darkBlue: '#044FC7',
+    lightBlue: '#5988D2',
+    bluePurple: '#270096',
+    darkPurple: '#2A40FF',
+    lightPurple: '#A12AFF',
     white: '#fff',
+    black: '#000',
   },
   breakpoints: {
     xxs: '420px',
@@ -33,4 +34,3 @@ export const theme = {
 };
 
 export type ThemeType = typeof theme;
-
