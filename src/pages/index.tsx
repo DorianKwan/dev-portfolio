@@ -21,7 +21,7 @@ const Home: React.FC = () => {
           <Heading>Software Engineer</Heading>
           <WelcomeText>
             I develop highly composable, accessible, and intuitive custom web
-            applications. I'm known for a strong attention to detail, a
+            applications. I'm known for having a strong attention to detail, a
             relentless drive for excellence, and exceptional analytical skills.
             <CTAText>
               If you'd like to work with me check out these links below
