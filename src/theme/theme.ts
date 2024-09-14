@@ -19,6 +19,7 @@ export const theme = {
     statusAvailable: '#007AFF',
     statusNotAvailable: '#DC143C',
     statusOpen: '',
+    copyText: '#6D7087',
   },
   breakpoints: {
     xxs: '420px',
