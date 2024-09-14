@@ -33,6 +33,9 @@ export const LinkButton: React.FC<LinkButtonProps> = ({
 };
 
 const StyledLinkButton = styled(Link)<LinkButtonProps>`
+  display: flex;
+  align-items: center;
+  gap: 1rem;
   background: ${({ buttonType, theme }) =>
     buttonType === 'secondary' ? theme.colors.black : theme.colors.bluePurple};
   color: ${({ theme }) => theme.colors.white};
