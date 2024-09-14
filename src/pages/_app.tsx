@@ -3,14 +3,14 @@ import { ThemeProvider } from '@emotion/react';
 import styled from '@emotion/styled';
 import { Header, Main, Footer, Embers } from '~/app/components';
 import { theme } from '~/theme';
-import { Cascadia } from '~/app';
+import { OpenSans } from '~/app';
 import '~/app/assets/styles/css-reset.css';
 
 const App: React.FC<AppProps> = ({ Component, pageProps }) => {
   return (
     <ThemeProvider theme={theme}>
       <Embers />
-      <AppWrapper className={Cascadia.className}>
+      <AppWrapper className={OpenSans.className}>
         <Header />
         <Main>
           <Component {...pageProps} />
