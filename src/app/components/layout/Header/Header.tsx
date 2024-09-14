@@ -2,7 +2,7 @@ import React, { useMemo } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import styled from '@emotion/styled';
-import { Blink, LinkButton } from '~/app/components';
+import { Blink, LinkButton, ShowOnDesktop } from '~/app/components';
 import { theme } from '~/theme';
 import { BebasNeue } from '~/app/fonts';
 
@@ -62,18 +62,19 @@ export const Header: React.FC = () => {
       <Logo href="/">
         Bryce Sayers-Kwan<Blink>_</Blink>
       </Logo>
-      <Nav>
+      <DesktopNav>
         <NavLinks>{navLinks}</NavLinks>
-      </Nav>
-      <LinkButton href="/contact">Let's Connect</LinkButton>
+      </DesktopNav>
+      <ShowOnDesktop>
+        <LinkButton href="/contact">Let's Connect</LinkButton>
+      </ShowOnDesktop>
     </StyledHeader>
   );
 };
 
 const StyledHeader = styled.header`
-  display: grid;
-  grid-template-columns: auto 1fr auto;
-  place-items: center;
+  display: flex;
+  justify-content: space-between;
   align-items: center;
   gap: 2rem;
   width: 100%;
@@ -81,6 +82,12 @@ const StyledHeader = styled.header`
   background: transparent;
   color: ${({ theme }) => theme.colors.white};
   padding: 0 ${({ theme }) => theme.layoutSpacing.md};
+
+  @media only screen and (min-width: ${theme.breakpoints.xmd}) {
+    display: grid;
+    grid-template-columns: auto 1fr auto;
+    place-items: center;
+  }
 
   @media only screen and (min-width: ${theme.breakpoints.lg}) {
     padding: 0 ${({ theme }) => theme.layoutSpacing.lg};
@@ -109,7 +116,15 @@ const Logo = styled(Link)`
   }
 `;
 
-const Nav = styled.nav``;
+const DesktopNav = styled.nav`
+  display: none;
+
+  @media only screen and (min-width: ${theme.breakpoints.xmd}) {
+    display: block;
+  }
+`;
+
+const MobileNav = styled.nav``;
 
 const NavLinks = styled.ul`
   display: flex;
