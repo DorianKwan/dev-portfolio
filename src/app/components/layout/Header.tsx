@@ -2,7 +2,7 @@ import React, { useMemo } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import styled from '@emotion/styled';
-import { theme } from '@/theme';
+import { theme } from '~/theme';
 import { Blink } from '../special';
 
 interface NavigationLink {

@@ -3,8 +3,8 @@ import {
   GithubIcon,
   LinkedInIcon,
   UpWorkIcon,
-} from '@/app/components/icons';
-import { theme } from '@/theme';
+} from '~/app/components/icons';
+import { theme } from '~/theme';
 import styled from '@emotion/styled';
 import Link from 'next/link';
 import React from 'react';

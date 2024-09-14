@@ -1,4 +1,4 @@
-import { Heading, Page } from '@/app/components';
+import { Heading, Page } from '~/app/components';
 
 const About: React.FC = () => {
   return (

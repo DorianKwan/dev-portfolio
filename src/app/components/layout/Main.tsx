@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from '@emotion/styled';
-import { theme } from '@/theme';
+import { theme } from '~/theme';
 
 export const Main: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   return <StyledMain>{children}</StyledMain>;

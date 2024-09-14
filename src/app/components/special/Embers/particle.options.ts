@@ -1,5 +1,5 @@
 import { type ISourceOptions } from '@tsparticles/engine';
-import { theme } from '@/theme';
+import { theme } from '~/theme';
 
 export const particleOptions: ISourceOptions = {
   fpsLimit: 40,
