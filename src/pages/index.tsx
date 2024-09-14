@@ -37,11 +37,14 @@ const Home: React.FC = () => {
               View my Linkedin
             </LinkButton>
             <LinkButton
-              href="https://www.canva.com/design/DAGPtpzD3Sg/ye88NLWevT_YBv98kNPTxw/edit?utm_content=DAGPtpzD3Sg&utm_campaign=designshare&utm_medium=link2&utm_source=sharebutton"
+              href="/pdf/resume.pdf"
               buttonType="secondary"
-              external>
+              rel="noopener noreferrer"
+              locale={false}
+              external
+              download>
               <DownloadIcon size="1.25rem" />
-              View my Resume
+              Download my Resume
             </LinkButton>
           </CTAContainer>
         </HomeWrapper>

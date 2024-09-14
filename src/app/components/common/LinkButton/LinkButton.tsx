@@ -10,6 +10,9 @@ interface LinkButtonProps extends LinkProps {
   readonly buttonType?: ButtonType;
   readonly className?: string;
   readonly external?: boolean;
+  readonly download?: boolean;
+  readonly rel?: string;
+  readonly locale?: string | false;
 }
 
 export const LinkButton: React.FC<LinkButtonProps> = ({
