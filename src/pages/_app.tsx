@@ -1,12 +1,10 @@
 import type { AppProps } from 'next/app';
-import localFont from 'next/font/local';
 import { ThemeProvider } from '@emotion/react';
 import styled from '@emotion/styled';
 import { Header, Main, Footer, Embers } from '~/app/components';
 import { theme } from '~/theme';
+import { Cascadia } from '~/app';
 import '~/app/assets/styles/css-reset.css';
-
-const Cascadia = localFont({ src: './Cascadia.ttf' });
 
 const App: React.FC<AppProps> = ({ Component, pageProps }) => {
   return (
