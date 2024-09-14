@@ -2,9 +2,8 @@ import React, { useMemo } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import styled from '@emotion/styled';
+import { Blink, LinkButton } from '~/app/components';
 import { theme } from '~/theme';
-import { Blink } from '../special';
-import { LinkButton } from '../common/LinkButtton/LinkButton';
 import { BebasNeue } from '~/app/fonts';
 
 interface NavigationLink {
