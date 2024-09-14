@@ -83,7 +83,7 @@ const WelcomeText = styled.p`
 
 const CTAText = styled.span`
   margin-top: 0.75rem;
-  display: inline-block;
+  display: block;
   color: ${({ theme }) => hexToRGBA(theme.colors.white, 0.6)};
 `;
 
