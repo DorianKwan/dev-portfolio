@@ -1,5 +1,12 @@
 import styled from '@emotion/styled';
-import { Page, Heading, LinkButton } from '~/app/components';
+import {
+  Page,
+  Heading,
+  LinkButton,
+  GithubIcon,
+  LinkedInIcon,
+  DownloadIcon,
+} from '~/app/components';
 import { hexToRGBA } from '~/theme';
 
 const Home: React.FC = () => {
@@ -22,14 +29,17 @@ const Home: React.FC = () => {
           </WelcomeText>
           <CTAContainer>
             <LinkButton href="https://github.com/DorianKwan">
+              <GithubIcon size="1.25rem" />
               View my Github
             </LinkButton>
             <LinkButton href="https://linkedin.com/in/brycesayerskwan">
+              <LinkedInIcon size="1.25rem" />
               View my Linkedin
             </LinkButton>
             <LinkButton
               href="https://github.com/DorianKwan"
               buttonType="secondary">
+              <DownloadIcon size="1.25rem" />
               Download my Resume
             </LinkButton>
           </CTAContainer>

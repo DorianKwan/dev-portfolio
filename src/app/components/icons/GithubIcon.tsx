@@ -1,6 +1,11 @@
 import { BaseIcon } from './BaseIcon';
 
-const RawIcon: React.FC = () => {
+interface IconProps {
+  hoverColor?: React.CSSProperties['color'];
+  size?: React.CSSProperties['height'] | React.CSSProperties['width'];
+}
+
+export const GithubSVG: React.FC = () => {
   return (
     <svg fill="none" viewBox="0 0 15 15">
       <path
@@ -13,6 +18,6 @@ const RawIcon: React.FC = () => {
   );
 };
 
-export const GithubIcon: React.FC = () => {
-  return <BaseIcon icon={<RawIcon />} />;
+export const GithubIcon: React.FC<IconProps> = props => {
+  return <BaseIcon icon={<GithubSVG />} {...props} />;
 };

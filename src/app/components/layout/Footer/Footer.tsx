@@ -19,22 +19,22 @@ interface FooterLink {
 const footerSocialData: FooterLink[] = [
   {
     to: 'https://www.github.com/DorianKwan',
-    icon: <GithubIcon />,
+    icon: <GithubIcon hoverColor={theme.colors.lightPurple} />,
     key: 'github',
   },
   {
     to: 'https://www.linkedin.com/in/brycesayerskwan',
-    icon: <LinkedInIcon />,
+    icon: <LinkedInIcon hoverColor={theme.colors.lightPurple} />,
     key: 'linkedin',
   },
   {
     to: 'https://www.upwork.com/freelancers/~01506f13ea9da3fc70',
-    icon: <UpWorkIcon />,
+    icon: <UpWorkIcon hoverColor={theme.colors.lightPurple} />,
     key: 'upwork',
   },
   {
     to: 'mailto:bsayerskwan@gmail.com',
-    icon: <EmailIcon />,
+    icon: <EmailIcon hoverColor={theme.colors.lightPurple} />,
     key: 'email',
   },
 ];

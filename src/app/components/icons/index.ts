@@ -1,3 +1,4 @@
+export * from './DownloadIcon';
 export * from './EmailIcon';
 export * from './GithubIcon';
 export * from './LinkedInIcon';

@@ -1,13 +1,21 @@
 import styled from '@emotion/styled';
+export interface IconProps {
+  hoverColor?: React.CSSProperties['color'];
+  size?: React.CSSProperties['height'] | React.CSSProperties['width'];
+}
 
-export const BaseIcon: React.FC<{ icon: React.ReactNode }> = ({ icon }) => {
-  return <StyledIconWrapper>{icon}</StyledIconWrapper>;
+interface BaseIconProps extends IconProps {
+  icon: React.ReactNode;
+}
+
+export const BaseIcon: React.FC<BaseIconProps> = ({ icon, ...iconProps }) => {
+  return <StyledIconWrapper {...iconProps}>{icon}</StyledIconWrapper>;
 };
 
-const StyledIconWrapper = styled.div`
+const StyledIconWrapper = styled.div<IconProps>`
   svg {
-    height: 2rem;
-    width: 2rem;
+    height: ${({ size }) => size ?? '2rem'};
+    width: ${({ size }) => size ?? '2rem'};
     color: white;
     transition: color 250ms ease-in-out;
 
@@ -15,7 +23,7 @@ const StyledIconWrapper = styled.div`
     &:active,
     &:focus {
       text-decoration: none;
-      color: ${({ theme }) => theme.colors.lightPurple};
+      color: ${({ hoverColor }) => hoverColor ?? 'initial'};
     }
   }
 `;
