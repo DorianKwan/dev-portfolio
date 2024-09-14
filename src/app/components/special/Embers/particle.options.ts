@@ -1,6 +1,17 @@
 import { type ISourceOptions } from '@tsparticles/engine';
 import { theme } from '~/theme';
 
+const { darkBlue, lightBlue, bluePurple, darkPurple, lightPurple } =
+  theme.colors;
+
+const particleColors = [
+  darkBlue,
+  lightBlue,
+  bluePurple,
+  darkPurple,
+  lightPurple,
+];
+
 export const particleOptions: ISourceOptions = {
   fpsLimit: 40,
   particles: {
@@ -11,7 +22,7 @@ export const particleOptions: ISourceOptions = {
       },
     },
     color: {
-      value: ['#fdcf58', '#757676', '#f27d0c', '#800909', '#f07f13'],
+      value: particleColors,
     },
     opacity: {
       value: { min: 0.1, max: 0.5 },
