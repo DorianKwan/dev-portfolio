@@ -7,7 +7,7 @@ import {
   LinkedInIcon,
   DownloadIcon,
 } from '~/app/components';
-import { hexToRGBA } from '~/theme';
+import { hexToRGBA, theme } from '~/theme';
 
 const Home: React.FC = () => {
   return (
@@ -68,6 +68,7 @@ const HomeWrapper = styled.div`
   gap: 0.75rem;
   max-width: 105ch;
   margin-top: -2rem;
+  text-align: center;
 
   > * {
     width: fit-content;
@@ -77,7 +78,6 @@ const HomeWrapper = styled.div`
 const WelcomeText = styled.p`
   font-size: 1.25rem;
   color: ${({ theme }) => theme.colors.copyText};
-  text-align: center;
   margin-bottom: 1rem;
 `;
 
@@ -89,5 +89,10 @@ const CTAText = styled.span`
 
 const CTAContainer = styled.div`
   display: flex;
+  flex-direction: column;
   gap: 1rem;
+
+  @media only screen and (min-width: ${theme.breakpoints.md}) {
+    flex-direction: row;
+  }
 `;
