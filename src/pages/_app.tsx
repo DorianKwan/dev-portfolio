@@ -1,16 +1,23 @@
 import type { AppProps } from 'next/app';
-import { ThemeProvider } from '@emotion/react';
+import { css, Global, ThemeProvider } from '@emotion/react';
 import styled from '@emotion/styled';
 import { Header, Main, Footer, Embers } from '~/app/components';
 import { theme } from '~/theme';
 import { OpenSans } from '~/app';
 import '~/app/assets/styles/css-reset.css';
 
+const globalStyles = css`
+  * {
+    font-family: ${OpenSans.style.fontFamily};
+  }
+`;
+
 const App: React.FC<AppProps> = ({ Component, pageProps }) => {
   return (
     <ThemeProvider theme={theme}>
+      <Global styles={globalStyles} />
       <Embers />
-      <AppWrapper className={OpenSans.className}>
+      <AppWrapper>
         <Header />
         <Main>
           <Component {...pageProps} />
