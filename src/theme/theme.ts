@@ -13,6 +13,12 @@ export const theme = {
     lightPurple: '#A12AFF',
     white: '#fff',
     black: '#000',
+    availabilityBg: '#262626',
+    availabilityBorder: '#C0C0C0',
+    copyrightText: '#7A7A7A',
+    statusAvailable: '#007AFF',
+    statusNotAvailable: '#DC143C',
+    statusOpen: '',
   },
   breakpoints: {
     xxs: '420px',
