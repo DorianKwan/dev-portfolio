@@ -32,7 +32,9 @@ export const LinkButton: React.FC<LinkButtonProps> = ({
   );
 };
 
-const StyledLinkButton = styled(Link)<LinkButtonProps>`
+const StyledLinkButton = styled(Link, {
+  shouldForwardProp: props => props !== 'buttonType',
+})<LinkButtonProps>`
   display: flex;
   align-items: center;
   gap: 1rem;
