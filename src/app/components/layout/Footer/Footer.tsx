@@ -63,11 +63,17 @@ export const Footer: React.FC = () => {
 
 const StyledFooter = styled.footer`
   display: grid;
-  grid-template-columns: auto 1fr auto;
   place-items: center;
-  height: 6rem;
+  gap: 2rem;
   background: transparent;
   padding: 0 ${({ theme }) => theme.layoutSpacing.md};
+  padding-bottom: 2rem;
+
+  @media only screen and (min-width: ${theme.breakpoints.md}) {
+    height: 6rem;
+    grid-template-columns: auto 1fr auto;
+    padding: 0 ${({ theme }) => theme.layoutSpacing.md};
+  }
 
   @media only screen and (min-width: ${theme.breakpoints.lg}) {
     padding: 0 ${({ theme }) => theme.layoutSpacing.lg};
@@ -79,6 +85,22 @@ const StyledFooter = styled.footer`
 
   @media only screen and (min-width: ${theme.breakpoints.xxxl}) {
     padding: 0 ${({ theme }) => theme.layoutSpacing.xxxl};
+  }
+
+  *:first-child {
+    order: 3;
+
+    @media only screen and (min-width: ${theme.breakpoints.md}) {
+      order: initial;
+    }
+  }
+
+  *:last-child {
+    order: 2;
+
+    @media only screen and (min-width: ${theme.breakpoints.md}) {
+      order: initial;
+    }
   }
 `;
 

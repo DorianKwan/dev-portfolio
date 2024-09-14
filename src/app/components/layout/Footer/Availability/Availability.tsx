@@ -29,6 +29,7 @@ const AvailabilityWrapper = styled.div`
   display: flex;
   align-items: center;
   gap: 1rem;
+  width: fit-content;
   padding: 0.75rem 1.325rem;
   border-radius: 2rem;
   background-color: ${({ theme }) =>
