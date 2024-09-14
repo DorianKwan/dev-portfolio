@@ -1,7 +1,7 @@
 import styled from '@emotion/styled';
 import Link, { LinkProps } from 'next/link';
 import { BebasNeue } from '~/app/fonts';
-import { hexToRGBA, pxToRem } from '~/theme';
+import { pxToRem } from '~/theme';
 
 type ButtonType = 'primary' | 'secondary';
 
