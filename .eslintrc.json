@@ -1,3 +1,48 @@
 {
-  "extends": "next/core-web-vitals"
+  "root": true,
+  "env": { "browser": true, "es2020": true },
+  "extends": [
+    "next/core-web-vitals", 
+    "plugin:prettier/recommended", 
+    "plugin:@typescript-eslint/eslint-recommended",
+    "plugin:@typescript-eslint/recommended-requiring-type-checking"
+  ],
+  "rules": {
+    "@typescript-eslint/naming-convention": "off",
+    "@typescript-eslint/no-for-in-array": ["error"],
+    "@typescript-eslint/no-namespace": "off",
+    "@typescript-eslint/no-unsafe-argument": ["warn"],
+    "@typescript-eslint/no-unused-expressions": "error",
+    "@typescript-eslint/no-unused-vars": [
+      "warn",
+      {
+        "vars": "all",
+        "varsIgnorePattern": "^_",
+        "args": "after-used",
+        "argsIgnorePattern": "^_"
+      }
+    ],
+    "@typescript-eslint/no-shadow": 0,
+    "@typescript-eslint/require-await": "off",
+    "@typescript-eslint/prefer-optional-chain": "warn",
+    "@typescript-eslint/prefer-nullish-coalescing": "off",
+    "class-methods-use-this": 0,
+    "consistent-return": 0,
+    "lines-between-class-members": 0,
+    "no-await-in-loop": 0,
+    "no-continue": 0,
+    "no-empty-function": 0,
+    "no-extra-boolean-cast": 0,
+    "no-param-reassign": ["error", { "props": false }],
+    "no-plusplus": 0,
+    "no-restricted-syntax": ["warn"],
+    "no-return-assign": ["error", "except-parens"],
+    "no-underscore-dangle": "off",
+    "no-unused-expressions": "off",
+    "no-unused-vars": "warn",
+    "no-useless-constructor": 0,
+    "no-use-before-define": 0,
+    "no-var": "error",
+    "prettier/prettier": ["error", { "endOfLine": "auto" }]
+  }
 }
