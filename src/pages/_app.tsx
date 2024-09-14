@@ -3,12 +3,23 @@ import { css, Global, ThemeProvider } from '@emotion/react';
 import styled from '@emotion/styled';
 import { Header, Main, Footer, Embers } from '~/app/components';
 import { theme } from '~/theme';
-import { OpenSans } from '~/app';
+import { BebasNeue, OpenSans } from '~/app';
 import '~/app/assets/styles/css-reset.css';
 
 const globalStyles = css`
   * {
     font-family: ${OpenSans.style.fontFamily};
+  }
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    font-family: ${BebasNeue.style.fontFamily};
+    letter-spacing: 0.1rem;
+    line-height: 1.1;
   }
 `;
 
