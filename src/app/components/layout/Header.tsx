@@ -4,6 +4,8 @@ import { usePathname } from 'next/navigation';
 import styled from '@emotion/styled';
 import { theme } from '~/theme';
 import { Blink } from '../special';
+import { LinkButton } from '../common/LinkButtton/LinkButton';
+import { BebasNeue } from '~/app/fonts';
 
 interface NavigationLink {
   name: string;
@@ -64,15 +66,17 @@ export const Header: React.FC = () => {
       <Nav>
         <NavLinks>{navLinks}</NavLinks>
       </Nav>
+      <LinkButton href="/contact">Let's Connect</LinkButton>
     </StyledHeader>
   );
 };
 
 const StyledHeader = styled.header`
-  display: flex;
-  justify-content: space-between;
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  place-items: center;
   align-items: center;
-  gap: 3rem;
+  gap: 2rem;
   width: 100%;
   height: 6rem;
   background: transparent;
@@ -93,15 +97,16 @@ const StyledHeader = styled.header`
 `;
 
 const Logo = styled(Link)`
-  font-size: 1.5rem;
+  font-size: 2rem;
   color: ${({ theme }) => theme.colors.white};
   transition: color 250ms ease-in-out;
+  font-family: ${BebasNeue.style.fontFamily};
 
   &:hover,
   &:active,
   &:focus {
     text-decoration: none;
-    color: ${({ theme }) => theme.colors.pink};
+    color: ${({ theme }) => theme.colors.lightPurple};
   }
 `;
 
@@ -120,11 +125,12 @@ const NavLink = styled(Link, {
 })<{
   current?: boolean;
 }>`
-  font-size: 1.125rem;
+  font-size: 1.75rem;
+  font-family: ${BebasNeue.style.fontFamily};
   color: ${({ current, theme }) =>
-    current ? theme.colors.stringText : theme.colors.white};
+    current ? theme.colors.lightPurple : theme.colors.white};
   border-bottom: ${({ current, theme }) =>
-    current ? `0.125rem ${theme.colors.stringText} solid` : 'none'};
+    current ? `0.125rem ${theme.colors.lightPurple} solid` : 'none'};
   transition: color 250ms ease-in-out;
   padding: 0.125rem 0;
   font-weight: ${({ current, theme }) => (current ? 'bold' : 'normal')};
@@ -133,7 +139,6 @@ const NavLink = styled(Link, {
   &:active,
   &:focus {
     text-decoration: none;
-    color: ${({ theme, current }) =>
-      current ? theme.colors.stringText : theme.colors.pink};
+    color: ${({ theme }) => theme.colors.lightPurple};
   }
 `;

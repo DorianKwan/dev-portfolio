@@ -15,7 +15,7 @@ const StyledIconWrapper = styled.div`
     &:active,
     &:focus {
       text-decoration: none;
-      color: ${({ theme }) => theme.colors.pink};
+      color: ${({ theme }) => theme.colors.lightPurple};
     }
   }
 `;
