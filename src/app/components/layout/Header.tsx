@@ -33,11 +33,6 @@ const navigationLinks: NavigationLink[] = [
     key: 'experience',
   },
   {
-    name: 'Skills',
-    to: '/skills',
-    key: 'skills',
-  },
-  {
     name: 'Contact',
     to: '/contact',
     key: 'contact',
