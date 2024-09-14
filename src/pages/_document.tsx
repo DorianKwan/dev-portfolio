@@ -1,15 +1,14 @@
 import React from 'react';
-import { Metadata } from 'next';
 import { Html, Head, Main, NextScript } from 'next/document';
-
-export const metadata: Metadata = {
-  title: "Bryce Sayers-Kwan's Portfolio",
-};
 
 const Document: React.FC = () => {
   return (
     <Html lang="en">
-      <Head />
+      <Head>
+        <link rel="icon" href="/favicon.ico?v=3" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Portfolio - Bryce Sayers-Kwan</title>
+      </Head>
       <body>
         <Main />
         <NextScript />
