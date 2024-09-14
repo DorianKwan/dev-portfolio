@@ -66,7 +66,7 @@ const HomeWrapper = styled.div`
   flex-direction: column;
   align-items: center;
   gap: 0.75rem;
-  max-width: 100ch;
+  max-width: 105ch;
   margin-top: -2rem;
 
   > * {
