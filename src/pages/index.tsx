@@ -37,10 +37,11 @@ const Home: React.FC = () => {
               View my Linkedin
             </LinkButton>
             <LinkButton
-              href="https://github.com/DorianKwan"
-              buttonType="secondary">
+              href="https://www.canva.com/design/DAGPtpzD3Sg/ye88NLWevT_YBv98kNPTxw/edit?utm_content=DAGPtpzD3Sg&utm_campaign=designshare&utm_medium=link2&utm_source=sharebutton"
+              buttonType="secondary"
+              external>
               <DownloadIcon size="1.25rem" />
-              Download my Resume
+              View my Resume
             </LinkButton>
           </CTAContainer>
         </HomeWrapper>
