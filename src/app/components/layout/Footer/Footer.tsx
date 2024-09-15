@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import Link from 'next/link';
 import styled from '@emotion/styled';
 import {
@@ -9,6 +9,7 @@ import {
 } from '~/app/components/icons';
 import { theme } from '~/theme';
 import { Availability, AvailabilityStatus } from './Availability';
+import { getIsMobileNavOpen, useAppSelector } from '~/app/store';
 
 interface FooterLink {
   to: string;
@@ -40,18 +41,22 @@ const footerSocialData: FooterLink[] = [
 ];
 
 export const Footer: React.FC = () => {
-  const footerLinks = footerSocialData.map(({ to, icon, key }) => {
-    return (
-      <FooterLinkWrapper key={key}>
-        <FooterLink href={to} target="_blank">
-          {icon}
-        </FooterLink>
-      </FooterLinkWrapper>
-    );
+  const isMobileNavOpen = useAppSelector(getIsMobileNavOpen);
+
+  const footerLinks = useMemo(() => {
+    return footerSocialData.map(({ to, icon, key }) => {
+      return (
+        <FooterLinkWrapper key={key}>
+          <FooterLink href={to} target="_blank">
+            {icon}
+          </FooterLink>
+        </FooterLinkWrapper>
+      );
+    }, []);
   }, []);
 
   return (
-    <StyledFooter>
+    <StyledFooter stickToBottom={isMobileNavOpen}>
       <Copyright>© 2024 Bryce Sayers-Kwan</Copyright>
       <FooterNav>
         <FooterLinks>{footerLinks}</FooterLinks>
@@ -61,11 +66,15 @@ export const Footer: React.FC = () => {
   );
 };
 
-const StyledFooter = styled.footer`
+const StyledFooter = styled.footer<{ stickToBottom?: boolean }>`
+  position: ${({ stickToBottom }) => (stickToBottom ? 'absolute' : 'relative')};
+  bottom: 0;
+  width: 100%;
   display: grid;
   place-items: center;
   gap: 2rem;
   background: transparent;
+  z-index: 999;
   padding: 2rem ${({ theme }) => theme.layoutSpacing.md};
 
   @media only screen and (min-width: ${theme.breakpoints.md}) {
