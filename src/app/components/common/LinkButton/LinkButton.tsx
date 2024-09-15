@@ -49,7 +49,7 @@ const StyledLinkButton = styled(Link, {
   border: ${pxToRem(1)} solid;
   border-color: ${({ buttonType, theme }) =>
     buttonType === 'secondary' ? theme.colors.white : theme.colors.bluePurple};
-  padding: 0.75rem 2.25rem;
+  padding: 0.75rem 1.5rem;
   font-family: ${BebasNeue.style.fontFamily};
   font-size: 1.325rem;
 
