@@ -1,70 +1,25 @@
-import React, { useMemo } from 'react';
+import React from 'react';
 import Link from 'next/link';
-import { usePathname } from 'next/navigation';
 import styled from '@emotion/styled';
-import { Blink, LinkButton, ShowOnDesktop } from '~/app/components';
+import {
+  Blink,
+  LinkButton,
+  ShowOnDesktop,
+  ShowOnMobile,
+} from '~/app/components';
 import { theme } from '~/theme';
 import { BebasNeue } from '~/app/fonts';
-
-interface NavigationLink {
-  name: string;
-  to: string;
-  key: string;
-}
-
-const navigationLinks: NavigationLink[] = [
-  {
-    name: 'Home',
-    to: '/',
-    key: 'home',
-  },
-  {
-    name: 'About',
-    to: '/about',
-    key: 'about',
-  },
-  {
-    name: 'Showcase',
-    to: '/showcase',
-    key: 'showcase',
-  },
-  {
-    name: 'Experience',
-    to: '/experience',
-    key: 'experience',
-  },
-  {
-    name: 'Contact',
-    to: '/contact',
-    key: 'contact',
-  },
-];
+import { MobileNav } from './MobileNav';
+import { DesktopNav } from './DesktopNav';
 
 export const Header: React.FC = () => {
-  const pathname = usePathname();
-
-  const navLinks = useMemo(
-    () =>
-      navigationLinks.map(({ name, to, key }) => {
-        return (
-          <NavLinkListItem key={key}>
-            <NavLink href={to} current={pathname === to}>
-              {name}
-            </NavLink>
-          </NavLinkListItem>
-        );
-      }),
-    [pathname],
-  );
-
   return (
     <StyledHeader>
       <Logo href="/">
         Bryce Sayers-Kwan<Blink>_</Blink>
       </Logo>
-      <DesktopNav>
-        <NavLinks>{navLinks}</NavLinks>
-      </DesktopNav>
+      <DesktopNav />
+      <MobileNav />
       <ShowOnDesktop>
         <LinkButton href="/contact">Let's Connect</LinkButton>
       </ShowOnDesktop>
@@ -109,47 +64,7 @@ const Logo = styled(Link)`
   color: ${({ theme }) => theme.colors.white};
   transition: color 250ms ease-in-out;
   font-family: ${BebasNeue.style.fontFamily};
-
-  &:hover,
-  &:active,
-  &:focus {
-    text-decoration: none;
-    color: ${({ theme }) => theme.colors.lightPurple};
-  }
-`;
-
-const DesktopNav = styled.nav`
-  display: none;
-
-  @media only screen and (min-width: ${theme.breakpoints.xmd}) {
-    display: block;
-  }
-`;
-
-const MobileNav = styled.nav``;
-
-const NavLinks = styled.ul`
-  display: flex;
-  gap: 1.5rem;
-`;
-
-const NavLinkListItem = styled.li``;
-
-// we don't want to forward current to the DOM attributes
-const NavLink = styled(Link, {
-  shouldForwardProp: props => props !== 'current',
-})<{
-  current?: boolean;
-}>`
-  font-size: 1.75rem;
-  font-family: ${BebasNeue.style.fontFamily};
-  color: ${({ current, theme }) =>
-    current ? theme.colors.lightPurple : theme.colors.white};
-  border-bottom: ${({ current, theme }) =>
-    current ? `0.125rem ${theme.colors.lightPurple} solid` : 'none'};
-  transition: color 250ms ease-in-out;
-  padding: 0.125rem 0;
-  font-weight: ${({ current, theme }) => (current ? 'bold' : 'normal')};
+  z-index: 999;
 
   &:hover,
   &:active,
