@@ -1,4 +1,4 @@
-import { useCallback } from 'react';
+import { useCallback, useEffect } from 'react';
 import {
   getIsMobileNavOpen,
   setIsMobileNavOpen,
@@ -15,6 +15,21 @@ export const useMobileNav = () => {
     if (isOpen) {
       dispatch(setIsMobileNavOpen(false));
     }
+  }, [isOpen]);
+
+  // in case the use resizes their browser; close nav
+  useEffect(() => {
+    const handleWindowResize = () => {
+      if (isOpen) {
+        dispatch(setIsMobileNavOpen(false));
+      }
+    };
+
+    window.addEventListener('resize', handleWindowResize);
+
+    return () => {
+      window.removeEventListener('resize', handleWindowResize);
+    };
   }, [isOpen]);
 
   const setIsOpen = useCallback(() => {
