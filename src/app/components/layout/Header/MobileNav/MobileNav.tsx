@@ -13,24 +13,14 @@ import { BebasNeue } from '~/app/fonts';
 import { theme } from '~/theme';
 import { HamburgerButton } from './HamburgerButton';
 import { navigationLinks } from '../navigation.data';
-import { useEscape } from '~/hooks';
+import { useEscape, useMobileNav } from '~/hooks';
 
 interface MobileNavProps {}
 
 export const MobileNav: React.FC<MobileNavProps> = () => {
   const pathname = usePathname();
   const dispatch = useAppDispatch();
-  const isOpen = useAppSelector(getIsMobileNavOpen);
-
-  useEscape(() => {
-    if (isOpen) {
-      dispatch(setIsMobileNavOpen(false));
-    }
-  }, [isOpen]);
-
-  const setIsOpen = useCallback(() => {
-    dispatch(setIsMobileNavOpen(!isOpen));
-  }, [isOpen]);
+  const { isOpen, setIsOpen } = useMobileNav();
 
   const navLinks = useMemo(
     () =>
