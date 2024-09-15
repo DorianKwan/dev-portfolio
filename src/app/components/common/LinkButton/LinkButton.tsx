@@ -13,6 +13,8 @@ interface LinkButtonProps extends LinkProps {
   readonly download?: boolean;
   readonly rel?: string;
   readonly locale?: string | false;
+  readonly gap?: React.CSSProperties['gap'];
+  readonly padding?: React.CSSProperties['padding'];
 }
 
 export const LinkButton: React.FC<LinkButtonProps> = ({
@@ -43,14 +45,14 @@ const StyledLinkButton = styled(Link, {
   align-items: center;
   place-content: center;
   width: 100%;
-  gap: 1rem;
+  gap: ${({ gap }) => gap ?? '1rem'};
   background: ${({ buttonType, theme }) =>
     buttonType === 'secondary' ? theme.colors.black : theme.colors.bluePurple};
   color: ${({ theme }) => theme.colors.white};
   border: ${pxToRem(1)} solid;
   border-color: ${({ buttonType, theme }) =>
     buttonType === 'secondary' ? theme.colors.white : theme.colors.bluePurple};
-  padding: 0.75rem 1.5rem;
+  padding: ${({ padding }) => padding ?? '0.75rem 1.5rem'};
   font-family: ${BebasNeue.style.fontFamily};
   font-size: 1.325rem;
 
