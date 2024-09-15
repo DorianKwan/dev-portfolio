@@ -111,12 +111,32 @@ const NavLink = styled(Link, {
   &::after {
     content: '';
     position: absolute;
-    height: 0.5rem;
+    height: 0.25rem;
+    bottom: -0.25rem;
     width: 0;
-    bottom: -0.5rem;
     left: 0;
     background-color: ${theme.colors.lightPurple};
     transition: width 250ms ease-in-out;
+
+    @media only screen and (min-width: ${theme.breakpoints.xs}) {
+      height: 0.3rem;
+      bottom: -0.3rem;
+    }
+
+    @media only screen and (min-width: ${theme.breakpoints.sm}) {
+      height: 0.35rem;
+      bottom: -0.35rem;
+    }
+
+    @media only screen and (min-width: ${theme.breakpoints.md}) {
+      height: 0.4rem;
+      bottom: -0.4rem;
+    }
+
+    @media only screen and (min-width: ${theme.breakpoints.xmd}) {
+      height: 0.5rem;
+      bottom: -0.5rem;
+    }
   }
 
   &:hover,
