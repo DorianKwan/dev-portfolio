@@ -37,9 +37,10 @@ export const useMobileNav = () => {
 
   // handle closing the nav after next has changed pages
   useEffect(() => {
+    console.log(lastPath, pathname);
     if (lastPath !== pathname) {
       dispatch(setIsMobileNavOpen(false));
-      setLastPath(lastPath);
+      setLastPath(pathname);
     }
   }, [lastPath, pathname]);
 
