@@ -95,7 +95,9 @@ const FramerButton = styled(motion.button)`
   padding: 0;
   z-index: 999;
 
-  &:hover {
+  &:hover,
+  &:focus,
+  &:focus-visible {
     background-color: ${({ theme }) => hexToRGBA(theme.colors.white, 0.1)};
   }
 `;
