@@ -1,9 +1,9 @@
-import { Heading, Page } from '~/app/components';
+import { InDevelopment, Page } from '~/app/components';
 
 const Showcase: React.FC = () => {
   return (
     <Page>
-      <Heading>Showcase</Heading>
+      <InDevelopment title="Showcase" />
     </Page>
   );
 };
