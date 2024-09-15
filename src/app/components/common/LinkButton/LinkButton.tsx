@@ -1,7 +1,7 @@
 import styled from '@emotion/styled';
 import Link, { LinkProps } from 'next/link';
 import { BebasNeue } from '~/app/fonts';
-import { pxToRem } from '~/theme';
+import { pxToRem, theme } from '~/theme';
 
 type ButtonType = 'primary' | 'secondary';
 
@@ -38,6 +38,7 @@ export const LinkButton: React.FC<LinkButtonProps> = ({
 const StyledLinkButton = styled(Link, {
   shouldForwardProp: props => props !== 'buttonType',
 })<LinkButtonProps>`
+  position: relative;
   display: flex;
   align-items: center;
   place-content: center;
@@ -53,7 +54,28 @@ const StyledLinkButton = styled(Link, {
   font-family: ${BebasNeue.style.fontFamily};
   font-size: 1.325rem;
 
-  :hover {
+  &::after {
+    content: '';
+    position: absolute;
+    height: 0.25rem;
+    width: 0;
+    bottom: -0.125rem;
+    left: 0;
+    background-color: ${({ buttonType }) =>
+      buttonType === 'secondary'
+        ? theme.colors.lightBlue
+        : theme.colors.lightPurple};
+    transition: width 250ms ease-in-out;
+  }
+
+  &:hover,
+  &:active,
+  &:focus {
+    text-decoration: none;
     filter: brightness(125%);
+
+    &::after {
+      width: 100%;
+    }
   }
 `;
