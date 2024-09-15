@@ -104,7 +104,9 @@ const NavLink = styled(Link, {
     transition: width 250ms ease-in-out;
   }
 
-  &:hover {
+  &:hover,
+  &:active,
+  &:focus {
     text-decoration: none;
     color: ${({ theme }) => theme.colors.lightPurple};
 
