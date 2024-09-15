@@ -1,6 +1,6 @@
 import styled from '@emotion/styled';
 import { BebasNeue } from '~/app/fonts';
-import { hexToRGBA, pxToRem } from '~/theme';
+import { hexToRGBA, pxToRem, theme } from '~/theme';
 
 export enum AvailabilityStatus {
   Available = 'available',
@@ -37,6 +37,14 @@ const AvailabilityWrapper = styled.div`
   border: solid ${pxToRem(1.5)};
   border-color: ${({ theme }) => theme.colors.availabilityBorder};
   color: ${({ theme }) => theme.colors.white};
+
+  &:last-of-type {
+    order: 2;
+
+    @media only screen and (min-width: ${theme.breakpoints.md}) {
+      order: initial;
+    }
+  }
 `;
 
 const StatusCircle = styled.span<{ availability: AvailabilityStatus }>`

@@ -94,26 +94,18 @@ const StyledFooter = styled.footer<{ stickToBottom?: boolean }>`
   @media only screen and (min-width: ${theme.breakpoints.xxxl}) {
     padding: 0 ${({ theme }) => theme.layoutSpacing.xxxl};
   }
+`;
 
-  *:first-child {
+const Copyright = styled.p`
+  color: ${({ theme }) => theme.colors.copyrightText};
+
+  &:first-of-type {
     order: 3;
 
     @media only screen and (min-width: ${theme.breakpoints.md}) {
       order: initial;
     }
   }
-
-  *:last-child {
-    order: 2;
-
-    @media only screen and (min-width: ${theme.breakpoints.md}) {
-      order: initial;
-    }
-  }
-`;
-
-const Copyright = styled.p`
-  color: ${({ theme }) => theme.colors.copyrightText};
 `;
 
 const FooterNav = styled.nav`
