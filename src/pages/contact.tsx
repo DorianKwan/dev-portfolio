@@ -24,7 +24,8 @@ const Contact: React.FC = () => {
             <LinkButton
               href="mailto:bsayerskwan@gmail.com"
               gap="0.75rem"
-              padding="0.75rem 3rem">
+              padding="0.75rem 3rem"
+              maxWidth="15rem">
               Say hi <span>👋</span>
             </LinkButton>
           </CTAContainer>

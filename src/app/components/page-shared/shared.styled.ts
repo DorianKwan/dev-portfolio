@@ -19,10 +19,6 @@ export const PageContentWrapper = styled.div<{
   margin-top: -2rem;
   text-align: center;
   z-index: 1;
-
-  > * {
-    width: fit-content;
-  }
 `;
 
 export const PageText = styled.p`
@@ -40,6 +36,7 @@ export const PageTextHighlight = styled.span`
 export const CTAContainer = styled.div`
   display: flex;
   flex-direction: column;
+  justify-content: space-around;
   gap: 1rem;
   width: 100%;
 

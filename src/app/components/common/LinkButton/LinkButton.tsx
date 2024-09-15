@@ -15,6 +15,7 @@ interface LinkButtonProps extends LinkProps {
   readonly locale?: string | false;
   readonly gap?: React.CSSProperties['gap'];
   readonly padding?: React.CSSProperties['padding'];
+  readonly maxWidth?: React.CSSProperties['maxWidth'];
 }
 
 export const LinkButton: React.FC<LinkButtonProps> = ({
@@ -38,13 +39,14 @@ export const LinkButton: React.FC<LinkButtonProps> = ({
 };
 
 const StyledLinkButton = styled(Link, {
-  shouldForwardProp: props => props !== 'buttonType',
+  shouldForwardProp: props => props !== 'buttonType' && props !== 'maxWidth',
 })<LinkButtonProps>`
   position: relative;
   display: flex;
   align-items: center;
   place-content: center;
   width: 100%;
+  max-width: ${({ maxWidth }) => maxWidth ?? 'initial'};
   gap: ${({ gap }) => gap ?? '1rem'};
   background: ${({ buttonType, theme }) =>
     buttonType === 'secondary' ? theme.colors.black : theme.colors.bluePurple};
