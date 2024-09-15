@@ -1,5 +1,6 @@
 import { useMemo } from 'react';
 import styled from '@emotion/styled';
+import Image from 'next/image';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
   faBriefcase,
@@ -7,15 +8,13 @@ import {
   faSchool,
 } from '@fortawesome/free-solid-svg-icons';
 import {
+  AboutCard,
   Circles,
   Heading,
   Page,
   PageContainer,
   PageContentWrapper,
-  PageText,
-  PageTextHighlight,
 } from '~/app/components';
-import { AboutCard } from '~/app/components/page-specific';
 import { hexToRGBA, theme } from '~/theme';
 
 // must use a require here or NextJS will error out
@@ -42,6 +41,54 @@ const aboutCardData = [
   },
 ];
 
+const skillImages = [
+  {
+    key: 'typescript',
+    src: '/png/typescript.png',
+    alt: 'TypeScript brand image',
+  },
+  {
+    key: 'javascript',
+    src: '/png/javascript.png',
+    alt: 'JavaScript brand image',
+  },
+  {
+    key: 'react',
+    src: '/png/react.png',
+    alt: 'React brand image',
+  },
+  {
+    key: 'nodejs',
+    src: '/png/nodejs.png',
+    alt: 'Node brand image',
+  },
+  {
+    key: 'redux',
+    src: '/png/redux.png',
+    alt: 'Redux brand image',
+  },
+  {
+    key: 'git',
+    src: '/png/git.png',
+    alt: 'Git brand image',
+  },
+  {
+    key: 'docker',
+    src: '/png/docker.png',
+    alt: 'Docker brand image',
+  },
+  {
+    key: 'kubernetes',
+    src: '/png/kubernetes.png',
+    alt: 'Kubernetes brand image',
+  },
+  {
+    key: 'postgres',
+    src: '/png/postgres.png',
+    alt: 'Postgres brand image',
+  },
+];
+
 const About: React.FC = () => {
   const cards = useMemo(() => {
     return aboutCardData.map(({ icon, title, text }) => {
@@ -53,6 +100,12 @@ const About: React.FC = () => {
     });
   }, []);
 
+  const skillLogos = useMemo(() => {
+    return skillImages.map(({ key, src, alt }) => {
+      return <Image key={key} src={src} alt={alt} width={75} height={75} />;
+    });
+  }, []);
+
   return (
     <Page>
       <PageContainer>
@@ -60,6 +113,7 @@ const About: React.FC = () => {
         <PageContentWrapper gap="2rem">
           <Heading>About</Heading>
           <CardGrid>{cards}</CardGrid>
+          <Skills>{skillLogos}</Skills>
         </PageContentWrapper>
       </PageContainer>
     </Page>
@@ -82,4 +136,12 @@ const CardGrid = styled.div`
 const CardText = styled.p`
   color: ${({ theme }) => hexToRGBA(theme.colors.white, 0.6)};
   line-height: 1.75;
+`;
+
+const Skills = styled.div`
+  margin-top: 1rem;
+  display: flex;
+  justify-content: space-around;
+  gap: 1.75rem;
+  flex-wrap: wrap;
 `;
