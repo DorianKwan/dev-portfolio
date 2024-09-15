@@ -77,12 +77,36 @@ const NavLink = styled(Link, {
   position: relative;
   color: ${({ theme }) => theme.colors.white};
   font-family: ${BebasNeue.style.fontFamily};
-  font-size: 4.5rem;
   color: ${({ current, theme }) =>
     current ? theme.colors.lightPurple : theme.colors.white};
   border-bottom: ${({ current, theme }) =>
-    current ? `0.5rem ${theme.colors.lightPurple} solid` : 'none'};
+    current ? `0.25rem ${theme.colors.lightPurple} solid` : 'none'};
   transition: color 250ms ease-in-out;
+  font-size: 2rem;
+
+  @media only screen and (min-width: ${theme.breakpoints.xs}) {
+    font-size: 2.5rem;
+    border-bottom: ${({ current, theme }) =>
+      current ? `0.3rem ${theme.colors.lightPurple} solid` : 'none'};
+  }
+
+  @media only screen and (min-width: ${theme.breakpoints.sm}) {
+    font-size: 3rem;
+    border-bottom: ${({ current, theme }) =>
+      current ? `0.35rem ${theme.colors.lightPurple} solid` : 'none'};
+  }
+
+  @media only screen and (min-width: ${theme.breakpoints.md}) {
+    font-size: 3.5rem;
+    border-bottom: ${({ current, theme }) =>
+      current ? `0.4rem ${theme.colors.lightPurple} solid` : 'none'};
+  }
+
+  @media only screen and (min-width: ${theme.breakpoints.xmd}) {
+    font-size: 4.5rem;
+    border-bottom: ${({ current, theme }) =>
+      current ? `0.5rem ${theme.colors.lightPurple} solid` : 'none'};
+  }
 
   &::after {
     content: '';
