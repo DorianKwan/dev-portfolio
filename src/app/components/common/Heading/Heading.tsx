@@ -13,23 +13,52 @@ export interface HeadingProps {
 export const Heading: React.FC<HeadingProps> = ({
   type,
   children,
+  fontSize,
   className,
 }) => {
   switch (type) {
     case 'h1':
-      return <H1 className={className}>{children}</H1>;
+      return (
+        <H1 className={className} fontSize={fontSize}>
+          {children}
+        </H1>
+      );
     case 'h2':
-      return <H2 className={className}>{children}</H2>;
+      return (
+        <H2 className={className} fontSize={fontSize}>
+          {children}
+        </H2>
+      );
     case 'h3':
-      return <H3 className={className}>{children}</H3>;
+      return (
+        <H3 className={className} fontSize={fontSize}>
+          {children}
+        </H3>
+      );
     case 'h4':
-      return <H4 className={className}>{children}</H4>;
+      return (
+        <H4 className={className} fontSize={fontSize}>
+          {children}
+        </H4>
+      );
     case 'h5':
-      return <H5 className={className}>{children}</H5>;
+      return (
+        <H5 className={className} fontSize={fontSize}>
+          {children}
+        </H5>
+      );
     case 'h6':
-      return <H6 className={className}>{children}</H6>;
+      return (
+        <H6 className={className} fontSize={fontSize}>
+          {children}
+        </H6>
+      );
     default:
-      return <H1 className={className}>{children}</H1>;
+      return (
+        <H1 className={className} fontSize={fontSize}>
+          {children}
+        </H1>
+      );
   }
 };
 

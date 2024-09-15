@@ -1,3 +1,4 @@
+export * from './background-accents';
 export * from './common';
 export * from './icons';
 export * from './layout';
