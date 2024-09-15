@@ -1,6 +1,5 @@
 import styled from '@emotion/styled';
-import { pxToRem } from '~/theme';
-import { Heading } from '../../common';
+import { Heading } from '~/app/components/common';
 
 interface AboutCardProps {
   readonly icon: React.ReactNode;
@@ -30,7 +29,7 @@ const Card = styled.div`
   display: grid;
   grid-template-rows: auto 1fr;
   gap: 1.25rem;
-  background-color: rgba(255, 255, 255, 0.035);
+  background-color: ${({ theme }) => theme.colors.aboutCardBg};
   border-radius: 1rem;
   padding: 2rem;
 
@@ -53,7 +52,7 @@ const IconWrapper = styled.div`
   width: 2.25rem;
   height: 2.25rem;
   margin-top: -0.25rem;
-  color: white;
+  color: ${({ theme }) => theme.colors.white};
 
   > svg {
     width: 100%;

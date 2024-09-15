@@ -20,6 +20,7 @@ export const theme = {
     statusNotAvailable: '#DC143C',
     statusOpenToWork: '#007AFF',
     copyText: '#6D7087',
+    aboutCardBg: 'rgba(255, 255, 255, 0.035)',
   },
   breakpoints: {
     xxs: '420px',
