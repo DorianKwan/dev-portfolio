@@ -1,26 +1,19 @@
-import { useCallback, useMemo } from 'react';
+import { useMemo } from 'react';
 import { usePathname } from 'next/navigation';
 import Link from 'next/link';
 import { motion } from 'framer-motion';
 import styled from '@emotion/styled';
-import {
-  getIsMobileNavOpen,
-  setIsMobileNavOpen,
-  useAppDispatch,
-  useAppSelector,
-} from '~/app/store';
+import { useMobileNav } from '~/hooks';
 import { BebasNeue } from '~/app/fonts';
 import { theme } from '~/theme';
 import { HamburgerButton } from './HamburgerButton';
 import { navigationLinks } from '../navigation.data';
-import { useEscape, useMobileNav } from '~/hooks';
 
 interface MobileNavProps {}
 
 export const MobileNav: React.FC<MobileNavProps> = () => {
   const pathname = usePathname();
-  const dispatch = useAppDispatch();
-  const { isOpen, setIsOpen } = useMobileNav();
+  const { isOpen, toggleIsOpen } = useMobileNav();
 
   const navLinks = useMemo(
     () =>
@@ -38,7 +31,7 @@ export const MobileNav: React.FC<MobileNavProps> = () => {
 
   return (
     <MobileNavWrapper>
-      <HamburgerButton isOpen={isOpen} setIsOpen={setIsOpen} />
+      <HamburgerButton isOpen={isOpen} setIsOpen={toggleIsOpen} />
       {isOpen && (
         <Nav>
           <NavList>{navLinks}</NavList>
