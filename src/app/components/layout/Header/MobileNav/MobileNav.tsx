@@ -52,6 +52,7 @@ export const MobileNav: React.FC<MobileNavProps> = () => {
 };
 
 const MobileNavWrapper = styled.div`
+  z-index: 2;
   display: block;
 
   @media only screen and (min-width: ${theme.breakpoints.xmd}) {
