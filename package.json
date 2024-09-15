@@ -13,6 +13,7 @@
   "dependencies": {
     "@emotion/react": "^11.11.4",
     "@emotion/styled": "^11.11.5",
+    "@reduxjs/toolkit": "^2.2.7",
     "@tsparticles/basic": "^3.3.0",
     "@tsparticles/engine": "^3.3.0",
     "@tsparticles/interaction-external-push": "^3.3.0",
@@ -20,7 +21,8 @@
     "framer-motion": "^11.5.4",
     "next": "14.2.11",
     "react": "^18",
-    "react-dom": "^18"
+    "react-dom": "^18",
+    "react-redux": "^9.1.2"
   },
   "devDependencies": {
     "@testing-library/dom": "^10.4.0",
