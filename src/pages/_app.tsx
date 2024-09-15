@@ -10,6 +10,7 @@ import {
 } from '~/app/components';
 import { BebasNeue, OpenSans } from '~/app';
 import '~/app/assets/styles/css-reset.css';
+import { theme } from '~/theme';
 
 const globalStyles = css`
   * {
@@ -25,6 +26,11 @@ const globalStyles = css`
     font-family: ${BebasNeue.style.fontFamily};
     letter-spacing: 0.1rem;
     line-height: 1.1;
+  }
+
+  ::selection {
+    color: ${theme.colors.lightBlue};
+    background-color: ${theme.colors.white};
   }
 `;
 
