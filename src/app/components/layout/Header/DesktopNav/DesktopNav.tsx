@@ -51,20 +51,36 @@ const NavLink = styled(Link, {
 })<{
   current?: boolean;
 }>`
+  position: relative;
   font-size: 1.75rem;
   font-family: ${BebasNeue.style.fontFamily};
   color: ${({ current, theme }) =>
     current ? theme.colors.lightPurple : theme.colors.white};
   border-bottom: ${({ current, theme }) =>
-    current ? `0.125rem ${theme.colors.lightPurple} solid` : 'none'};
+    current ? `0.25rem ${theme.colors.lightPurple} solid` : 'none'};
   transition: color 250ms ease-in-out;
   padding: 0.125rem 0;
   font-weight: ${({ current, theme }) => (current ? 'bold' : 'normal')};
+
+  &::after {
+    content: '';
+    position: absolute;
+    height: 0.25rem;
+    width: 0;
+    bottom: -0.25rem;
+    left: 0;
+    background-color: ${theme.colors.lightPurple};
+    transition: width 250ms ease-in-out;
+  }
 
   &:hover,
   &:active,
   &:focus {
     text-decoration: none;
     color: ${({ theme }) => theme.colors.lightPurple};
+
+    &::after {
+      width: 100%;
+    }
   }
 `;
