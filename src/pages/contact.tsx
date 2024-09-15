@@ -16,8 +16,8 @@ const Contact: React.FC = () => {
         <PageContentWrapper maxWidth="85ch">
           <Heading>Let's Connect</Heading>
           <PageText>
-            If you have a project idea, team that needs developer assistance or
-            believe I might be a good fit for a role you're hiring for
+            If you have a project idea, team that needs developer assistance, or
+            believe I might be a good fit for a role you're hiring for.
             <PageTextHighlight>Get in touch with me!</PageTextHighlight>
           </PageText>
           <CTAContainer>
