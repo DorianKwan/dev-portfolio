@@ -1,32 +1,35 @@
-import styled from '@emotion/styled';
 import {
-  Page,
   Heading,
   LinkButton,
+  Page,
+  CTAContainer,
+  PageContainer,
+  PageContentWrapper,
+  PageText,
+  PageTextHighlight,
   GithubIcon,
   LinkedInIcon,
   DownloadIcon,
 } from '~/app/components';
-import { hexToRGBA, theme } from '~/theme';
 
 const Home: React.FC = () => {
   return (
     <Page>
-      <HomeContainer>
-        <HomeWrapper>
+      <PageContainer>
+        <PageContentWrapper>
           <Heading type="h2">Hi, my name is Bryce</Heading>
           <Heading type="h3" fontSize="1.5rem">
             and I'm a
           </Heading>
           <Heading>Software Engineer</Heading>
-          <WelcomeText>
+          <PageText>
             I develop highly composable, accessible, and intuitive custom web
             applications. I'm known for having a strong attention to detail, a
             relentless drive for excellence, and exceptional analytical skills.
-            <CTAText>
+            <PageTextHighlight>
               If you'd like to work with me check out these links below
-            </CTAText>
-          </WelcomeText>
+            </PageTextHighlight>
+          </PageText>
           <CTAContainer>
             <LinkButton href="https://github.com/DorianKwan" external>
               <GithubIcon size="1.25rem" />
@@ -47,53 +50,10 @@ const Home: React.FC = () => {
               Download my Resume
             </LinkButton>
           </CTAContainer>
-        </HomeWrapper>
-      </HomeContainer>
+        </PageContentWrapper>
+      </PageContainer>
     </Page>
   );
 };
 
 export default Home;
-
-const HomeContainer = styled.section`
-  display: grid;
-  place-items: center;
-  height: 100%;
-`;
-
-const HomeWrapper = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 0.75rem;
-  max-width: 105ch;
-  margin-top: -2rem;
-  text-align: center;
-
-  > * {
-    width: fit-content;
-  }
-`;
-
-const WelcomeText = styled.p`
-  font-size: 1.25rem;
-  color: ${({ theme }) => theme.colors.copyText};
-  margin-bottom: 1rem;
-`;
-
-const CTAText = styled.span`
-  margin-top: 0.75rem;
-  display: block;
-  color: ${({ theme }) => hexToRGBA(theme.colors.white, 0.6)};
-`;
-
-const CTAContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-  gap: 1rem;
-  width: 100%;
-
-  @media only screen and (min-width: ${theme.breakpoints.md}) {
-    flex-direction: row;
-  }
-`;
