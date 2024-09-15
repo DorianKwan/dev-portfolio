@@ -8,15 +8,17 @@ export const PageContainer = styled.section`
 `;
 
 export const PageContentWrapper = styled.div<{
+  gap?: React.CSSProperties['gap'];
   maxWidth?: React.CSSProperties['width'];
 }>`
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 0.75rem;
+  gap: ${({ gap }) => gap ?? '0.75rem'};
   max-width: ${({ maxWidth }) => maxWidth ?? '105ch'};
   margin-top: -2rem;
   text-align: center;
+  z-index: 1;
 
   > * {
     width: fit-content;
