@@ -17,6 +17,10 @@ const globalStyles = css`
     font-family: ${OpenSans.style.fontFamily};
   }
 
+  body {
+    background-color: ${theme.colors.background};
+  }
+
   h1,
   h2,
   h3,
