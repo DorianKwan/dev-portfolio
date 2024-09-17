@@ -29,7 +29,7 @@ const footerSocialData: FooterLink[] = [
     key: 'linkedin',
   },
   {
-    to: 'https://www.upwork.com/freelancers/~01506f13ea9da3fc70',
+    to: 'https://www.upwork.com/freelancers/~01506f13ea9da3fc70?viewMode=1',
     icon: <UpWorkIcon hoverColor={theme.colors.lightPurple} />,
     key: 'upwork',
   },
