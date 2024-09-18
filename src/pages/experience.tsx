@@ -1,9 +1,12 @@
-import { InDevelopment, Page } from '~/app/components';
+import { Heading, Page, PageContainer, Timeline } from '~/app/components';
 
 const Experience: React.FC = () => {
   return (
     <Page>
-      <InDevelopment title="Experience" />
+      <PageContainer>
+        <Heading>Experience</Heading>
+        <Timeline />
+      </PageContainer>
     </Page>
   );
 };
