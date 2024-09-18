@@ -21,6 +21,10 @@ export const theme = {
     statusOpenToWork: '#007AFF',
     copyText: '#6D7087',
     aboutCardBg: 'rgba(255, 255, 255, 0.035)',
+    experienceOne: '#5239FF',
+    experienceTwo: '#5c38ff',
+    experienceThree: '#6c34ff',
+    experienceFour: '#7c32ff',
   },
   breakpoints: {
     xxs: '420px',
