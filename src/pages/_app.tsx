@@ -58,7 +58,7 @@ const globalStyles = css`
   }
 
   ::selection {
-    color: ${theme.colors.lightBlue};
+    color: ${theme.colors.lightPurple};
     background-color: ${theme.colors.white};
   }
 `;
