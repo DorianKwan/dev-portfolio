@@ -20,12 +20,12 @@ export const AboutCard: React.FC<AboutCardProps> = ({
           {title}
         </Heading>
       </TitleWrapper>
-      {children}
+      <section>{children}</section>
     </Card>
   );
 };
 
-const Card = styled.div`
+const Card = styled.article`
   display: grid;
   grid-template-rows: auto 1fr;
   gap: 1.25rem;
@@ -38,7 +38,7 @@ const Card = styled.div`
   }
 `;
 
-const TitleWrapper = styled.div`
+const TitleWrapper = styled.header`
   display: flex;
   align-items: center;
   gap: 1.5rem;
