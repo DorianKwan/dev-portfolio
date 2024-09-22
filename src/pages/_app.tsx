@@ -11,6 +11,27 @@ import {
 import { BebasNeue, OpenSans } from '~/app';
 import '~/app/assets/styles/css-reset.css';
 import { theme } from '~/theme';
+import {
+  faBookOpen,
+  faBriefcase,
+  faCode,
+  faSchool,
+  faArrowUpRightFromSquare,
+} from '@fortawesome/free-solid-svg-icons';
+import { faGithub } from '@fortawesome/free-brands-svg-icons';
+
+// must use a require here or NextJS will error out
+// https://github.com/vercel/next.js/issues/51949
+const { library } = require('@fortawesome/fontawesome-svg-core');
+
+library.add(
+  faBookOpen,
+  faBriefcase,
+  faSchool,
+  faCode,
+  faGithub,
+  faArrowUpRightFromSquare,
+);
 
 const globalStyles = css`
   * {
@@ -30,6 +51,10 @@ const globalStyles = css`
     font-family: ${BebasNeue.style.fontFamily};
     letter-spacing: 0.1rem;
     line-height: 1.1;
+  }
+
+  p {
+    font-size: 1.125rem;
   }
 
   ::selection {
