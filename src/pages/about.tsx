@@ -27,7 +27,7 @@ const aboutCardData = [
   {
     icon: <FontAwesomeIcon icon="school" />,
     title: 'Schooling',
-    text: 'Graduated from  Lighthouse Labs in 2017 with a Web Development Diploma, funded by the First Nations Technology Council.',
+    text: 'I graduated from  Lighthouse Labs in 2017 with a Web Development Diploma, funded by the First Nations Technology Council.',
   },
   {
     icon: <FontAwesomeIcon icon="code" />,
