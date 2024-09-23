@@ -139,10 +139,7 @@ const ExperienceWrapper = styled.div`
   &:nth-of-type(4) {
     &::after {
       border-color: ${({ theme }) => theme.colors.experienceFour};
-
-      @media only screen and (min-width: ${experienceBreakpoint}) {
-        top: 40%;
-      }
+      top: 40%;
     }
   }
 `;
