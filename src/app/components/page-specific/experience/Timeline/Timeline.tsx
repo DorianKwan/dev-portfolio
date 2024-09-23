@@ -116,6 +116,11 @@ const ExperienceWrapper = styled.div`
   &:nth-of-type(1) {
     &::after {
       border-color: ${({ theme }) => theme.colors.experienceOne};
+      top: 47.5%;
+
+      @media only screen and (min-width: ${experienceBreakpoint}) {
+        top: 45%;
+      }
     }
   }
 
@@ -134,6 +139,10 @@ const ExperienceWrapper = styled.div`
   &:nth-of-type(4) {
     &::after {
       border-color: ${({ theme }) => theme.colors.experienceFour};
+
+      @media only screen and (min-width: ${experienceBreakpoint}) {
+        top: 40%;
+      }
     }
   }
 `;
