@@ -36,7 +36,7 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({ project }) => {
       switch (type) {
         case ProjectType.CaseStudy:
           actions.push(
-            <LinkButton href={viewUrl} external>
+            <LinkButton key="case-study" href={viewUrl} external>
               <FontAwesomeIcon icon="book-open" />
               View Case Study
             </LinkButton>,
@@ -45,7 +45,7 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({ project }) => {
           break;
         case ProjectType.Website:
           actions.push(
-            <LinkButton href={viewUrl} external>
+            <LinkButton key="view-site" href={viewUrl} external>
               View Site
               <FontAwesomeIcon icon="arrow-up-right-from-square" />
             </LinkButton>,
@@ -57,7 +57,11 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({ project }) => {
 
     if (githubUrl) {
       actions.push(
-        <LinkButton href={githubUrl} buttonType="secondary" external>
+        <LinkButton
+          key="github"
+          href={githubUrl}
+          buttonType="secondary"
+          external>
           <FontAwesomeIcon icon={['fab', 'github']} />
           View Repo
         </LinkButton>,
