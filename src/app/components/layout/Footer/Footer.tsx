@@ -9,7 +9,6 @@ import {
 } from '~/app/components/icons';
 import { theme } from '~/theme';
 import { Availability, AvailabilityStatus } from './Availability';
-import { getIsMobileNavOpen, useAppSelector } from '~/app/store';
 
 interface FooterLink {
   to: string;
@@ -70,7 +69,6 @@ const StyledFooter = styled.footer<{ stickToBottom?: boolean }>`
   place-items: center;
   gap: 2rem;
   background: transparent;
-  z-index: 999;
   padding: 2rem ${({ theme }) => theme.layoutSpacing.md};
 
   @media only screen and (min-width: ${theme.breakpoints.md}) {
