@@ -139,7 +139,7 @@ const Nav = styled(motion.nav)`
   top: 0;
   display: grid;
   grid-template-rows: auto 1fr auto;
-  gap: 3rem;
+  gap: 1rem;
   width: 100vw;
   height: 100vh;
   background-color: ${({ theme }) => theme.colors.bluePurple};
@@ -150,6 +150,7 @@ const NavList = styled(motion.ul)`
   display: flex;
   flex-direction: column;
   gap: 1rem;
+  padding-top: 2rem;
   padding-left: 2rem;
 `;
 
