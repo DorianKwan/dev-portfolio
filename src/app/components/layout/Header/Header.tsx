@@ -1,16 +1,10 @@
 import React from 'react';
-import Link from 'next/link';
 import styled from '@emotion/styled';
-import {
-  Blink,
-  LinkButton,
-  ShowOnDesktop,
-  ShowOnMobile,
-} from '~/app/components';
+import { Blink, LinkButton, ShowOnDesktop } from '~/app/components';
 import { theme } from '~/theme';
-import { BebasNeue } from '~/app/fonts';
 import { MobileNav } from './MobileNav';
 import { DesktopNav } from './DesktopNav';
+import { Logo } from './header.styled';
 
 export const Header: React.FC = () => {
   return (
@@ -56,20 +50,5 @@ const StyledHeader = styled.header`
 
   @media only screen and (min-width: ${theme.breakpoints.xxxl}) {
     padding: 0 ${({ theme }) => theme.layoutSpacing.xxxl};
-  }
-`;
-
-const Logo = styled(Link)`
-  font-size: 2rem;
-  color: ${({ theme }) => theme.colors.white};
-  transition: color 250ms ease-in-out;
-  font-family: ${BebasNeue.style.fontFamily};
-  z-index: 999;
-
-  &:hover,
-  &:active,
-  &:focus {
-    text-decoration: none;
-    color: ${({ theme }) => theme.colors.lightPurple};
   }
 `;

@@ -1,22 +1,15 @@
 import { useCallback, useEffect, useState } from 'react';
-import {
-  getIsMobileNavOpen,
-  setIsMobileNavOpen,
-  useAppDispatch,
-  useAppSelector,
-} from '~/app/store';
-import { useEscape } from './use-escape';
 import { usePathname } from 'next/navigation';
+import { useEscape } from './use-escape';
 
 export const useMobileNav = () => {
-  const dispatch = useAppDispatch();
   const pathname = usePathname();
+  const [isOpen, setIsOpen] = useState(false);
   const [lastPath, setLastPath] = useState(pathname);
-  const isOpen = useAppSelector(getIsMobileNavOpen);
 
   useEscape(() => {
     if (isOpen) {
-      dispatch(setIsMobileNavOpen(false));
+      setIsOpen(false);
     }
   }, [isOpen]);
 
@@ -24,7 +17,7 @@ export const useMobileNav = () => {
   useEffect(() => {
     const handleWindowResize = () => {
       if (isOpen) {
-        dispatch(setIsMobileNavOpen(false));
+        setIsOpen(false);
       }
     };
 
@@ -38,22 +31,20 @@ export const useMobileNav = () => {
   // handle closing the nav after next has changed pages
   useEffect(() => {
     if (lastPath !== pathname) {
-      dispatch(setIsMobileNavOpen(false));
+      setIsOpen(false);
       setLastPath(pathname);
     }
   }, [lastPath, pathname]);
 
-  const setIsOpen = useCallback((openState: boolean) => {
-    dispatch(setIsMobileNavOpen(openState));
-  }, []);
-
   const toggleIsOpen = useCallback(() => {
-    dispatch(setIsMobileNavOpen(!isOpen));
+    setIsOpen(!isOpen);
   }, [isOpen]);
 
   return {
     isOpen,
     setIsOpen,
     toggleIsOpen,
+    pathname,
+    lastPath,
   };
 };

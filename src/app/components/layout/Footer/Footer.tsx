@@ -41,8 +41,6 @@ const footerSocialData: FooterLink[] = [
 ];
 
 export const Footer: React.FC = () => {
-  const isMobileNavOpen = useAppSelector(getIsMobileNavOpen);
-
   const footerLinks = useMemo(() => {
     return footerSocialData.map(({ to, icon, key }) => {
       return (
@@ -56,7 +54,7 @@ export const Footer: React.FC = () => {
   }, []);
 
   return (
-    <StyledFooter stickToBottom={isMobileNavOpen}>
+    <StyledFooter>
       <Copyright>© 2024 Bryce Sayers-Kwan</Copyright>
       <FooterNav>
         <FooterLinks>{footerLinks}</FooterLinks>
@@ -67,8 +65,6 @@ export const Footer: React.FC = () => {
 };
 
 const StyledFooter = styled.footer<{ stickToBottom?: boolean }>`
-  position: ${({ stickToBottom }) => (stickToBottom ? 'absolute' : 'relative')};
-  bottom: 0;
   width: 100%;
   display: grid;
   place-items: center;
