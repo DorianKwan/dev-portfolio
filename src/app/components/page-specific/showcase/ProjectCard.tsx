@@ -98,6 +98,7 @@ const CardImage = styled.img`
   border-radius: 0.5rem;
   margin-bottom: 1rem;
   max-height: ${pxToRem(240)};
+  height: 100%;
 `;
 
 const CardHeader = styled.header`
