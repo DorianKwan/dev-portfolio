@@ -43,7 +43,7 @@ const showcaseData: Project[] = [
     imageUrl: '/png/caret.png',
     imageAlt: 'image of the caret legal site',
     description:
-      'WordPress side re-brand / re-theme done in 2022 on the side working for Mercenary Digital.  I lead the project, including client-relations and completed it on time.',
+      'WordPress side re-brand / re-theme done in 2022 on the side working with Mercenary Digital.  I lead the project, including client-relations, and delivered delivered on time.',
     type: ProjectType.Website,
     viewUrl: 'https://caretlegal.com/',
   },
