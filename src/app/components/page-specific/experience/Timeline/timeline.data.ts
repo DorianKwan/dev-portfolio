@@ -21,8 +21,8 @@ export const timelineData = [
       'I eventually found the ideal collaborative team environment at Launchcode, a custom software development agency. During my time there, I gained experience across various areas of the stack and significantly expanded my skill set.',
   },
   {
-    key: 'casper-labs',
-    title: 'Casper Labs',
+    key: 'prove-ai',
+    title: 'Prove AI formerly Casper Labs',
     time: '2022 - Current',
     content:
       'I leveraged my enhanced skill set to enter the web3 space as a Software Engineer at Casper Labs, where I develop decentralized web applications and currently lead front-end development of Prove AI.',
