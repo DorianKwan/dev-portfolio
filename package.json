@@ -29,6 +29,7 @@
     "react-redux": "^9.1.2"
   },
   "devDependencies": {
+    "@eslint/eslintrc": "^3.3.5",
     "@testing-library/dom": "^10.4.0",
     "@testing-library/jest-dom": "^6.5.0",
     "@testing-library/react": "^16.0.1",
@@ -36,9 +37,11 @@
     "@types/node": "^20",
     "@types/react": "^19.2.14",
     "@types/react-dom": "^19.2.3",
-    "eslint": "^8",
-    "eslint-config-next": "^14.2.11",
-    "eslint-config-prettier": "^8",
+    "@typescript-eslint/eslint-plugin": "^8.58.0",
+    "@typescript-eslint/parser": "^8.58.0",
+    "eslint": "^10.1.0",
+    "eslint-config-next": "^16.2.2",
+    "eslint-config-prettier": "^10.1.8",
     "eslint-plugin-prettier": "^5",
     "jest": "^30.3.0",
     "jest-environment-jsdom": "^30.3.0",
