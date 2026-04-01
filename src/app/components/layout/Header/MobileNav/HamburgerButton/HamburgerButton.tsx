@@ -1,5 +1,5 @@
 import styled from '@emotion/styled';
-import { motion } from 'framer-motion';
+import { motion, type Transition } from 'framer-motion';
 import { useMemo } from 'react';
 import { hexToRGBA, pxToRem } from '~/theme';
 
@@ -12,7 +12,7 @@ export const HamburgerButton: React.FC<HamburgerButtonProps> = ({
   isOpen,
   setIsOpen,
 }) => {
-  const transition = useMemo(() => {
+  const transition = useMemo((): Transition => {
     return {
       ease: 'easeInOut',
       duration: 0.4,
