@@ -1,6 +1,6 @@
 import { useMemo } from 'react';
 import Link from 'next/link';
-import { motion } from 'framer-motion';
+import { motion, Variants } from 'framer-motion';
 import styled from '@emotion/styled';
 import { useMobileNav } from '~/hooks';
 import { BebasNeue } from '~/app/fonts';
@@ -11,11 +11,11 @@ import { navigationLinks } from '../navigation.data';
 import { Logo } from '../header.styled';
 import { Footer } from '../../Footer';
 
-const navVariants = {
+const navVariants: Variants = {
   open: {
     y: 0,
     transition: {
-      type: 'slide',
+      type: 'spring',
       ease: 'linear',
       duration: 0.4,
     },
@@ -23,7 +23,7 @@ const navVariants = {
   closed: {
     y: '-100%',
     transition: {
-      type: 'slide',
+      type: 'spring',
       ease: 'linear',
       duration: 0.4,
       delay: 0.4,
