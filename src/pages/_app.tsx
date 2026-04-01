@@ -1,5 +1,6 @@
 import type { AppProps } from 'next/app';
 import { css, Global } from '@emotion/react';
+import { Analytics } from '@vercel/analytics/next';
 import {
   Header,
   Main,
@@ -72,6 +73,7 @@ const App: React.FC<AppProps> = ({ Component, pageProps }) => {
         <Header />
         <Main>
           <Component {...pageProps} />
+          <Analytics />
         </Main>
         <Footer />
       </AppWrapper>
