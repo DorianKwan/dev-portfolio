@@ -54,7 +54,7 @@ export const Footer: React.FC = () => {
 
   return (
     <StyledFooter>
-      <Copyright>© 2024 Bryce Sayers-Kwan</Copyright>
+      <Copyright>© 2026 Bryce Sayers-Kwan</Copyright>
       <FooterNav>
         <FooterLinks>{footerLinks}</FooterLinks>
       </FooterNav>
