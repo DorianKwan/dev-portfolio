@@ -1,5 +1,5 @@
 import styled from '@emotion/styled';
-import { Heading } from '~/app/components/common';
+import { Heading } from '~/app/components/common/Heading/Heading';
 
 interface AboutCardProps {
   readonly icon: React.ReactNode;

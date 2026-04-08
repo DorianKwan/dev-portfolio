@@ -1,5 +1,5 @@
 import { type ISourceOptions } from '@tsparticles/engine';
-import { theme } from '~/theme';
+import { theme } from '~/theme/theme';
 
 const { darkBlue, lightBlue, bluePurple, darkPurple, lightPurple } =
   theme.colors;

@@ -1,17 +1,15 @@
 import type { AppProps } from 'next/app';
 import { css, Global } from '@emotion/react';
 import { Analytics } from '@vercel/analytics/next';
-import {
-  Header,
-  Main,
-  Footer,
-  Embers,
-  Providers,
-  AppWrapper,
-} from '~/app/components';
-import { BebasNeue, OpenSans } from '~/app';
+import { Header } from '~/app/components/layout/Header/Header';
+import { Main } from '~/app/components/layout/Main/Main';
+import { Footer } from '~/app/components/layout/Footer/Footer';
+import { Embers } from '~/app/components/special/Embers/Embers';
+import { Providers } from '~/app/components/layout/Providers/Providers';
+import { AppWrapper } from '~/app/components/layout/AppWrapper/AppWrapper';
+import { BebasNeue, OpenSans } from '~/app/fonts';
 import '~/app/assets/styles/css-reset.css';
-import { theme } from '~/theme';
+import { theme } from '~/theme/theme';
 import {
   faBookOpen,
   faBriefcase,

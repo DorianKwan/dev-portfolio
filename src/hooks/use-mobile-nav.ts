@@ -1,11 +1,7 @@
 import { useCallback, useEffect, useState } from 'react';
 import { usePathname } from 'next/navigation';
-import {
-  getIsMobileNavOpen,
-  setIsMobileNavOpen,
-  useAppDispatch,
-  useAppSelector,
-} from '~/app/store';
+import { getIsMobileNavOpen } from '~/app/store/selectors/app-selectors';
+import { useAppDispatch, useAppSelector } from '~/app/store/hooks';
 import { useEscape } from './use-escape';
 
 export const useMobileNav = () => {

@@ -1,13 +1,10 @@
 import styled from '@emotion/styled';
 import { faCode } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import {
-  Circles,
-  Heading,
-  PageContainer,
-  PageContentWrapper,
-} from '~/app/components';
-import { hexToRGBA } from '~/theme';
+import { Circles } from '~/app/components/background-accents/Circles/Circles';
+import { Heading } from '~/app/components/common/Heading/Heading';
+import { PageContainer, PageContentWrapper } from '~/app/components/page-shared/shared.styled';
+import { hexToRGBA } from '~/theme/utils';
 
 // must use a require here or NextJS will error out
 // https://github.com/vercel/next.js/issues/51949

@@ -1,4 +1,7 @@
-import { Heading, Page, PageContainer, Timeline } from '~/app/components';
+import { Heading } from '~/app/components/common/Heading/Heading';
+import { Page } from '~/app/components/layout/Page/Page';
+import { PageContainer } from '~/app/components/page-shared/shared.styled';
+import { Timeline } from '~/app/components/page-specific/experience/Timeline/Timeline';
 
 const Experience: React.FC = () => {
   return (

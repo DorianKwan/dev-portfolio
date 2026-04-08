@@ -1,14 +1,12 @@
 import React, { useMemo } from 'react';
 import Link from 'next/link';
 import styled from '@emotion/styled';
-import {
-  EmailIcon,
-  GithubIcon,
-  LinkedInIcon,
-  UpWorkIcon,
-} from '~/app/components/icons';
-import { theme } from '~/theme';
-import { Availability, AvailabilityStatus } from './Availability';
+import { EmailIcon } from '~/app/components/icons/EmailIcon';
+import { GithubIcon } from '~/app/components/icons/GithubIcon';
+import { LinkedInIcon } from '~/app/components/icons/LinkedInIcon';
+import { UpWorkIcon } from '~/app/components/icons/UpWorkIcon';
+import { theme } from '~/theme/theme';
+import { Availability, AvailabilityStatus } from './Availability/Availability';
 
 interface FooterLink {
   to: string;

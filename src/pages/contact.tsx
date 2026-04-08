@@ -1,13 +1,7 @@
-import {
-  Heading,
-  LinkButton,
-  Page,
-  CTAContainer,
-  PageContainer,
-  PageContentWrapper,
-  PageText,
-  PageTextHighlight,
-} from '~/app/components';
+import { Heading } from '~/app/components/common/Heading/Heading';
+import { LinkButton } from '~/app/components/common/LinkButton/LinkButton';
+import { Page } from '~/app/components/layout/Page/Page';
+import { CTAContainer, PageContainer, PageContentWrapper, PageText, PageTextHighlight } from '~/app/components/page-shared/shared.styled';
 
 const Contact: React.FC = () => {
   return (

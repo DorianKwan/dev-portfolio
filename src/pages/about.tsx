@@ -7,15 +7,13 @@ import {
   faCode,
   faSchool,
 } from '@fortawesome/free-solid-svg-icons';
-import {
-  AboutCard,
-  Circles,
-  Heading,
-  Page,
-  PageContainer,
-  PageContentWrapper,
-} from '~/app/components';
-import { hexToRGBA, theme } from '~/theme';
+import { AboutCard } from '~/app/components/page-specific/about/AboutCard/AboutCard';
+import { Circles } from '~/app/components/background-accents/Circles/Circles';
+import { Heading } from '~/app/components/common/Heading/Heading';
+import { Page } from '~/app/components/layout/Page/Page';
+import { PageContainer, PageContentWrapper } from '~/app/components/page-shared/shared.styled';
+import { hexToRGBA } from '~/theme/utils';
+import { theme } from '~/theme/theme';
 
 // must use a require here or NextJS will error out
 // https://github.com/vercel/next.js/issues/51949
