@@ -66,18 +66,24 @@ const globalStyles = css`
 
 const App: React.FC<AppProps> = ({ Component, pageProps }) => {
   return (
-    <Providers>
-      <Global styles={globalStyles} />
-      <Embers />
-      <AppWrapper>
-        <Header />
-        <Main>
-          <Component {...pageProps} />
-          <Analytics />
-        </Main>
-        <Footer />
-      </AppWrapper>
-    </Providers>
+    <>
+      <Head>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Portfolio - Bryce Sayers-Kwan</title>
+      </Head>
+      <Providers>
+        <Global styles={globalStyles} />
+        <Embers />
+        <AppWrapper>
+          <Header />
+          <Main>
+            <Component {...pageProps} />
+            <Analytics />
+          </Main>
+          <Footer />
+        </AppWrapper>
+      </Providers>
+    </>
   );
 };
 
