@@ -3,6 +3,7 @@ import { usePathname } from 'next/navigation';
 import { getIsMobileNavOpen } from '~/app/store/selectors/app-selectors';
 import { useAppDispatch, useAppSelector } from '~/app/store/hooks';
 import { useEscape } from './use-escape';
+import { setIsMobileNavOpen } from '~/app/store/slices/app-slice';
 
 export const useMobileNav = () => {
   const dispatch = useAppDispatch();
