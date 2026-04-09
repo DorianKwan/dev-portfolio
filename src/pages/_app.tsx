@@ -18,10 +18,12 @@ import {
   faArrowUpRightFromSquare,
 } from '@fortawesome/free-solid-svg-icons';
 import { faGithub } from '@fortawesome/free-brands-svg-icons';
+import { config, library } from '@fortawesome/fontawesome-svg-core';
+import '@fortawesome/fontawesome-svg-core/styles.css';
+import Head from 'next/head';
 
-// must use a require here or NextJS will error out
-// https://github.com/vercel/next.js/issues/51949
-const { library } = require('@fortawesome/fontawesome-svg-core');
+// without this, SSR and CSR render different DOM structures; causing a React hydration mismatch
+config.autoAddCss = false;
 
 library.add(
   faBookOpen,

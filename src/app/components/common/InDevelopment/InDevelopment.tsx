@@ -1,16 +1,12 @@
 import styled from '@emotion/styled';
-import { faCode } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Circles } from '~/app/components/background-accents/Circles/Circles';
 import { Heading } from '~/app/components/common/Heading/Heading';
-import { PageContainer, PageContentWrapper } from '~/app/components/page-shared/shared.styled';
+import {
+  PageContainer,
+  PageContentWrapper,
+} from '~/app/components/page-shared/shared.styled';
 import { hexToRGBA } from '~/theme/utils';
-
-// must use a require here or NextJS will error out
-// https://github.com/vercel/next.js/issues/51949
-const { library } = require('@fortawesome/fontawesome-svg-core');
-
-library.add(faCode);
 
 interface InDevelopmentProps {
   title: string;
@@ -46,5 +42,3 @@ const Text = styled.p`
   color: ${({ theme }) => hexToRGBA(theme.colors.white, 0.6)};
   font-size: 1.25rem;
 `;
-
-const CirclesWrapper = styled.div``;
