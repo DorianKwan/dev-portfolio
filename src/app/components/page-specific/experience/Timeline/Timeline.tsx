@@ -26,8 +26,8 @@ const experienceBreakpoint = theme.breakpoints.sm;
 const TimelineContainer = styled.section`
   position: relative;
   display: grid;
-  grid-template-rows: repeat(4, 1fr);
-  gap: 1rem;
+  grid-template-rows: repeat(5, auto);
+  gap: 2rem 1rem;
   margin-top: 3rem;
   margin-bottom: 1rem;
   max-width: ${pxToRem(1000)};
@@ -40,12 +40,12 @@ const TimelineContainer = styled.section`
   &::after {
     content: '';
     position: absolute;
-    height: 75%;
-    top: 12.5%;
+    height: 80%;
+    top: 7.5%;
     left: 0.75rem;
     width: ${pxToRem(8)};
     background: ${({ theme }) =>
-      `linear-gradient(${theme.colors.experienceOne}, ${theme.colors.experienceFour})`};
+      `linear-gradient(${theme.colors.experienceOne}, ${theme.colors.experienceFive})`};
 
     @media only screen and (min-width: ${experienceBreakpoint}) {
       width: ${pxToRem(9)};
@@ -140,7 +140,12 @@ const ExperienceWrapper = styled.div`
   &:nth-of-type(4) {
     &::after {
       border-color: ${({ theme }) => theme.colors.experienceFour};
-      top: 40%;
+    }
+  }
+
+  &:nth-of-type(5) {
+    &::after {
+      border-color: ${({ theme }) => theme.colors.experienceFive};
     }
   }
 `;

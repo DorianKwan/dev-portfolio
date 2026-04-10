@@ -23,11 +23,11 @@ const Home: React.FC = () => {
           </Heading>
           <Heading>Software Engineer</Heading>
           <PageText>
-            I develop highly composable, accessible, and intuitive custom web
-            applications. I'm known for having a strong attention to detail, a
-            relentless drive for excellence, and exceptional analytical skills.
+            I build and scale production systems at early-stage startups. Owning
+            architecture end-to-end, ship under pressure, build systems and
+            teams that last — from the first commit to a scaled engineering org.
             <PageTextHighlight>
-              If you'd like to work with me check out these links below
+              Check out the links below if you'd like to work together.
             </PageTextHighlight>
           </PageText>
           <CTAContainer>

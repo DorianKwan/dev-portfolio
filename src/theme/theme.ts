@@ -23,8 +23,9 @@ export const theme = {
     aboutCardBg: 'rgba(255, 255, 255, 0.035)',
     experienceOne: '#5239FF',
     experienceTwo: '#5c38ff',
-    experienceThree: '#6c34ff',
-    experienceFour: '#7c32ff',
+    experienceThree: '#6336ff',
+    experienceFour: '#7034ff',
+    experienceFive: '#7c32ff',
   },
   breakpoints: {
     xxs: '420px',
