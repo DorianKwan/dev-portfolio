@@ -1,8 +1,8 @@
 import { useMemo } from 'react';
 import styled from '@emotion/styled';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { LinkButton } from '../../common/LinkButton/LinkButton';
 import { pxToRem } from '~/theme/utils';
+import { LinkButton } from '../../common/LinkButton/LinkButton';
 
 export enum ProjectType {
   Project = 'project',

@@ -1,6 +1,6 @@
 import styled from '@emotion/styled';
-import { hexToRGBA } from '~/theme/utils';
 import { theme } from '~/theme/theme';
+import { hexToRGBA } from '~/theme/utils';
 
 export const PageContainer = styled.section`
   display: grid;

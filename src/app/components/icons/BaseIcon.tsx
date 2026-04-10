@@ -1,4 +1,5 @@
 import styled from '@emotion/styled';
+
 export interface IconProps {
   hoverColor?: React.CSSProperties['color'];
   size?: React.CSSProperties['height'] | React.CSSProperties['width'];

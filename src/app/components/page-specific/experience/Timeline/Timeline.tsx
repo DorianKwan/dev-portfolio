@@ -1,8 +1,8 @@
-import styled from '@emotion/styled';
 import { useMemo } from 'react';
+import styled from '@emotion/styled';
 import { Heading } from '~/app/components/common/Heading/Heading';
-import { hexToRGBA, pxToRem } from '~/theme/utils';
 import { theme } from '~/theme/theme';
+import { hexToRGBA, pxToRem } from '~/theme/utils';
 import { timelineData } from './timeline.data';
 
 export const Timeline: React.FC = () => {

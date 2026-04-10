@@ -1,7 +1,7 @@
 import styled from '@emotion/styled';
 import { BebasNeue } from '~/app/fonts';
-import { hexToRGBA, pxToRem } from '~/theme/utils';
 import { theme } from '~/theme/theme';
+import { hexToRGBA, pxToRem } from '~/theme/utils';
 
 export enum AvailabilityStatus {
   Available = 'available',

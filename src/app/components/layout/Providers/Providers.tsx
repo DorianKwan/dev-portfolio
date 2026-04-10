@@ -1,5 +1,5 @@
-import { ThemeProvider } from '@emotion/react';
 import { Provider as ReduxProvider } from 'react-redux';
+import { ThemeProvider } from '@emotion/react';
 import { store } from '~/app/store/store';
 import { theme } from '~/theme/theme';
 

@@ -7,6 +7,9 @@ import reactPlugin from 'eslint-plugin-react';
 import reactHooksPlugin from 'eslint-plugin-react-hooks';
 import prettierConfig from 'eslint-config-prettier';
 import prettierPlugin from 'eslint-plugin-prettier';
+import simpleImportSort from 'eslint-plugin-simple-import-sort';
+import importX from 'eslint-plugin-import-x';
+import unusedImports from 'eslint-plugin-unused-imports';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
@@ -82,6 +85,47 @@ export default defineConfig(
       'no-useless-constructor': 'off',
       'no-use-before-define': 'off',
       'no-var': 'error',
+    },
+  },
+
+  // Import sorting and hygiene
+  {
+    plugins: {
+      'simple-import-sort': simpleImportSort,
+      'import-x': importX,
+      'unused-imports': unusedImports,
+    },
+    rules: {
+      'simple-import-sort/imports': [
+        'error',
+        {
+          groups: [
+            [
+              '^react',
+              '^@?\\w',
+              '^@/',
+              '^~/',
+              '^\\.\\/',
+              '^\\.\\.\\/',
+              '^\\u0000',
+            ],
+          ],
+        },
+      ],
+      'simple-import-sort/exports': 'error',
+      'import-x/newline-after-import': ['error', { count: 1 }],
+      'import-x/order': 'off', // simple-import-sort handles this
+      'unused-imports/no-unused-imports': 'error',
+      'unused-imports/no-unused-vars': [
+        'warn',
+        {
+          vars: 'all',
+          varsIgnorePattern: '^_',
+          args: 'after-used',
+          argsIgnorePattern: '^_',
+          caughtErrors: 'none',
+        },
+      ],
     },
   },
 
