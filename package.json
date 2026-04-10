@@ -4,6 +4,7 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
+    "build:clean": "rm -rf .next",
     "build": "next build",
     "tsc": "tsc --noEmit",
     "start": "next start",
