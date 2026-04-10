@@ -1,7 +1,13 @@
 import { Heading } from '~/app/components/common/Heading/Heading';
 import { LinkButton } from '~/app/components/common/LinkButton/LinkButton';
 import { Page } from '~/app/components/layout/Page/Page';
-import { CTAContainer, PageContainer, PageContentWrapper, PageText, PageTextHighlight } from '~/app/components/page-shared/shared.styled';
+import {
+  CTAContainer,
+  PageContainer,
+  PageContentWrapper,
+  PageText,
+  PageTextHighlight,
+} from '~/app/components/page-shared/shared.styled';
 import { GithubIcon } from '~/app/components/icons/GithubIcon';
 import { LinkedInIcon } from '~/app/components/icons/LinkedInIcon';
 import { DownloadIcon } from '~/app/components/icons/DownloadIcon';

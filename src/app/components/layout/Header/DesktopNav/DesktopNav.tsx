@@ -60,7 +60,7 @@ const NavLink = styled(Link, {
     current ? `0.25rem ${theme.colors.lightPurple} solid` : 'none'};
   transition: color 250ms ease-in-out;
   padding: 0.125rem 0;
-  font-weight: ${({ current, theme }) => (current ? 'bold' : 'normal')};
+  font-weight: ${({ current }) => (current ? 'bold' : 'normal')};
 
   &::after {
     content: '';

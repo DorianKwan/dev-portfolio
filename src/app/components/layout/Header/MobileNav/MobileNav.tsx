@@ -77,9 +77,7 @@ const footerVariants = {
   },
 };
 
-interface MobileNavProps {}
-
-export const MobileNav: React.FC<MobileNavProps> = () => {
+export const MobileNav = () => {
   const { isOpen, toggleIsOpen, pathname, lastPath } = useMobileNav();
 
   const navLinks = useMemo(() => {

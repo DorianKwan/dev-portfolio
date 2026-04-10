@@ -15,9 +15,11 @@ export const Embers: React.FC = () => {
 
       await loadBasic(engine, shouldRefresh);
       await loadExternalPushInteraction(engine, shouldRefresh);
-    }).then(() => {
-      setParticlesInitialized(true);
-    });
+    })
+      .then(() => {
+        setParticlesInitialized(true);
+      })
+      .catch(e => console.error('Particles could not load:', e));
   }, []);
 
   if (particlesInitialized) {
