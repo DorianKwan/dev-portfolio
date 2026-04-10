@@ -32,5 +32,6 @@
     ".next/types/**/*.ts",
     ".next/dev/types/**/*.ts"
   ],
-  "exclude": ["node_modules"]
+  "// next adds types to includes": "https://github.com/vercel/next.js/discussions/39942",
+  "exclude": ["node_modules", ".next/dev/types", ".next/types"]
 }
