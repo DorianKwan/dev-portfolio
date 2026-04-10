@@ -2,14 +2,14 @@ import { useMemo } from 'react';
 import Link from 'next/link';
 import { motion, Variants } from 'framer-motion';
 import styled from '@emotion/styled';
-import { useMobileNav } from '~/hooks';
+import { useMobileNav } from '~/hooks/use-mobile-nav';
 import { BebasNeue } from '~/app/fonts';
-import { Blink } from '~/app/components/special';
-import { theme } from '~/theme';
-import { HamburgerButton } from './HamburgerButton';
+import { Blink } from '~/app/components/special/Blink';
+import { theme } from '~/theme/theme';
+import { HamburgerButton } from './HamburgerButton/HamburgerButton';
 import { navigationLinks } from '../navigation.data';
 import { Logo } from '../header.styled';
-import { Footer } from '../../Footer';
+import { Footer } from '../../Footer/Footer';
 
 const navVariants: Variants = {
   open: {
@@ -77,9 +77,7 @@ const footerVariants = {
   },
 };
 
-interface MobileNavProps {}
-
-export const MobileNav: React.FC<MobileNavProps> = () => {
+export const MobileNav = () => {
   const { isOpen, toggleIsOpen, pathname, lastPath } = useMobileNav();
 
   const navLinks = useMemo(() => {

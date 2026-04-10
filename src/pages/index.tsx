@@ -1,16 +1,16 @@
+import { Heading } from '~/app/components/common/Heading/Heading';
+import { LinkButton } from '~/app/components/common/LinkButton/LinkButton';
+import { Page } from '~/app/components/layout/Page/Page';
 import {
-  Heading,
-  LinkButton,
-  Page,
   CTAContainer,
   PageContainer,
   PageContentWrapper,
   PageText,
   PageTextHighlight,
-  GithubIcon,
-  LinkedInIcon,
-  DownloadIcon,
-} from '~/app/components';
+} from '~/app/components/page-shared/shared.styled';
+import { GithubIcon } from '~/app/components/icons/GithubIcon';
+import { LinkedInIcon } from '~/app/components/icons/LinkedInIcon';
+import { DownloadIcon } from '~/app/components/icons/DownloadIcon';
 
 const Home: React.FC = () => {
   return (

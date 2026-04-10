@@ -1,6 +1,7 @@
 import styled from '@emotion/styled';
 import { AnimatePresence, motion } from 'framer-motion';
-import { getIsMobileNavOpen, useAppSelector } from '~/app/store';
+import { getIsMobileNavOpen } from '~/app/store/selectors/app-selectors';
+import { useAppSelector } from '~/app/store/hooks';
 
 interface AppWrapperProps {
   readonly children: React.ReactNode;

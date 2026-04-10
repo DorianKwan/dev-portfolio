@@ -1,17 +1,15 @@
 import type { AppProps } from 'next/app';
 import { css, Global } from '@emotion/react';
 import { Analytics } from '@vercel/analytics/next';
-import {
-  Header,
-  Main,
-  Footer,
-  Embers,
-  Providers,
-  AppWrapper,
-} from '~/app/components';
-import { BebasNeue, OpenSans } from '~/app';
+import { Header } from '~/app/components/layout/Header/Header';
+import { Main } from '~/app/components/layout/Main/Main';
+import { Footer } from '~/app/components/layout/Footer/Footer';
+import { Embers } from '~/app/components/special/Embers/Embers';
+import { Providers } from '~/app/components/layout/Providers/Providers';
+import { AppWrapper } from '~/app/components/layout/AppWrapper/AppWrapper';
+import { BebasNeue, OpenSans } from '~/app/fonts';
 import '~/app/assets/styles/css-reset.css';
-import { theme } from '~/theme';
+import { theme } from '~/theme/theme';
 import {
   faBookOpen,
   faBriefcase,
@@ -20,10 +18,12 @@ import {
   faArrowUpRightFromSquare,
 } from '@fortawesome/free-solid-svg-icons';
 import { faGithub } from '@fortawesome/free-brands-svg-icons';
+import { config, library } from '@fortawesome/fontawesome-svg-core';
+import '@fortawesome/fontawesome-svg-core/styles.css';
+import Head from 'next/head';
 
-// must use a require here or NextJS will error out
-// https://github.com/vercel/next.js/issues/51949
-const { library } = require('@fortawesome/fontawesome-svg-core');
+// without this, SSR and CSR render different DOM structures; causing a React hydration mismatch
+config.autoAddCss = false;
 
 library.add(
   faBookOpen,
@@ -66,18 +66,24 @@ const globalStyles = css`
 
 const App: React.FC<AppProps> = ({ Component, pageProps }) => {
   return (
-    <Providers>
-      <Global styles={globalStyles} />
-      <Embers />
-      <AppWrapper>
-        <Header />
-        <Main>
-          <Component {...pageProps} />
-          <Analytics />
-        </Main>
-        <Footer />
-      </AppWrapper>
-    </Providers>
+    <>
+      <Head>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Portfolio - Bryce Sayers-Kwan</title>
+      </Head>
+      <Providers>
+        <Global styles={globalStyles} />
+        <Embers />
+        <AppWrapper>
+          <Header />
+          <Main>
+            <Component {...pageProps} />
+            <Analytics />
+          </Main>
+          <Footer />
+        </AppWrapper>
+      </Providers>
+    </>
   );
 };
 

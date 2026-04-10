@@ -1,7 +1,7 @@
 import styled from '@emotion/styled';
 import { motion, type Transition } from 'framer-motion';
 import { useMemo } from 'react';
-import { hexToRGBA, pxToRem } from '~/theme';
+import { hexToRGBA, pxToRem } from '~/theme/utils';
 
 interface HamburgerButtonProps {
   readonly isOpen: boolean;

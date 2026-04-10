@@ -2,42 +2,38 @@ import { useMemo } from 'react';
 import styled from '@emotion/styled';
 import Image from 'next/image';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { IconDefinition } from '@fortawesome/fontawesome-svg-core';
 import {
   faBriefcase,
   faCode,
   faSchool,
 } from '@fortawesome/free-solid-svg-icons';
+import { AboutCard } from '~/app/components/page-specific/about/AboutCard/AboutCard';
+import { Circles } from '~/app/components/background-accents/Circles/Circles';
+import { Heading } from '~/app/components/common/Heading/Heading';
+import { Page } from '~/app/components/layout/Page/Page';
 import {
-  AboutCard,
-  Circles,
-  Heading,
-  Page,
   PageContainer,
   PageContentWrapper,
-} from '~/app/components';
-import { hexToRGBA, theme } from '~/theme';
+} from '~/app/components/page-shared/shared.styled';
+import { hexToRGBA } from '~/theme/utils';
+import { theme } from '~/theme/theme';
 
-// must use a require here or NextJS will error out
-// https://github.com/vercel/next.js/issues/51949
-const { library } = require('@fortawesome/fontawesome-svg-core');
-
-library.add(faSchool, faCode, faBriefcase);
-
-const aboutCardData = [
+const aboutCardData: { icon: IconDefinition; title: string; text: string }[] = [
   {
-    icon: <FontAwesomeIcon icon="school" />,
+    icon: faSchool,
     title: 'Schooling',
     text: 'I graduated from Lighthouse Labs in 2017 with a Web Development Diploma, funded by the First Nations Technology Council.',
   },
   {
-    icon: <FontAwesomeIcon icon="code" />,
+    icon: faCode,
     title: 'My Journey',
     text: 'After graduating, I worked at various start-ups and digital marketing agencies before discovering my passion for building custom web applications.',
   },
   {
-    icon: <FontAwesomeIcon icon="briefcase" />,
+    icon: faBriefcase,
     title: 'Current',
-    text: 'I`m currently a Senior Software Engineer at CasperLabs, a web3 development company, where I lead the front-end team building ProveAI.',
+    text: "I'm currently a Senior Software Engineer at CasperLabs, a web3 development company, where I lead the front-end team building ProveAI.",
   },
 ];
 
@@ -93,7 +89,10 @@ const About: React.FC = () => {
   const cards = useMemo(() => {
     return aboutCardData.map(({ icon, title, text }) => {
       return (
-        <AboutCard key={title} title={title} icon={icon}>
+        <AboutCard
+          key={title}
+          title={title}
+          icon={<FontAwesomeIcon icon={icon} />}>
           <CardText>{text}</CardText>
         </AboutCard>
       );

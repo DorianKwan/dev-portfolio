@@ -1,14 +1,14 @@
 import { useMemo } from 'react';
 import styled from '@emotion/styled';
+import { Heading } from '~/app/components/common/Heading/Heading';
+import { Page } from '~/app/components/layout/Page/Page';
+import { PageContainer } from '~/app/components/page-shared/shared.styled';
 import {
-  Heading,
-  Page,
-  PageContainer,
   Project,
   ProjectCard,
   ProjectType,
-} from '~/app/components';
-import { theme } from '~/theme';
+} from '~/app/components/page-specific/showcase/ProjectCard';
+import { theme } from '~/theme/theme';
 
 const showcaseData: Project[] = [
   {

@@ -1,12 +1,9 @@
 import { useCallback, useEffect, useState } from 'react';
 import { usePathname } from 'next/navigation';
-import {
-  getIsMobileNavOpen,
-  setIsMobileNavOpen,
-  useAppDispatch,
-  useAppSelector,
-} from '~/app/store';
+import { getIsMobileNavOpen } from '~/app/store/selectors/app-selectors';
+import { useAppDispatch, useAppSelector } from '~/app/store/hooks';
 import { useEscape } from './use-escape';
+import { setIsMobileNavOpen } from '~/app/store/slices/app-slice';
 
 export const useMobileNav = () => {
   const dispatch = useAppDispatch();
@@ -14,11 +11,15 @@ export const useMobileNav = () => {
   const [lastPath, setLastPath] = useState(pathname);
   const isOpen = useAppSelector(getIsMobileNavOpen);
 
-  useEscape(() => {
+  const handleEsc = useCallback(() => {
     if (isOpen) {
       dispatch(setIsMobileNavOpen(false));
     }
-  }, [isOpen]);
+  }, [dispatch, isOpen]);
+
+  useEscape(() => {
+    handleEsc();
+  });
 
   // in case the use resizes their browser; close nav
   useEffect(() => {
@@ -33,23 +34,28 @@ export const useMobileNav = () => {
     return () => {
       window.removeEventListener('resize', handleWindowResize);
     };
-  }, [isOpen]);
+  }, [dispatch, isOpen]);
 
   // handle closing the nav after next has changed pages
   useEffect(() => {
     if (lastPath !== pathname) {
       dispatch(setIsMobileNavOpen(false));
+      // lastPath is return & consumed; useRef will not work
+      // eslint-disable-next-line react-hooks/set-state-in-effect
       setLastPath(pathname);
     }
-  }, [lastPath, pathname]);
+  }, [dispatch, lastPath, pathname]);
 
-  const setIsOpen = useCallback((openState: boolean) => {
-    dispatch(setIsMobileNavOpen(openState));
-  }, []);
+  const setIsOpen = useCallback(
+    (openState: boolean) => {
+      dispatch(setIsMobileNavOpen(openState));
+    },
+    [dispatch],
+  );
 
   const toggleIsOpen = useCallback(() => {
     dispatch(setIsMobileNavOpen(!isOpen));
-  }, [isOpen]);
+  }, [dispatch, isOpen]);
 
   return {
     isOpen,

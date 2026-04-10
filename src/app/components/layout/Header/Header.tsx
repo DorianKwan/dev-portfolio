@@ -1,9 +1,11 @@
 import React from 'react';
 import styled from '@emotion/styled';
-import { Blink, LinkButton, ShowOnDesktop } from '~/app/components';
-import { theme } from '~/theme';
-import { MobileNav } from './MobileNav';
-import { DesktopNav } from './DesktopNav';
+import { Blink } from '~/app/components/special/Blink';
+import { LinkButton } from '~/app/components/common/LinkButton/LinkButton';
+import { ShowOnDesktop } from '~/app/components/common/common.styled';
+import { theme } from '~/theme/theme';
+import { MobileNav } from './MobileNav/MobileNav';
+import { DesktopNav } from './DesktopNav/DesktopNav';
 import { Logo } from './header.styled';
 
 export const Header: React.FC = () => {

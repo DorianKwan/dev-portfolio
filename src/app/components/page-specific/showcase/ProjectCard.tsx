@@ -1,9 +1,8 @@
 import { useMemo } from 'react';
-import Image from 'next/image';
 import styled from '@emotion/styled';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { LinkButton } from '../../common';
-import { pxToRem } from '~/theme';
+import { LinkButton } from '../../common/LinkButton/LinkButton';
+import { pxToRem } from '~/theme/utils';
 
 export enum ProjectType {
   Project = 'project',
@@ -68,7 +67,7 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({ project }) => {
       );
     }
     return actions;
-  }, [type, githubUrl]);
+  }, [viewUrl, type, githubUrl]);
 
   return (
     <Card>

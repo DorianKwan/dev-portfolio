@@ -3,7 +3,7 @@ import { usePathname } from 'next/navigation';
 import Link from 'next/link';
 import styled from '@emotion/styled';
 import { BebasNeue } from '~/app/fonts';
-import { theme } from '~/theme';
+import { theme } from '~/theme/theme';
 import { navigationLinks } from '../navigation.data';
 
 export const DesktopNav = () => {
@@ -60,7 +60,7 @@ const NavLink = styled(Link, {
     current ? `0.25rem ${theme.colors.lightPurple} solid` : 'none'};
   transition: color 250ms ease-in-out;
   padding: 0.125rem 0;
-  font-weight: ${({ current, theme }) => (current ? 'bold' : 'normal')};
+  font-weight: ${({ current }) => (current ? 'bold' : 'normal')};
 
   &::after {
     content: '';

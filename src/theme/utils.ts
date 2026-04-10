@@ -41,10 +41,12 @@ export const hexToRGBA = (hexCode: string, opacity: number) => {
     throw new Error(`Invalid blue hex value: ${blue}`);
   }
 
+  let opacityVal = opacity;
+
   /* Backward compatibility for whole number based opacity values. */
   if (opacity > 1 && opacity <= 100) {
-    opacity = opacity / 100;
+    opacityVal = opacity / 100;
   }
 
-  return `rgba(${red}, ${green}, ${blue}, ${opacity})`;
+  return `rgba(${red}, ${green}, ${blue}, ${opacityVal})`;
 };
