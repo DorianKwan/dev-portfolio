@@ -16,7 +16,7 @@ const showcaseData: Project[] = [
     imageUrl: '/png/portfolio.png',
     imageAlt: 'image of my portfolio application',
     description:
-      'Take a look at this site`s repository!  It`s the most up to date public code of mine.  Developed using NextJS, React, styled-component & Vite.',
+      'Take a look at this site`s repository!  It`s the most up to date public code of mine.  Developed using Next.js, React, styled-components & TypeScript.',
     type: ProjectType.Project,
     githubUrl: 'https://github.com/DorianKwan/dev-portfolio',
   },
