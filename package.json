@@ -12,7 +12,7 @@
     "lint:fix": "eslint --fix ./src --report-unused-disable-directives --max-warnings 0",
     "test": "jest",
     "test:watch": "jest --watch",
-    "prepare": "husky"
+    "prepare": "husky || true"
   },
   "dependencies": {
     "@emotion/react": "^11.11.4",
