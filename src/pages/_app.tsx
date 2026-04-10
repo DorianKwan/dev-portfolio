@@ -1,26 +1,26 @@
-import type { AppProps } from 'next/app';
 import { css, Global } from '@emotion/react';
-import { Analytics } from '@vercel/analytics/next';
-import { Header } from '~/app/components/layout/Header/Header';
-import { Main } from '~/app/components/layout/Main/Main';
-import { Footer } from '~/app/components/layout/Footer/Footer';
-import { Embers } from '~/app/components/special/Embers/Embers';
-import { Providers } from '~/app/components/layout/Providers/Providers';
-import { AppWrapper } from '~/app/components/layout/AppWrapper/AppWrapper';
-import { BebasNeue, OpenSans } from '~/app/fonts';
-import '~/app/assets/styles/css-reset.css';
-import { theme } from '~/theme/theme';
+import { config, library } from '@fortawesome/fontawesome-svg-core';
+import { faGithub } from '@fortawesome/free-brands-svg-icons';
 import {
+  faArrowUpRightFromSquare,
   faBookOpen,
   faBriefcase,
   faCode,
   faSchool,
-  faArrowUpRightFromSquare,
 } from '@fortawesome/free-solid-svg-icons';
-import { faGithub } from '@fortawesome/free-brands-svg-icons';
-import { config, library } from '@fortawesome/fontawesome-svg-core';
-import '@fortawesome/fontawesome-svg-core/styles.css';
+import { Analytics } from '@vercel/analytics/next';
+import type { AppProps } from 'next/app';
 import Head from 'next/head';
+import { AppWrapper } from '~/app/components/layout/AppWrapper/AppWrapper';
+import { Footer } from '~/app/components/layout/Footer/Footer';
+import { Header } from '~/app/components/layout/Header/Header';
+import { Main } from '~/app/components/layout/Main/Main';
+import { Providers } from '~/app/components/layout/Providers/Providers';
+import { Embers } from '~/app/components/special/Embers/Embers';
+import { BebasNeue, OpenSans } from '~/app/fonts';
+import { theme } from '~/theme/theme';
+import '~/app/assets/styles/css-reset.css';
+import '@fortawesome/fontawesome-svg-core/styles.css';
 
 // without this, SSR and CSR render different DOM structures; causing a React hydration mismatch
 config.autoAddCss = false;

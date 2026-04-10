@@ -1,6 +1,6 @@
 import React, { useMemo } from 'react';
-import Link from 'next/link';
 import styled from '@emotion/styled';
+import Link from 'next/link';
 import { EmailIcon } from '~/app/components/icons/EmailIcon';
 import { GithubIcon } from '~/app/components/icons/GithubIcon';
 import { LinkedInIcon } from '~/app/components/icons/LinkedInIcon';

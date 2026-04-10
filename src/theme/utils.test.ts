@@ -1,5 +1,5 @@
-import '@testing-library/jest-dom';
 import { hexToRGBA } from './utils';
+import '@testing-library/jest-dom';
 
 // should error if no error is thrown
 const failTest = () => expect(true).toBe(false);

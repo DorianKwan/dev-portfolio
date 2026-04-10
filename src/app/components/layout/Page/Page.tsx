@@ -1,5 +1,5 @@
-import { motion } from 'framer-motion';
 import styled from '@emotion/styled';
+import { motion } from 'framer-motion';
 
 export const Page: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   return (

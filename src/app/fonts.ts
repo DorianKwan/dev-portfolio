@@ -1,5 +1,5 @@
-import localFont from 'next/font/local';
 import { Bebas_Neue, Open_Sans } from 'next/font/google';
+import localFont from 'next/font/local';
 
 export const BebasNeue = Bebas_Neue({
   weight: '400',

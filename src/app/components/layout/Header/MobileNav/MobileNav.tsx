@@ -1,15 +1,15 @@
 import { useMemo } from 'react';
-import Link from 'next/link';
-import { motion, Variants } from 'framer-motion';
 import styled from '@emotion/styled';
-import { useMobileNav } from '~/hooks/use-mobile-nav';
-import { BebasNeue } from '~/app/fonts';
+import { motion, Variants } from 'framer-motion';
+import Link from 'next/link';
 import { Blink } from '~/app/components/special/Blink';
+import { BebasNeue } from '~/app/fonts';
+import { useMobileNav } from '~/hooks/use-mobile-nav';
 import { theme } from '~/theme/theme';
 import { HamburgerButton } from './HamburgerButton/HamburgerButton';
-import { navigationLinks } from '../navigation.data';
-import { Logo } from '../header.styled';
 import { Footer } from '../../Footer/Footer';
+import { Logo } from '../header.styled';
+import { navigationLinks } from '../navigation.data';
 
 const navVariants: Variants = {
   open: {

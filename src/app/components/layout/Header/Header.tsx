@@ -1,12 +1,12 @@
 import React from 'react';
 import styled from '@emotion/styled';
-import { Blink } from '~/app/components/special/Blink';
-import { LinkButton } from '~/app/components/common/LinkButton/LinkButton';
 import { ShowOnDesktop } from '~/app/components/common/common.styled';
+import { LinkButton } from '~/app/components/common/LinkButton/LinkButton';
+import { Blink } from '~/app/components/special/Blink';
 import { theme } from '~/theme/theme';
-import { MobileNav } from './MobileNav/MobileNav';
 import { DesktopNav } from './DesktopNav/DesktopNav';
 import { Logo } from './header.styled';
+import { MobileNav } from './MobileNav/MobileNav';
 
 export const Header: React.FC = () => {
   return (

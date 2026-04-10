@@ -1,14 +1,13 @@
 import { useMemo } from 'react';
 import styled from '@emotion/styled';
-import Image from 'next/image';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { IconDefinition } from '@fortawesome/fontawesome-svg-core';
 import {
   faBriefcase,
   faCode,
   faSchool,
 } from '@fortawesome/free-solid-svg-icons';
-import { AboutCard } from '~/app/components/page-specific/about/AboutCard/AboutCard';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import Image from 'next/image';
 import { Circles } from '~/app/components/background-accents/Circles/Circles';
 import { Heading } from '~/app/components/common/Heading/Heading';
 import { Page } from '~/app/components/layout/Page/Page';
@@ -16,8 +15,9 @@ import {
   PageContainer,
   PageContentWrapper,
 } from '~/app/components/page-shared/shared.styled';
-import { hexToRGBA } from '~/theme/utils';
+import { AboutCard } from '~/app/components/page-specific/about/AboutCard/AboutCard';
 import { theme } from '~/theme/theme';
+import { hexToRGBA } from '~/theme/utils';
 
 const aboutCardData: { icon: IconDefinition; title: string; text: string }[] = [
   {
