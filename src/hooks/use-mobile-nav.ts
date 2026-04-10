@@ -11,11 +11,15 @@ export const useMobileNav = () => {
   const [lastPath, setLastPath] = useState(pathname);
   const isOpen = useAppSelector(getIsMobileNavOpen);
 
-  useEscape(() => {
+  const handleEsc = useCallback(() => {
     if (isOpen) {
       dispatch(setIsMobileNavOpen(false));
     }
-  }, [isOpen]);
+  }, [dispatch, isOpen]);
+
+  useEscape(() => {
+    handleEsc();
+  });
 
   // in case the use resizes their browser; close nav
   useEffect(() => {
