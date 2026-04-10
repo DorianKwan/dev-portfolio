@@ -34,23 +34,28 @@ export const useMobileNav = () => {
     return () => {
       window.removeEventListener('resize', handleWindowResize);
     };
-  }, [isOpen]);
+  }, [dispatch, isOpen]);
 
   // handle closing the nav after next has changed pages
   useEffect(() => {
     if (lastPath !== pathname) {
       dispatch(setIsMobileNavOpen(false));
+      // lastPath is return & consumed; useRef will not work
+      // eslint-disable-next-line react-hooks/set-state-in-effect
       setLastPath(pathname);
     }
-  }, [lastPath, pathname]);
+  }, [dispatch, lastPath, pathname]);
 
-  const setIsOpen = useCallback((openState: boolean) => {
-    dispatch(setIsMobileNavOpen(openState));
-  }, []);
+  const setIsOpen = useCallback(
+    (openState: boolean) => {
+      dispatch(setIsMobileNavOpen(openState));
+    },
+    [dispatch],
+  );
 
   const toggleIsOpen = useCallback(() => {
     dispatch(setIsMobileNavOpen(!isOpen));
-  }, [isOpen]);
+  }, [dispatch, isOpen]);
 
   return {
     isOpen,
