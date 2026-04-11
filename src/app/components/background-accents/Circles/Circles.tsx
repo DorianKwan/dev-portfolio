@@ -4,6 +4,7 @@ export const Circles: React.FC = () => {
   return (
     <CirclesWrapper>
       <svg
+        aria-hidden="true"
         width="820"
         height="800"
         viewBox="0 0 820 800"

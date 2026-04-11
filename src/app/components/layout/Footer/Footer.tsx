@@ -12,6 +12,7 @@ interface FooterLink {
   to: string;
   icon: React.ReactNode;
   key: string;
+  ariaLabel: string;
 }
 
 const footerSocialData: FooterLink[] = [
@@ -19,30 +20,38 @@ const footerSocialData: FooterLink[] = [
     to: 'https://www.github.com/DorianKwan',
     icon: <GithubIcon hoverColor={theme.colors.lightPurple} />,
     key: 'github',
+    ariaLabel: 'GitHub profile',
   },
   {
     to: 'https://www.linkedin.com/in/brycesayerskwan',
     icon: <LinkedInIcon hoverColor={theme.colors.lightPurple} />,
     key: 'linkedin',
+    ariaLabel: 'LinkedIn profile',
   },
   {
     to: 'https://www.upwork.com/freelancers/~01506f13ea9da3fc70?viewMode=1',
     icon: <UpWorkIcon hoverColor={theme.colors.lightPurple} />,
     key: 'upwork',
+    ariaLabel: 'Upwork profile',
   },
   {
     to: 'mailto:bsayerskwan@gmail.com',
     icon: <EmailIcon hoverColor={theme.colors.lightPurple} />,
     key: 'email',
+    ariaLabel: 'Send an email',
   },
 ];
 
 export const Footer: React.FC = () => {
   const footerLinks = useMemo(() => {
-    return footerSocialData.map(({ to, icon, key }) => {
+    return footerSocialData.map(({ to, icon, key, ariaLabel }) => {
       return (
         <FooterLinkWrapper key={key}>
-          <FooterLink href={to} target="_blank">
+          <FooterLink
+            href={to}
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label={ariaLabel}>
             {icon}
           </FooterLink>
         </FooterLinkWrapper>

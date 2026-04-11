@@ -23,7 +23,13 @@ export const Embers: React.FC = () => {
   }, []);
 
   if (particlesInitialized) {
-    return <StyledParticles id="tsparticles" options={particleOptions} />;
+    return (
+      <StyledParticles
+        aria-hidden="true"
+        id="tsparticles"
+        options={particleOptions}
+      />
+    );
   }
 
   return <></>;
