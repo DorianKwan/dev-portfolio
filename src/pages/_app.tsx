@@ -12,6 +12,7 @@ import { Analytics } from '@vercel/analytics/next';
 import type { AppProps } from 'next/app';
 import Head from 'next/head';
 import { AppWrapper } from '~/app/components/layout/AppWrapper/AppWrapper';
+import { ErrorBoundary } from '~/app/components/layout/ErrorBoundary/ErrorBoundary';
 import { Footer } from '~/app/components/layout/Footer/Footer';
 import { Header } from '~/app/components/layout/Header/Header';
 import { Main } from '~/app/components/layout/Main/Main';
@@ -77,7 +78,9 @@ const App: React.FC<AppProps> = ({ Component, pageProps }) => {
         <AppWrapper>
           <Header />
           <Main>
-            <Component {...pageProps} />
+            <ErrorBoundary>
+              <Component {...pageProps} />
+            </ErrorBoundary>
             <Analytics />
           </Main>
           <Footer />
