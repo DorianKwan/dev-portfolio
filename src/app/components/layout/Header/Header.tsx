@@ -27,7 +27,6 @@ const StyledHeader = styled.header`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  gap: 2rem;
   width: 100%;
   height: 6rem;
   background: transparent;
@@ -37,9 +36,18 @@ const StyledHeader = styled.header`
 
   @media only screen and (min-width: ${theme.breakpoints.xmd}) {
     display: grid;
-    grid-template-columns: auto 1fr auto;
+    grid-template-columns: 1fr auto 1fr;
     place-items: center;
+    gap: 0.5rem;
     margin: 0;
+
+    > a:first-of-type {
+      justify-self: start;
+    }
+
+    > div:last-of-type {
+      justify-self: end;
+    }
   }
 
   @media only screen and (min-width: ${theme.breakpoints.lg}) {
