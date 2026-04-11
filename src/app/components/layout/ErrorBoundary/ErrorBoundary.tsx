@@ -1,6 +1,8 @@
 import { Component, type ErrorInfo, type ReactNode } from 'react';
+import { keyframes } from '@emotion/react';
 import styled from '@emotion/styled';
-import { BebasNeue } from '~/app/fonts';
+import { Blink } from '~/app/components/special/Blink';
+import { BebasNeue, Cascadia } from '~/app/fonts';
 import { theme } from '~/theme/theme';
 import { hexToRGBA, pxToRem } from '~/theme/utils';
 
@@ -27,12 +29,17 @@ export class ErrorBoundary extends Component<Props, State> {
     if (this.state.hasError) {
       return (
         <Fallback>
-          <FallbackHeading>Something went wrong</FallbackHeading>
-          <FallbackText>
-            An unexpected error occurred. Try refreshing the page.
-          </FallbackText>
+          <GlitchHeading data-text="FATAL ERROR">FATAL ERROR</GlitchHeading>
+          <TerminalBlock>
+            <TerminalLine error>unhandled exception in render</TerminalLine>
+            <TerminalLine>process exited with code 1</TerminalLine>
+            <TerminalLine>
+              run --refresh to restart
+              <Blink>_</Blink>
+            </TerminalLine>
+          </TerminalBlock>
           <RefreshButton onClick={() => window.location.reload()}>
-            Refresh Page
+            <Prompt>{'>'}</Prompt> refresh
           </RefreshButton>
         </Fallback>
       );
@@ -42,61 +49,126 @@ export class ErrorBoundary extends Component<Props, State> {
   }
 }
 
+// Quiet for most of the cycle — brief burst around 60–70% and again near 88–94%
+const glitch1 = keyframes`
+  0%, 58%, 100% { clip-path: inset(0 0 100% 0); transform: translateX(0) skewX(0deg); }
+  60%            { clip-path: inset(8% 0 78% 0);  transform: translateX(-3px) skewX(-1.5deg); }
+  61.5%          { clip-path: inset(52% 0 32% 0); transform: translateX(3px)  skewX(1deg);    }
+  63%            { clip-path: inset(24% 0 62% 0); transform: translateX(-2px) skewX(-0.5deg); }
+  64.5%          { clip-path: inset(70% 0 14% 0); transform: translateX(2px)  skewX(1.5deg);  }
+  66%, 86%       { clip-path: inset(0 0 100% 0); transform: translateX(0) skewX(0deg); }
+  88%            { clip-path: inset(38% 0 48% 0); transform: translateX(-3px) skewX(1deg);    }
+  89.5%          { clip-path: inset(12% 0 76% 0); transform: translateX(3px)  skewX(-1.5deg); }
+  91%            { clip-path: inset(62% 0 22% 0); transform: translateX(-2px) skewX(0.5deg);  }
+  92.5%          { clip-path: inset(0 0 100% 0); transform: translateX(0) skewX(0deg); }
+`;
+
+// Offset slightly so the two layers don't fire in sync
+const glitch2 = keyframes`
+  0%, 55%, 100% { clip-path: inset(0 0 100% 0); transform: translateX(0) skewX(0deg); }
+  57%            { clip-path: inset(45% 0 42% 0); transform: translateX(3px)  skewX(1.5deg);  }
+  58.5%          { clip-path: inset(18% 0 68% 0); transform: translateX(-3px) skewX(-1deg);   }
+  60%            { clip-path: inset(72% 0 16% 0); transform: translateX(2px)  skewX(0.5deg);  }
+  61.5%          { clip-path: inset(30% 0 56% 0); transform: translateX(-2px) skewX(-1.5deg); }
+  63%, 83%       { clip-path: inset(0 0 100% 0); transform: translateX(0) skewX(0deg); }
+  85%            { clip-path: inset(56% 0 28% 0); transform: translateX(-3px) skewX(-0.5deg); }
+  86.5%          { clip-path: inset(6% 0 82% 0);  transform: translateX(3px)  skewX(1deg);    }
+  88%            { clip-path: inset(42% 0 44% 0); transform: translateX(-2px) skewX(-1.5deg); }
+  89.5%          { clip-path: inset(0 0 100% 0); transform: translateX(0) skewX(0deg); }
+`;
+
 const Fallback = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: 1.25rem;
+  gap: 2rem;
   height: 100%;
   text-align: center;
   padding: 2rem;
 `;
 
-const FallbackHeading = styled.h2`
+const GlitchHeading = styled.h2`
+  position: relative;
   font-family: ${BebasNeue.style.fontFamily};
-  font-size: 3rem;
+  font-size: clamp(3.5rem, 8vw, 6rem);
   color: ${theme.colors.white};
   letter-spacing: 0.1rem;
+
+  &::before,
+  &::after {
+    content: attr(data-text);
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: ${theme.colors.background};
+    overflow: hidden;
+  }
+
+  &::before {
+    left: 3px;
+    text-shadow: -2px 0 ${theme.colors.lightPurple};
+    animation: ${glitch1} 4s steps(1) infinite;
+  }
+
+  &::after {
+    left: -3px;
+    text-shadow: 2px 0 ${theme.colors.lightBlue};
+    animation: ${glitch2} 4s steps(1) infinite;
+    animation-delay: 300ms;
+  }
 `;
 
-const FallbackText = styled.p`
-  color: ${hexToRGBA(theme.colors.white, 0.5)};
-  font-size: 1.125rem;
+const TerminalBlock = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  background: ${hexToRGBA(theme.colors.white, 0.02)};
+  border: ${pxToRem(1)} solid ${hexToRGBA(theme.colors.white, 0.08)};
+  padding: 1.5rem 2rem;
+  text-align: left;
+  width: 100%;
+  max-width: 30rem;
+`;
+
+const TerminalLine = styled.p<{ error?: boolean }>`
+  font-family: ${Cascadia.style.fontFamily};
+  font-size: 0.9rem;
+  color: ${({ error, theme }) =>
+    error ? theme.colors.errorText : hexToRGBA(theme.colors.white, 0.6)};
+  line-height: 1.8;
+
+  &::before {
+    content: '> ';
+    color: ${theme.colors.lightPurple};
+  }
 `;
 
 const RefreshButton = styled.button`
-  position: relative;
   display: flex;
   align-items: center;
-  justify-content: center;
-  padding: 0.75rem 2.5rem;
-  background: ${theme.colors.bluePurple};
-  color: ${theme.colors.white};
-  border: ${pxToRem(1)} solid ${theme.colors.bluePurple};
-  font-family: ${BebasNeue.style.fontFamily};
-  font-size: 1.325rem;
+  gap: 0.5rem;
+  padding: 0.6rem 1.75rem;
+  background: transparent;
+  color: ${hexToRGBA(theme.colors.white, 0.7)};
+  border: ${pxToRem(1)} solid ${hexToRGBA(theme.colors.white, 0.15)};
+  font-family: ${Cascadia.style.fontFamily};
+  font-size: 0.9rem;
   cursor: pointer;
-  transition: filter 200ms ease-in-out;
-  margin-top: 0.5rem;
-
-  &::after {
-    content: '';
-    position: absolute;
-    height: 0.25rem;
-    width: 0;
-    bottom: -0.125rem;
-    left: 0;
-    background-color: ${theme.colors.lightPurple};
-    transition: width 250ms ease-in-out;
-  }
+  transition:
+    color 200ms ease-in-out,
+    border-color 200ms ease-in-out;
 
   &:hover,
   &:focus {
-    filter: brightness(125%);
-
-    &::after {
-      width: 100%;
-    }
+    color: ${theme.colors.white};
+    border-color: ${theme.colors.lightPurple};
   }
+`;
+
+const Prompt = styled.span`
+  color: ${theme.colors.lightPurple};
+  font-family: ${Cascadia.style.fontFamily};
 `;
