@@ -1,4 +1,4 @@
-import { Component, type ErrorInfo, type ReactNode } from 'react';
+import { Component, createRef, type ErrorInfo, type ReactNode } from 'react';
 import { keyframes } from '@emotion/react';
 import styled from '@emotion/styled';
 import { Blink } from '~/app/components/special/Blink';
@@ -16,6 +16,7 @@ interface State {
 
 export class ErrorBoundary extends Component<Props, State> {
   state: State = { hasError: false };
+  private dialogRef = createRef<HTMLDialogElement>();
 
   static getDerivedStateFromError(): State {
     return { hasError: true };
@@ -25,23 +26,35 @@ export class ErrorBoundary extends Component<Props, State> {
     console.error('ErrorBoundary caught an error:', error, info);
   }
 
+  componentDidUpdate(_: Props, prevState: State) {
+    if (!prevState.hasError && this.state.hasError) {
+      this.dialogRef.current?.showModal();
+    }
+  }
+
   render() {
     if (this.state.hasError) {
       return (
-        <Fallback>
-          <GlitchHeading data-text="FATAL ERROR">FATAL ERROR</GlitchHeading>
-          <TerminalBlock>
-            <TerminalLine error>unhandled exception in render</TerminalLine>
-            <TerminalLine>process exited with code 1</TerminalLine>
-            <TerminalLine>
-              run --refresh to restart
-              <Blink>_</Blink>
-            </TerminalLine>
-          </TerminalBlock>
-          <RefreshButton onClick={() => window.location.reload()}>
-            <Prompt>{'>'}</Prompt> refresh
-          </RefreshButton>
-        </Fallback>
+        <StyledDialog
+          ref={this.dialogRef}
+          onCancel={(e: React.SyntheticEvent<HTMLDialogElement>) =>
+            e.preventDefault()
+          }>
+          <Card>
+            <GlitchHeading data-text="FATAL ERROR">FATAL ERROR</GlitchHeading>
+            <TerminalBlock>
+              <TerminalLine error>unhandled exception in render</TerminalLine>
+              <TerminalLine>process exited with code 1</TerminalLine>
+              <TerminalLine>
+                run --refresh to restart
+                <Blink>_</Blink>
+              </TerminalLine>
+            </TerminalBlock>
+            <RefreshButton onClick={() => window.location.reload()}>
+              <Prompt>{'>'}</Prompt> refresh
+            </RefreshButton>
+          </Card>
+        </StyledDialog>
       );
     }
 
@@ -77,15 +90,38 @@ const glitch2 = keyframes`
   89.5%          { clip-path: inset(0 0 100% 0); transform: translateX(0) skewX(0deg); }
 `;
 
-const Fallback = styled.div`
+const StyledDialog = styled.dialog`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: transparent;
+  border: none;
+  padding: 0;
+  max-width: 100dvw;
+  max-height: 100dvh;
+  width: 100dvw;
+  height: 100dvh;
+
+  &::backdrop {
+    background: ${hexToRGBA(theme.colors.background, 0.85)};
+    backdrop-filter: blur(4px);
+  }
+`;
+
+const Card = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
   gap: 2rem;
-  height: 100%;
   text-align: center;
-  padding: 2rem;
+  background: ${theme.colors.background};
+  border: ${pxToRem(1)} solid ${hexToRGBA(theme.colors.white, 0.1)};
+  box-shadow:
+    0 0 60px ${hexToRGBA(theme.colors.lightPurple, 0.08)},
+    0 20px 60px ${hexToRGBA(theme.colors.black, 0.8)};
+  padding: 3rem 2.5rem;
+  width: 90%;
+  max-width: 38rem;
 `;
 
 const GlitchHeading = styled.h2`
