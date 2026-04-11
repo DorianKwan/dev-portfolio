@@ -12,14 +12,15 @@ interface Props {
 
 interface State {
   hasError: boolean;
+  isRefreshing: boolean;
 }
 
 export class ErrorBoundary extends Component<Props, State> {
-  state: State = { hasError: false };
+  state: State = { hasError: false, isRefreshing: false };
   private dialogRef = createRef<HTMLDialogElement>();
 
   static getDerivedStateFromError(): State {
-    return { hasError: true };
+    return { hasError: true, isRefreshing: false };
   }
 
   componentDidCatch(error: Error, info: ErrorInfo) {
@@ -29,11 +30,27 @@ export class ErrorBoundary extends Component<Props, State> {
   componentDidUpdate(_: Props, prevState: State) {
     if (!prevState.hasError && this.state.hasError) {
       this.dialogRef.current?.showModal();
+      document.addEventListener('keyup', this.handleKeyUp);
     }
   }
 
+  componentWillUnmount() {
+    document.removeEventListener('keyup', this.handleKeyUp);
+  }
+
+  private handleRefresh = () => {
+    this.setState({ isRefreshing: true });
+    window.location.reload();
+  };
+
+  private handleKeyUp = (e: KeyboardEvent) => {
+    if (e.key === 'Enter') this.handleRefresh();
+  };
+
   render() {
-    if (this.state.hasError) {
+    const { hasError, isRefreshing } = this.state;
+
+    if (hasError) {
       return (
         <StyledDialog
           ref={this.dialogRef}
@@ -41,18 +58,44 @@ export class ErrorBoundary extends Component<Props, State> {
             e.preventDefault()
           }>
           <Card>
-            <GlitchHeading data-text="FATAL ERROR">FATAL ERROR</GlitchHeading>
+            <div>
+              <GlitchHeading data-text="FATAL ERROR">FATAL ERROR</GlitchHeading>
+              <GlitchDescription>
+                Hit enter or click the button to refresh the page.
+              </GlitchDescription>
+            </div>
             <TerminalBlock>
               <TerminalLine error>unhandled exception in render</TerminalLine>
               <TerminalLine>process exited with code 1</TerminalLine>
-              <TerminalLine>
-                run --refresh to restart
-                <Blink>_</Blink>
-              </TerminalLine>
+              <TerminalDivider />
+              {isRefreshing ? (
+                <TerminalLine>
+                  restarting...
+                  <Spinner />
+                </TerminalLine>
+              ) : (
+                <TerminalForm
+                  onSubmit={(e: React.SubmitEvent) => {
+                    e.preventDefault();
+                    this.handleRefresh();
+                  }}>
+                  <TerminalPromptSymbol>{'>'}</TerminalPromptSymbol>
+                  <TerminalInputArea>
+                    <TerminalInput
+                      defaultValue="run --refresh"
+                      size={13}
+                      readOnly
+                      autoComplete="off"
+                      spellCheck={false}
+                    />
+                    <BlinkWrapper>
+                      <Blink>_</Blink>
+                    </BlinkWrapper>
+                  </TerminalInputArea>
+                  <TerminalRunButton type="submit">↵</TerminalRunButton>
+                </TerminalForm>
+              )}
             </TerminalBlock>
-            <RefreshButton onClick={() => window.location.reload()}>
-              <Prompt>{'>'}</Prompt> refresh
-            </RefreshButton>
           </Card>
         </StyledDialog>
       );
@@ -119,9 +162,9 @@ const Card = styled.div`
   box-shadow:
     0 0 60px ${hexToRGBA(theme.colors.lightPurple, 0.08)},
     0 20px 60px ${hexToRGBA(theme.colors.black, 0.8)};
-  padding: 3rem 2.5rem;
-  width: 90%;
-  max-width: 38rem;
+  padding: 3rem 4rem 3.5rem 4rem;
+  width: 100%;
+  max-width: 40rem;
 `;
 
 const GlitchHeading = styled.h2`
@@ -157,13 +200,18 @@ const GlitchHeading = styled.h2`
   }
 `;
 
+const GlitchDescription = styled.p`
+  font-size: 1rem;
+  color: ${({ theme }) => theme.colors.copyText};
+`;
+
 const TerminalBlock = styled.div`
   display: flex;
   flex-direction: column;
   gap: 0.25rem;
   background: ${hexToRGBA(theme.colors.white, 0.02)};
   border: ${pxToRem(1)} solid ${hexToRGBA(theme.colors.white, 0.08)};
-  padding: 1.5rem 2rem;
+  padding: 1rem 2rem 0.75rem 2rem;
   text-align: left;
   width: 100%;
   max-width: 30rem;
@@ -182,29 +230,87 @@ const TerminalLine = styled.p<{ error?: boolean }>`
   }
 `;
 
-const RefreshButton = styled.button`
+const TerminalDivider = styled.hr`
+  border: none;
+  border-top: ${pxToRem(1)} solid ${hexToRGBA(theme.colors.white, 0.06)};
+  margin: 0.5rem 0;
+`;
+
+const TerminalForm = styled.form`
   display: flex;
   align-items: center;
   gap: 0.5rem;
-  padding: 0.6rem 1.75rem;
-  background: transparent;
-  color: ${hexToRGBA(theme.colors.white, 0.7)};
-  border: ${pxToRem(1)} solid ${hexToRGBA(theme.colors.white, 0.15)};
+`;
+
+const TerminalPromptSymbol = styled.span`
+  color: ${theme.colors.lightPurple};
   font-family: ${Cascadia.style.fontFamily};
   font-size: 0.9rem;
-  cursor: pointer;
-  transition:
-    color 200ms ease-in-out,
-    border-color 200ms ease-in-out;
+  user-select: none;
+  flex-shrink: 0;
+`;
 
-  &:hover,
-  &:focus {
-    color: ${theme.colors.white};
-    border-color: ${theme.colors.lightPurple};
+const TerminalInputArea = styled.div`
+  display: flex;
+  align-items: center;
+  flex: 1;
+  min-width: 0;
+`;
+
+const TerminalInput = styled.input`
+  background: transparent;
+  border: none;
+  outline: none;
+  color: ${hexToRGBA(theme.colors.white, 0.8)};
+  font-family: ${Cascadia.style.fontFamily};
+  font-size: 0.9rem;
+  width: fit-content;
+  cursor: default;
+`;
+
+const BlinkWrapper = styled.span`
+  font-size: 1.2rem;
+  line-height: 1;
+  position: relative;
+  left: -1.75rem;
+`;
+
+const spin = keyframes`
+  0%   { content: '|'; }
+  25%  { content: '/'; }
+  50%  { content: '-'; }
+  75%  { content: '\\\\'; }
+`;
+
+const Spinner = styled.span`
+  &::after {
+    content: '|';
+    animation: ${spin} 0.5s steps(4) infinite;
+    color: ${theme.colors.lightPurple};
+    margin-left: 0.4rem;
   }
 `;
 
-const Prompt = styled.span`
-  color: ${theme.colors.lightPurple};
+const pulse = keyframes`
+  0%, 100% { color: ${theme.colors.lightPurple}; border-color: ${theme.colors.lightPurple}; }
+  50%       { color: ${hexToRGBA(theme.colors.lightPurple, 0.35)}; border-color: ${hexToRGBA(theme.colors.lightPurple, 0.35)}; }
+`;
+
+const TerminalRunButton = styled.button`
+  flex-shrink: 0;
+  background: transparent;
+  border: ${pxToRem(1)} solid ${hexToRGBA(theme.colors.lightPurple, 0.4)};
+  color: ${hexToRGBA(theme.colors.lightPurple, 0.4)};
   font-family: ${Cascadia.style.fontFamily};
+  font-size: 1.25rem;
+  padding: 0 1.5rem;
+  cursor: pointer;
+  animation: ${pulse} 1.2s ease-in-out infinite;
+
+  &:hover,
+  &:focus {
+    animation: none;
+    color: ${theme.colors.lightPurple};
+    border-color: ${theme.colors.lightPurple};
+  }
 `;
