@@ -24,7 +24,9 @@ export const HamburgerButton: React.FC<HamburgerButtonProps> = ({
       initial={false}
       type="button"
       onClick={() => setIsOpen(!isOpen)}
-      animate={isOpen ? 'open' : 'closed'}>
+      animate={isOpen ? 'open' : 'closed'}
+      aria-label={isOpen ? 'Close menu' : 'Open menu'}
+      aria-expanded={isOpen}>
       <HamburgerLine
         style={{
           left: '50%',

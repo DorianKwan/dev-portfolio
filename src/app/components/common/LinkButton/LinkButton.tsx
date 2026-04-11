@@ -24,6 +24,7 @@ export const LinkButton: React.FC<LinkButtonProps> = ({
   href,
   buttonType,
   external,
+  rel,
   ...restOfLinkButtonProps
 }) => {
   return (
@@ -31,6 +32,7 @@ export const LinkButton: React.FC<LinkButtonProps> = ({
       className={className}
       href={href}
       target={external ? '_blank' : ''}
+      rel={external ? (rel ?? 'noopener noreferrer') : rel}
       buttonType={buttonType}
       {...restOfLinkButtonProps}>
       {children}

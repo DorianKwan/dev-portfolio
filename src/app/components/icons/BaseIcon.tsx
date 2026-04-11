@@ -13,7 +13,10 @@ export const BaseIcon: React.FC<BaseIconProps> = ({ icon, ...iconProps }) => {
   return <StyledIconWrapper {...iconProps}>{icon}</StyledIconWrapper>;
 };
 
-const StyledIconWrapper = styled.div<IconProps>`
+const StyledIconWrapper = styled.span<IconProps>`
+  display: inline-flex;
+  align-items: center;
+
   svg {
     height: ${({ size }) => size ?? '2rem'};
     width: ${({ size }) => size ?? '2rem'};

@@ -33,7 +33,7 @@ const Contact: React.FC = () => {
                 e.preventDefault();
                 setIsDrawerOpen(true);
               }}>
-              Say hi <span>👋</span>
+              Say hi <span aria-hidden="true">👋</span>
             </LinkButton>
           </CTAContainer>
         </PageContentWrapper>
