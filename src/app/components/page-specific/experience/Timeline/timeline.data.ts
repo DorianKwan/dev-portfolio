@@ -23,7 +23,7 @@ export const timelineData = [
   {
     key: 'casper-labs',
     title: 'Casper Labs',
-    time: '2022 - 2023',
+    time: '2022 - 2024',
     content:
       "I translated those skills in the web3 space at Casper Labs. Where I defined their stack, architecture, and engineering standards developing dApps on a greenfield team. Later tasked with overseeing an external contractor team's product delivery and raised technical concerns that went unheeded. I built a production-ready alternative solo in three weeks; when the contractor's demo failed at the two-month mark, the company adopted the backup instead.",
   },
