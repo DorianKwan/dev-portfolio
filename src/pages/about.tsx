@@ -33,7 +33,7 @@ const aboutCardData: { icon: IconDefinition; title: string; text: string }[] = [
   {
     icon: faBriefcase,
     title: "What's Next",
-    text: "After my tenure at Prove AI, I'm actively seeking my next challenge. I'm most excited by early-stage startups where I can make a meaningful impact across the full stack.",
+    text: "After my tenure at Prove AI, I'm seeking my next challenge. I'm most excited by early-stage startups where I can make a meaningful impact across the full stack.",
   },
 ];
 
