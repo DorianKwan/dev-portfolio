@@ -32,7 +32,7 @@ const config: Config = {
 
   // Handle custom aliasing in the project
   moduleNameMapper: {
-    '~/(.*)$': '<rootDir>/$1',
+    '~/(.*)$': '<rootDir>/src/$1',
   },
 
   // Add more setup options before each test is run
