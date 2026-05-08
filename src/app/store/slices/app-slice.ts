@@ -2,10 +2,12 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
 export interface AppState {
   isMobileNavOpen: boolean;
+  isContactDrawerOpen: boolean;
 }
 
 const initialState: AppState = {
   isMobileNavOpen: false,
+  isContactDrawerOpen: false,
 };
 
 export const appSlice = createSlice({
@@ -15,7 +17,10 @@ export const appSlice = createSlice({
     setIsMobileNavOpen: (state, { payload }: PayloadAction<boolean>) => {
       state.isMobileNavOpen = payload;
     },
+    setIsContactDrawerOpen: (state, { payload }: PayloadAction<boolean>) => {
+      state.isContactDrawerOpen = payload;
+    },
   },
 });
 
-export const { setIsMobileNavOpen } = appSlice.actions;
+export const { setIsMobileNavOpen, setIsContactDrawerOpen } = appSlice.actions;
