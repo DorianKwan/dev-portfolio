@@ -4,20 +4,25 @@ import { AnimatePresence, motion } from 'framer-motion';
 import { useRouter } from 'next/router';
 import { Heading } from '~/app/components/common/Heading/Heading';
 import { Page } from '~/app/components/layout/Page/Page';
+import { Skills } from '~/app/components/page-specific/experience/Skills/Skills';
 import { Timeline } from '~/app/components/page-specific/experience/Timeline/Timeline';
 import { WorkHistory } from '~/app/components/page-specific/experience/WorkHistory/WorkHistory';
 import { BebasNeue } from '~/app/fonts';
 import { theme } from '~/theme/theme';
 import { hexToRGBA } from '~/theme/utils';
 
-type View = 'work-history' | 'timeline';
+type View = 'work-history' | 'skills' | 'timeline';
+
+const VIEWS: View[] = ['work-history', 'skills', 'timeline'];
 
 const Experience: React.FC = () => {
   const router = useRouter();
   const [isPending, setIsPending] = useState(false);
 
-  const view: View =
-    router.query.view === 'timeline' ? 'timeline' : 'work-history';
+  const queryView = router.query.view;
+  const view: View = VIEWS.includes(queryView as View)
+    ? (queryView as View)
+    : 'work-history';
 
   const setView = (newView: View) => {
     if (isPending) return;
@@ -53,6 +58,12 @@ const Experience: React.FC = () => {
             Work History
           </ToggleButton>
           <ToggleButton
+            active={router.isReady && view === 'skills'}
+            disabled={isPending}
+            onClick={() => setView('skills')}>
+            Skills
+          </ToggleButton>
+          <ToggleButton
             active={router.isReady && view === 'timeline'}
             disabled={isPending}
             onClick={() => setView('timeline')}>
@@ -67,7 +78,13 @@ const Experience: React.FC = () => {
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -10 }}
               transition={{ duration: 0.2 }}>
-              {view === 'work-history' ? <WorkHistory /> : <Timeline />}
+              {view === 'work-history' ? (
+                <WorkHistory />
+              ) : view === 'skills' ? (
+                <Skills />
+              ) : (
+                <Timeline />
+              )}
             </motion.div>
           )}
         </AnimatePresence>
