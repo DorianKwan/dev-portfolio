@@ -2,19 +2,16 @@ import { useEffect, useRef } from 'react';
 import styled from '@emotion/styled';
 import { AnimatePresence, motion } from 'framer-motion';
 import { BebasNeue } from '~/app/fonts';
+import { useAppDispatch, useAppSelector } from '~/app/store/hooks';
+import { getIsContactDrawerOpen } from '~/app/store/selectors/app-selectors';
+import { setIsContactDrawerOpen } from '~/app/store/slices/app-slice';
 import { theme } from '~/theme/theme';
 import { hexToRGBA } from '~/theme/utils';
 import { ContactForm } from './ContactForm';
 
-interface ContactDrawerProps {
-  isOpen: boolean;
-  onClose: () => void;
-}
-
-export const ContactDrawer: React.FC<ContactDrawerProps> = ({
-  isOpen,
-  onClose,
-}) => {
+export const ContactDrawer = () => {
+  const isOpen = useAppSelector(getIsContactDrawerOpen);
+  const dispatch = useAppDispatch();
   const dialogRef = useRef<HTMLDialogElement>(null);
 
   useEffect(() => {
@@ -32,10 +29,14 @@ export const ContactDrawer: React.FC<ContactDrawerProps> = ({
     document.body.style.overflow = '';
   };
 
+  const handleClose = () => {
+    dispatch(setIsContactDrawerOpen(false));
+  };
+
   // Intercept native Escape close so we can animate out first
   const handleCancel = (e: React.SyntheticEvent) => {
     e.preventDefault();
-    onClose();
+    handleClose();
   };
 
   return (
@@ -48,7 +49,7 @@ export const ContactDrawer: React.FC<ContactDrawerProps> = ({
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
               transition={{ duration: 0.25 }}
-              onClick={onClose}
+              onClick={handleClose}
             />
             <DrawerPanel
               initial={{ x: '100%' }}
@@ -57,11 +58,13 @@ export const ContactDrawer: React.FC<ContactDrawerProps> = ({
               transition={{ type: 'spring', damping: 30, stiffness: 280 }}>
               <DrawerHeader>
                 <DrawerTitle>Get In Touch</DrawerTitle>
-                <CloseButton onClick={onClose} aria-label="Close contact form">
+                <CloseButton
+                  onClick={handleClose}
+                  aria-label="Close contact form">
                   ✕
                 </CloseButton>
               </DrawerHeader>
-              <ContactForm onClose={onClose} />
+              <ContactForm onClose={handleClose} />
             </DrawerPanel>
           </>
         )}
