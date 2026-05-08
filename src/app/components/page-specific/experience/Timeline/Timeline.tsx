@@ -65,19 +65,19 @@ export const Timeline: React.FC = () => {
   );
 };
 
-const experienceBreakpoint = theme.breakpoints.sm;
+const experienceBreakpoint = theme.breakpoints.md;
 
 const TimelineContainer = styled.section`
   position: relative;
   display: grid;
   grid-template-rows: repeat(5, auto);
   gap: 2rem 1rem;
-  margin-top: 3rem;
+  margin-top: 2rem;
   margin-bottom: 1rem;
   max-width: ${pxToRem(1000)};
 
   @media only screen and (min-width: ${experienceBreakpoint}) {
-    margin: 3rem 0;
+    margin: 2rem 0;
     grid-template-columns: 1fr 1fr;
   }
 
