@@ -38,6 +38,13 @@ const Experience: React.FC = () => {
     <Page>
       <ExperienceLayout>
         <Heading>Experience</Heading>
+        <Overview>
+          High agency senior full-stack engineer (~9 years experience) who
+          thrives in ambiguity. Deep expertise in TypeScript, React, Node.js,
+          system architecture, cloud infrastructure, DevOps tooling, and applied
+          AI workflows.
+        </Overview>
+        <Divider />
         <ToggleGroup role="group" aria-label="View toggle">
           <ToggleButton
             active={router.isReady && view === 'work-history'}
@@ -75,6 +82,25 @@ const ExperienceLayout = styled.section`
   display: flex;
   flex-direction: column;
   align-items: center;
+`;
+
+const Overview = styled.p`
+  max-width: 70ch;
+  margin-top: 1rem;
+  padding-bottom: 1rem;
+  line-height: 1.75;
+  color: ${({ theme }) => hexToRGBA(theme.colors.white, 0.6)};
+  text-align: center;
+`;
+
+const Divider = styled.hr`
+  width: 100%;
+  max-width: 70ch;
+  margin: 0;
+  margin-top: 0.75rem;
+  padding-bottom: 0.75rem;
+  border: none;
+  border-top: 1px solid ${({ theme }) => hexToRGBA(theme.colors.white, 0.1)};
 `;
 
 const ToggleGroup = styled.div`
