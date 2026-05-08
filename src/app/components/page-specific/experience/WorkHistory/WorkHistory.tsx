@@ -4,6 +4,18 @@ import { theme } from '~/theme/theme';
 import { hexToRGBA, interpolateHex, pxToRem } from '~/theme/utils';
 import { workHistoryData } from './workHistory.data';
 
+const renderBullet = (text: string): React.ReactNode => {
+  return text.split(/(\*\*[^*]+\*\*)/g).map((part, i) =>
+    part.startsWith('**') && part.endsWith('**') ? (
+      // static content; no concerns with performance
+      // eslint-disable-next-line react/no-array-index-key
+      <strong key={i}>{part.slice(2, -2)}</strong>
+    ) : (
+      part
+    ),
+  );
+};
+
 export const WorkHistory: React.FC = () => {
   const total = workHistoryData.length;
 
@@ -30,7 +42,7 @@ export const WorkHistory: React.FC = () => {
             </EntryHeader>
             <EntryBullets>
               {bullets.map((bullet, j) => (
-                <li key={j}>{bullet}</li>
+                <li key={j}>{renderBullet(bullet)}</li>
               ))}
             </EntryBullets>
           </Entry>
