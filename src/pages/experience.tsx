@@ -97,8 +97,8 @@ const Divider = styled.hr`
   width: 100%;
   max-width: 70ch;
   margin: 0;
-  margin-top: 0.75rem;
-  padding-bottom: 0.75rem;
+  margin-top: 1rem;
+  padding-bottom: 1rem;
   border: none;
   border-top: 1px solid ${({ theme }) => hexToRGBA(theme.colors.white, 0.1)};
 `;
