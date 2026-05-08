@@ -1,24 +1,85 @@
-import { useMemo } from 'react';
+import { useLayoutEffect, useRef } from 'react';
 import styled from '@emotion/styled';
 import { Heading } from '~/app/components/common/Heading/Heading';
 import { theme } from '~/theme/theme';
 import { hexToRGBA, pxToRem } from '~/theme/utils';
 import { timelineData } from './timeline.data';
 
+function interpolateHex(hex1: string, hex2: string, t: number): string {
+  const parse = (h: string) => [
+    parseInt(h.slice(1, 3), 16),
+    parseInt(h.slice(3, 5), 16),
+    parseInt(h.slice(5, 7), 16),
+  ];
+
+  const [r1, g1, b1] = parse(hex1);
+  const [r2, g2, b2] = parse(hex2);
+
+  const r = Math.round(r1 + (r2 - r1) * t);
+  const g = Math.round(g1 + (g2 - g1) * t);
+  const b = Math.round(b1 + (b2 - b1) * t);
+
+  return `#${r.toString(16).padStart(2, '0')}${g.toString(16).padStart(2, '0')}${b.toString(16).padStart(2, '0')}`;
+}
+
 export const Timeline: React.FC = () => {
-  const timeline = useMemo(() => {
-    return timelineData.map(({ key, title, time, content }) => {
-      return (
-        <ExperienceWrapper key={key}>
-          <ExperienceHeading>{title}</ExperienceHeading>
-          <ExperienceTime>{time}</ExperienceTime>
-          <ExperienceText>{content}</ExperienceText>
-        </ExperienceWrapper>
-      );
-    });
+  const containerRef = useRef<HTMLDivElement>(null);
+  const nodeRefs = useRef<(HTMLDivElement | null)[]>([]);
+
+  useLayoutEffect(() => {
+    const container = containerRef.current;
+
+    const nodes = nodeRefs.current.filter(
+      (n): n is HTMLDivElement => n !== null,
+    );
+
+    if (!container || nodes.length < 2) return;
+
+    const update = () => {
+      const first = nodes[0];
+      const last = nodes[nodes.length - 1];
+      const barTop = first.offsetTop + first.offsetHeight / 2;
+      const barBottom = last.offsetTop + last.offsetHeight / 2;
+
+      container.style.setProperty('--bar-top', `${barTop}px`);
+      container.style.setProperty('--bar-height', `${barBottom - barTop}px`);
+    };
+
+    update();
+
+    const ro = new ResizeObserver(update);
+    ro.observe(container);
+
+    nodes.forEach(node => ro.observe(node));
+
+    return () => ro.disconnect();
   }, []);
 
-  return <TimelineContainer>{timeline}</TimelineContainer>;
+  const total = timelineData.length;
+
+  return (
+    <TimelineContainer ref={containerRef}>
+      {timelineData.map(({ key, title, time, content }, i) => {
+        const dotColor = interpolateHex(
+          theme.colors.experienceOne,
+          theme.colors.experienceFive,
+          total > 1 ? i / (total - 1) : 0,
+        );
+        return (
+          <ExperienceWrapper
+            key={key}
+            ref={node => {
+              nodeRefs.current[i] = node;
+            }}
+            style={{ '--dot-color': dotColor } as React.CSSProperties}>
+            <ExperienceHeading>{title}</ExperienceHeading>
+            <ExperienceTime>{time}</ExperienceTime>
+            <ExperienceText>{content}</ExperienceText>
+          </ExperienceWrapper>
+        );
+      })}
+    </TimelineContainer>
+  );
 };
 
 const experienceBreakpoint = theme.breakpoints.sm;
@@ -40,8 +101,8 @@ const TimelineContainer = styled.section`
   &::after {
     content: '';
     position: absolute;
-    height: 80%;
-    top: 7.5%;
+    height: var(--bar-height, 80%);
+    top: var(--bar-top, 7.5%);
     left: 0.75rem;
     width: ${pxToRem(8)};
     background: ${({ theme }) =>
@@ -72,14 +133,15 @@ const ExperienceWrapper = styled.div`
     background-color: ${({ theme }) => theme.colors.white};
     width: 1.325rem;
     height: 1.325rem;
-    border: 0.325rem solid;
-    top: 45%;
+    border: 0.325rem solid var(--dot-color);
+    top: 50%;
+    transform: translateY(-50%);
     z-index: 1;
 
     @media only screen and (min-width: ${experienceBreakpoint}) {
       width: 1.5rem;
       height: 1.5rem;
-      border: 0.4rem solid;
+      border-width: 0.4rem;
     }
   }
 
@@ -111,41 +173,6 @@ const ExperienceWrapper = styled.div`
         left: unset;
         right: -0.75rem;
       }
-    }
-  }
-
-  &:nth-of-type(1) {
-    &::after {
-      border-color: ${({ theme }) => theme.colors.experienceOne};
-      top: 47.5%;
-
-      @media only screen and (min-width: ${experienceBreakpoint}) {
-        top: 45%;
-      }
-    }
-  }
-
-  &:nth-of-type(2) {
-    &::after {
-      border-color: ${({ theme }) => theme.colors.experienceTwo};
-    }
-  }
-
-  &:nth-of-type(3) {
-    &::after {
-      border-color: ${({ theme }) => theme.colors.experienceThree};
-    }
-  }
-
-  &:nth-of-type(4) {
-    &::after {
-      border-color: ${({ theme }) => theme.colors.experienceFour};
-    }
-  }
-
-  &:nth-of-type(5) {
-    &::after {
-      border-color: ${({ theme }) => theme.colors.experienceFive};
     }
   }
 `;
