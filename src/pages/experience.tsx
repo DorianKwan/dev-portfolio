@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import styled from '@emotion/styled';
 import { AnimatePresence, motion } from 'framer-motion';
+import { useRouter } from 'next/router';
 import { Heading } from '~/app/components/common/Heading/Heading';
 import { Page } from '~/app/components/layout/Page/Page';
 import { Timeline } from '~/app/components/page-specific/experience/Timeline/Timeline';
@@ -12,7 +13,26 @@ import { hexToRGBA } from '~/theme/utils';
 type View = 'work-history' | 'timeline';
 
 const Experience: React.FC = () => {
-  const [view, setView] = useState<View>('work-history');
+  const router = useRouter();
+  const [isPending, setIsPending] = useState(false);
+
+  const view: View =
+    router.query.view === 'timeline' ? 'timeline' : 'work-history';
+
+  const setView = (newView: View) => {
+    if (isPending) return;
+
+    setIsPending(true);
+
+    router
+      .replace({ query: { view: newView } }, undefined, {
+        shallow: true,
+      })
+      .then(() => {
+        setIsPending(false);
+      })
+      .catch(e => console.error(e));
+  };
 
   return (
     <Page>
@@ -20,25 +40,29 @@ const Experience: React.FC = () => {
         <Heading>Experience</Heading>
         <ToggleGroup role="group" aria-label="View toggle">
           <ToggleButton
-            active={view === 'work-history'}
+            active={router.isReady && view === 'work-history'}
+            disabled={isPending}
             onClick={() => setView('work-history')}>
             Work History
           </ToggleButton>
           <ToggleButton
-            active={view === 'timeline'}
+            active={router.isReady && view === 'timeline'}
+            disabled={isPending}
             onClick={() => setView('timeline')}>
             Timeline
           </ToggleButton>
         </ToggleGroup>
         <AnimatePresence mode="wait">
-          <motion.div
-            key={view}
-            initial={{ opacity: 0, y: 10 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -10 }}
-            transition={{ duration: 0.2 }}>
-            {view === 'work-history' ? <WorkHistory /> : <Timeline />}
-          </motion.div>
+          {router.isReady && (
+            <motion.div
+              key={view}
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -10 }}
+              transition={{ duration: 0.2 }}>
+              {view === 'work-history' ? <WorkHistory /> : <Timeline />}
+            </motion.div>
+          )}
         </AnimatePresence>
       </ExperienceLayout>
     </Page>
@@ -83,7 +107,11 @@ const ToggleButton = styled.button<{ active: boolean }>`
     border-right: 1px solid ${hexToRGBA(theme.colors.white, 0.12)};
   }
 
-  &:hover {
+  &:hover:not(:disabled) {
     color: ${theme.colors.white};
+  }
+
+  &:disabled {
+    cursor: default;
   }
 `;
