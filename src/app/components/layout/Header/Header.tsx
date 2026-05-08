@@ -3,12 +3,16 @@ import styled from '@emotion/styled';
 import { ShowOnDesktop } from '~/app/components/common/common.styled';
 import { LinkButton } from '~/app/components/common/LinkButton/LinkButton';
 import { Blink } from '~/app/components/special/Blink';
+import { useAppDispatch } from '~/app/store/hooks';
+import { setIsContactDrawerOpen } from '~/app/store/slices/app-slice';
 import { theme } from '~/theme/theme';
 import { DesktopNav } from './DesktopNav/DesktopNav';
 import { Logo } from './header.styled';
 import { MobileNav } from './MobileNav/MobileNav';
 
 export const Header: React.FC = () => {
+  const dispatch = useAppDispatch();
+
   return (
     <StyledHeader>
       <Logo href="/">
@@ -17,7 +21,14 @@ export const Header: React.FC = () => {
       <DesktopNav />
       <MobileNav />
       <ShowOnDesktop>
-        <LinkButton href="/contact">Let's Connect</LinkButton>
+        <LinkButton
+          href="#"
+          onClick={e => {
+            e.preventDefault();
+            dispatch(setIsContactDrawerOpen(true));
+          }}>
+          Let&apos;s Connect
+        </LinkButton>
       </ShowOnDesktop>
     </StyledHeader>
   );

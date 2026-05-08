@@ -1,4 +1,3 @@
-import { useState } from 'react';
 import { Heading } from '~/app/components/common/Heading/Heading';
 import { LinkButton } from '~/app/components/common/LinkButton/LinkButton';
 import { Page } from '~/app/components/layout/Page/Page';
@@ -9,10 +8,11 @@ import {
   PageText,
   PageTextHighlight,
 } from '~/app/components/page-shared/shared.styled';
-import { ContactDrawer } from '~/app/components/page-specific/contact/ContactDrawer';
+import { useAppDispatch } from '~/app/store/hooks';
+import { setIsContactDrawerOpen } from '~/app/store/slices/app-slice';
 
 const Contact: React.FC = () => {
-  const [isDrawerOpen, setIsDrawerOpen] = useState(false);
+  const dispatch = useAppDispatch();
 
   return (
     <Page>
@@ -31,17 +31,13 @@ const Contact: React.FC = () => {
               padding="0.75rem 3rem"
               onClick={e => {
                 e.preventDefault();
-                setIsDrawerOpen(true);
+                dispatch(setIsContactDrawerOpen(true));
               }}>
               Say hi <span aria-hidden="true">👋</span>
             </LinkButton>
           </CTAContainer>
         </PageContentWrapper>
       </PageContainer>
-      <ContactDrawer
-        isOpen={isDrawerOpen}
-        onClose={() => setIsDrawerOpen(false)}
-      />
     </Page>
   );
 };
