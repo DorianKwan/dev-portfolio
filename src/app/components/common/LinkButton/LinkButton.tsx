@@ -55,9 +55,10 @@ const StyledLinkButton = styled(Link, {
   border: ${pxToRem(1)} solid;
   border-color: ${({ buttonType, theme }) =>
     buttonType === 'secondary' ? theme.colors.white : theme.colors.bluePurple};
-  padding: ${({ padding }) => padding ?? '0.75rem 1.5rem'};
+  padding: ${({ padding }) => padding ?? '1.25rem 1.5rem 1.125rem 1.5rem'};
   font-family: ${BebasNeue.style.fontFamily};
   font-size: 1.325rem;
+  line-height: 1;
 
   @media only screen and (min-width: ${theme.breakpoints.md}) {
     max-width: 19.375rem;

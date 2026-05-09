@@ -135,7 +135,9 @@ const ToggleGroup = styled.div`
 `;
 
 const ToggleButton = styled.button<{ active: boolean }>`
-  padding: 0.5rem 2rem;
+  padding: 0.875rem 2rem 0.75rem 2rem;
+  display: grid;
+  place-content: center;
   background: ${({ active }) =>
     active
       ? `linear-gradient(to right, ${theme.colors.experienceOne}, ${theme.colors.experienceFive})`
@@ -145,8 +147,9 @@ const ToggleButton = styled.button<{ active: boolean }>`
   border: none;
   cursor: pointer;
   font-family: ${BebasNeue.style.fontFamily};
-  font-size: 1.1rem;
+  font-size: 1.125rem;
   letter-spacing: 0.1em;
+  line-height: 1;
   transition:
     background 200ms ease,
     color 200ms ease;

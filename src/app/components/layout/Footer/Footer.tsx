@@ -1,10 +1,8 @@
 import React, { useMemo } from 'react';
 import styled from '@emotion/styled';
 import Link from 'next/link';
-import { EmailIcon } from '~/app/components/icons/EmailIcon';
 import { GithubIcon } from '~/app/components/icons/GithubIcon';
 import { LinkedInIcon } from '~/app/components/icons/LinkedInIcon';
-import { UpWorkIcon } from '~/app/components/icons/UpWorkIcon';
 import { theme } from '~/theme/theme';
 import { Availability, AvailabilityStatus } from './Availability/Availability';
 
@@ -27,18 +25,6 @@ const footerSocialData: FooterLink[] = [
     icon: <LinkedInIcon hoverColor={theme.colors.lightPurple} />,
     key: 'linkedin',
     ariaLabel: 'LinkedIn profile',
-  },
-  {
-    to: 'https://www.upwork.com/freelancers/~01506f13ea9da3fc70?viewMode=1',
-    icon: <UpWorkIcon hoverColor={theme.colors.lightPurple} />,
-    key: 'upwork',
-    ariaLabel: 'Upwork profile',
-  },
-  {
-    to: 'mailto:bsayerskwan@gmail.com',
-    icon: <EmailIcon hoverColor={theme.colors.lightPurple} />,
-    key: 'email',
-    ariaLabel: 'Send an email',
   },
 ];
 
@@ -121,4 +107,6 @@ const FooterLinks = styled.ul`
 
 const FooterLinkWrapper = styled.li``;
 
-const FooterLink = styled(Link)``;
+const FooterLink = styled(Link)`
+  color: white;
+`;
