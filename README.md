@@ -4,6 +4,12 @@ My personal portfolio site — built to show who I am, what I've shipped, and ho
 
 **[bsayerskwan.dev](https://bsayerskwan.dev)**
 
+## Homepage
+<img width="1917" height="911" alt="Screenshot 2026-05-08 191847" src="https://github.com/user-attachments/assets/9176655d-4757-447d-9c24-d63439dc5d34" />
+
+## Experience / Online Resume
+<img width="1896" height="910" alt="Screenshot 2026-05-08 191906" src="https://github.com/user-attachments/assets/4800436f-f1e7-4821-86c0-67854a4c41c7" />
+
 ---
 
 ## Stack
