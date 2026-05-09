@@ -42,6 +42,8 @@ export const WorkHistory: React.FC = () => {
             </EntryHeader>
             <EntryBullets>
               {bullets.map((bullet, j) => (
+                // static content; no concerns with performance
+                // eslint-disable-next-line react/no-array-index-key
                 <li key={j}>{renderBullet(bullet)}</li>
               ))}
             </EntryBullets>

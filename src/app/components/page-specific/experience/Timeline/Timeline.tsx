@@ -42,7 +42,7 @@ export const Timeline: React.FC = () => {
 
   return (
     <TimelineContainer ref={containerRef}>
-      {timelineData.map(({ key, title, time, content }, i) => {
+      {timelineData.map(({ key, title, time, bullets }, i) => {
         const dotColor = interpolateHex(
           theme.colors.experienceOne,
           theme.colors.experienceFive,
@@ -55,9 +55,22 @@ export const Timeline: React.FC = () => {
               nodeRefs.current[i] = node;
             }}
             style={{ '--dot-color': dotColor } as React.CSSProperties}>
-            <ExperienceHeading>{title}</ExperienceHeading>
+            <ExperienceHeading type="h2">{title}</ExperienceHeading>
             <ExperienceTime>{time}</ExperienceTime>
-            <ExperienceText>{content}</ExperienceText>
+            <BulletList>
+              {bullets.map(({ text, subBullets }) => (
+                <li key={text}>
+                  {text}
+                  {subBullets && (
+                    <SubBulletList>
+                      {subBullets.map(sub => (
+                        <li key={sub}>{sub}</li>
+                      ))}
+                    </SubBulletList>
+                  )}
+                </li>
+              ))}
+            </BulletList>
           </ExperienceWrapper>
         );
       })}
@@ -71,9 +84,10 @@ const TimelineContainer = styled.section`
   position: relative;
   display: grid;
   grid-template-rows: repeat(5, auto);
-  gap: 2rem 1rem;
+  gap: 1rem;
   margin-top: 2rem;
   margin-bottom: 1rem;
+  width: 100%;
   max-width: ${pxToRem(1000)};
 
   @media only screen and (min-width: ${experienceBreakpoint}) {
@@ -170,4 +184,48 @@ const ExperienceTime = styled.small`
   color: ${({ theme }) => hexToRGBA(theme.colors.white, 0.6)};
 `;
 
-const ExperienceText = styled.p``;
+const BulletList = styled.ul`
+  list-style: none;
+  padding: 0;
+  margin: 0.5rem 0 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+
+  li {
+    position: relative;
+    padding-left: 1rem;
+    line-height: 1.6;
+    font-size: 0.95rem;
+    color: ${({ theme }) => hexToRGBA(theme.colors.white, 0.75)};
+
+    &::before {
+      content: '–';
+      position: absolute;
+      left: 0;
+      color: ${({ theme }) => hexToRGBA(theme.colors.white, 0.35)};
+    }
+  }
+`;
+
+const SubBulletList = styled.ul`
+  list-style: none;
+  padding: 0;
+  margin: 0.2rem 0 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+
+  li {
+    position: relative;
+    padding-left: 1.25rem;
+    font-size: 0.875rem;
+    color: ${({ theme }) => hexToRGBA(theme.colors.white, 0.5)};
+
+    &::before {
+      content: '·';
+      position: absolute;
+      left: 0.35rem;
+    }
+  }
+`;
