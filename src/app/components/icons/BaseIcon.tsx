@@ -20,14 +20,13 @@ const StyledIconWrapper = styled.span<IconProps>`
   svg {
     height: ${({ size }) => size ?? '2rem'};
     width: ${({ size }) => size ?? '2rem'};
-    color: white;
+    color: inherit;
     transition: color 250ms ease-in-out;
+  }
 
-    &:hover,
-    &:active,
-    &:focus {
-      text-decoration: none;
-      color: ${({ hoverColor }) => hoverColor ?? 'initial'};
-    }
+  &:hover svg,
+  &:active svg,
+  &:focus svg {
+    color: ${({ hoverColor }) => hoverColor ?? 'inherit'};
   }
 `;
