@@ -37,8 +37,8 @@ export const PageTextHighlight = styled.span`
 export const CTAContainer = styled.div`
   display: flex;
   flex-direction: column;
-  justify-content: space-around;
-  gap: 1rem;
+  justify-content: center;
+  gap: 2rem;
   width: 100%;
 
   @media only screen and (min-width: ${theme.breakpoints.md}) {

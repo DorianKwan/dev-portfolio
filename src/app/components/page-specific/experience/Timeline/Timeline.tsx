@@ -2,25 +2,8 @@ import { useLayoutEffect, useRef } from 'react';
 import styled from '@emotion/styled';
 import { Heading } from '~/app/components/common/Heading/Heading';
 import { theme } from '~/theme/theme';
-import { hexToRGBA, pxToRem } from '~/theme/utils';
+import { hexToRGBA, interpolateHex, pxToRem } from '~/theme/utils';
 import { timelineData } from './timeline.data';
-
-function interpolateHex(hex1: string, hex2: string, t: number): string {
-  const parse = (h: string) => [
-    parseInt(h.slice(1, 3), 16),
-    parseInt(h.slice(3, 5), 16),
-    parseInt(h.slice(5, 7), 16),
-  ];
-
-  const [r1, g1, b1] = parse(hex1);
-  const [r2, g2, b2] = parse(hex2);
-
-  const r = Math.round(r1 + (r2 - r1) * t);
-  const g = Math.round(g1 + (g2 - g1) * t);
-  const b = Math.round(b1 + (b2 - b1) * t);
-
-  return `#${r.toString(16).padStart(2, '0')}${g.toString(16).padStart(2, '0')}${b.toString(16).padStart(2, '0')}`;
-}
 
 export const Timeline: React.FC = () => {
   const containerRef = useRef<HTMLDivElement>(null);
@@ -59,7 +42,7 @@ export const Timeline: React.FC = () => {
 
   return (
     <TimelineContainer ref={containerRef}>
-      {timelineData.map(({ key, title, time, content }, i) => {
+      {timelineData.map(({ key, title, time, bullets }, i) => {
         const dotColor = interpolateHex(
           theme.colors.experienceOne,
           theme.colors.experienceFive,
@@ -72,9 +55,22 @@ export const Timeline: React.FC = () => {
               nodeRefs.current[i] = node;
             }}
             style={{ '--dot-color': dotColor } as React.CSSProperties}>
-            <ExperienceHeading>{title}</ExperienceHeading>
+            <ExperienceHeading type="h2">{title}</ExperienceHeading>
             <ExperienceTime>{time}</ExperienceTime>
-            <ExperienceText>{content}</ExperienceText>
+            <BulletList>
+              {bullets.map(({ text, subBullets }) => (
+                <li key={text}>
+                  {text}
+                  {subBullets && (
+                    <SubBulletList>
+                      {subBullets.map(sub => (
+                        <li key={sub}>{sub}</li>
+                      ))}
+                    </SubBulletList>
+                  )}
+                </li>
+              ))}
+            </BulletList>
           </ExperienceWrapper>
         );
       })}
@@ -82,19 +78,20 @@ export const Timeline: React.FC = () => {
   );
 };
 
-const experienceBreakpoint = theme.breakpoints.sm;
+const experienceBreakpoint = theme.breakpoints.md;
 
 const TimelineContainer = styled.section`
   position: relative;
   display: grid;
   grid-template-rows: repeat(5, auto);
-  gap: 2rem 1rem;
-  margin-top: 3rem;
+  gap: 1rem;
+  margin-top: 2rem;
   margin-bottom: 1rem;
+  width: 100%;
   max-width: ${pxToRem(1000)};
 
   @media only screen and (min-width: ${experienceBreakpoint}) {
-    margin: 3rem 0;
+    margin: 2rem 0;
     grid-template-columns: 1fr 1fr;
   }
 
@@ -187,4 +184,48 @@ const ExperienceTime = styled.small`
   color: ${({ theme }) => hexToRGBA(theme.colors.white, 0.6)};
 `;
 
-const ExperienceText = styled.p``;
+const BulletList = styled.ul`
+  list-style: none;
+  padding: 0;
+  margin: 0.5rem 0 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+
+  li {
+    position: relative;
+    padding-left: 1rem;
+    line-height: 1.6;
+    font-size: 0.95rem;
+    color: ${({ theme }) => hexToRGBA(theme.colors.white, 0.75)};
+
+    &::before {
+      content: '–';
+      position: absolute;
+      left: 0;
+      color: ${({ theme }) => hexToRGBA(theme.colors.white, 0.35)};
+    }
+  }
+`;
+
+const SubBulletList = styled.ul`
+  list-style: none;
+  padding: 0;
+  margin: 0.2rem 0 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+
+  li {
+    position: relative;
+    padding-left: 1.25rem;
+    font-size: 0.875rem;
+    color: ${({ theme }) => hexToRGBA(theme.colors.white, 0.5)};
+
+    &::before {
+      content: '·';
+      position: absolute;
+      left: 0.35rem;
+    }
+  }
+`;

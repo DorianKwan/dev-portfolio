@@ -1,8 +1,7 @@
 import { Heading } from '~/app/components/common/Heading/Heading';
 import { LinkButton } from '~/app/components/common/LinkButton/LinkButton';
 import { DownloadIcon } from '~/app/components/icons/DownloadIcon';
-import { GithubIcon } from '~/app/components/icons/GithubIcon';
-import { LinkedInIcon } from '~/app/components/icons/LinkedInIcon';
+import { LinkIcon } from '~/app/components/icons/LinkIcon';
 import { Page } from '~/app/components/layout/Page/Page';
 import {
   CTAContainer,
@@ -31,13 +30,9 @@ const Home: React.FC = () => {
             </PageTextHighlight>
           </PageText>
           <CTAContainer>
-            <LinkButton href="https://github.com/DorianKwan" external>
-              <GithubIcon size="1.25rem" />
-              View my Github
-            </LinkButton>
-            <LinkButton href="https://linkedin.com/in/brycesayerskwan" external>
-              <LinkedInIcon size="1.25rem" />
-              View my Linkedin
+            <LinkButton href="/experience">
+              <LinkIcon size="1.25rem" />
+              View my Experience
             </LinkButton>
             <LinkButton
               href="/pdf/resume.pdf"
