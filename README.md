@@ -1,36 +1,100 @@
-# WORK IN PROGRESS. Everything below is from the boilerplate to setup NextJS
+# bsayerskwan.dev
 
-## Getting Started
+My personal portfolio site — built to show who I am, what I've shipped, and how I work.
 
-First, run the development server:
+**[bsayerskwan.dev](https://bsayerskwan.dev)**
+
+---
+
+## Stack
+
+| Layer           | Tech                            |
+| --------------- | ------------------------------- |
+| Framework       | Next.js 16 (Pages Router)       |
+| Language        | TypeScript 6                    |
+| Styling         | Emotion (styled-components API) |
+| Animation       | Framer Motion                   |
+| State           | Redux Toolkit                   |
+| Email           | Resend                          |
+| Testing         | Jest + React Testing Library    |
+| Package manager | pnpm                            |
+| Deployment      | Vercel                          |
+
+---
+
+## Pages
+
+- **`/`** — Home
+- **`/about`** — About me
+- **`/experience`** — Work history, skills, and timeline (tab-toggled via query params)
+- **`/showcase`** — Projects
+- **`/contact`** — CTA to open a slide-in drawer contact form, accessible from the header
+
+---
+
+## Local Setup
+
+**Prerequisites:** Node 20+, pnpm
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
+# Install dependencies
+pnpm install
+
+# Start the dev server
 pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open [http://localhost:3000](http://localhost:3000).
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+### Environment variables
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+Create a `.env.local` at the root:
 
-## Learn More
+```env
+RESEND_API_KEY=your_resend_api_key
+```
 
-To learn more about Next.js, take a look at the following resources:
+The contact form (`/api/contact`) uses [Resend](https://resend.com) to send emails. Without this key the form will error — everything else works fine without it.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+---
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+## Commands
 
-## Deploy on Vercel
+```bash
+pnpm dev          # Start dev server
+pnpm build        # Production build
+pnpm start        # Start production server
+pnpm test         # Run tests
+pnpm test:watch   # Run tests in watch mode
+pnpm lint         # Lint
+pnpm lint:fix     # Lint + auto-fix
+pnpm tsc          # Type check (no emit)
+```
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+---
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+## Git Hooks
+
+Husky runs checks automatically:
+
+- **commit-msg** — enforces [Conventional Commits](https://www.conventionalcommits.org/) (`feat:`, `fix:`, `refactor:`, etc.)
+- **pre-push** — runs lint, tests, type check, and a full build before any push
+
+Commit format: `type(optional-scope): subject` — max 100 chars.
+
+---
+
+## Project Structure
+
+```
+src/
+├── app/
+│   └── components/
+│       ├── common/        # Shared UI (Button, Heading, etc.)
+│       ├── icons/         # SVG icon components
+│       ├── layout/        # Page shell, Header, Nav
+│       └── page-specific/ # Per-page feature components
+├── pages/                 # Next.js pages + API routes
+├── store/                 # Redux store + slices
+└── theme/                 # Design tokens + utils
+```
