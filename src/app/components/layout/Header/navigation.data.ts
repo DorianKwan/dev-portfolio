@@ -11,9 +11,9 @@ export const navigationLinks: NavigationLink[] = [
     key: 'home',
   },
   {
-    name: 'About',
-    to: '/about',
-    key: 'about',
+    name: 'Experience',
+    to: '/experience',
+    key: 'experience',
   },
   {
     name: 'Showcase',
@@ -21,9 +21,9 @@ export const navigationLinks: NavigationLink[] = [
     key: 'showcase',
   },
   {
-    name: 'Experience',
-    to: '/experience',
-    key: 'experience',
+    name: 'About',
+    to: '/about',
+    key: 'about',
   },
   {
     name: 'Contact',
