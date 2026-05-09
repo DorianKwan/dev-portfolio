@@ -1,7 +1,8 @@
 import { useMemo } from 'react';
 import styled from '@emotion/styled';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { pxToRem } from '~/theme/utils';
+import Image, { StaticImageData } from 'next/image';
+import { hexToRGBA, pxToRem } from '~/theme/utils';
 import { LinkButton } from '../../common/LinkButton/LinkButton';
 
 export enum ProjectType {
@@ -12,7 +13,7 @@ export enum ProjectType {
 
 export interface Project {
   readonly title: string;
-  readonly imageUrl: string;
+  readonly imageUrl: StaticImageData;
   readonly imageAlt: string;
   readonly description: string;
   readonly type: ProjectType;
@@ -72,7 +73,15 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({ project }) => {
   return (
     <Card>
       <CardHeader>
-        <CardImage src={imageUrl} alt={imageAlt} />
+        <CardImageWrapper>
+          <Image
+            src={imageUrl}
+            alt={imageAlt}
+            fill
+            style={{ objectFit: 'cover' }}
+            sizes="(min-width: 768px) 500px, 100vw"
+          />
+        </CardImageWrapper>
         <CardHeading>{title}</CardHeading>
       </CardHeader>
       <CardSection>
@@ -93,11 +102,13 @@ const Card = styled.article`
   padding: 2rem;
 `;
 
-const CardImage = styled.img`
+const CardImageWrapper = styled.div`
+  position: relative;
+  height: ${pxToRem(240)};
   border-radius: 0.5rem;
+  overflow: hidden;
   margin-bottom: 1rem;
-  max-height: ${pxToRem(240)};
-  height: 100%;
+  background-color: ${({ theme }) => hexToRGBA(theme.colors.white, 0.05)};
 `;
 
 const CardHeader = styled.header`
