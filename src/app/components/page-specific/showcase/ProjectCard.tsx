@@ -1,7 +1,7 @@
 import { useMemo } from 'react';
 import styled from '@emotion/styled';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import Image, { StaticImageData } from 'next/image';
+import Image from 'next/image';
 import { hexToRGBA, pxToRem } from '~/theme/utils';
 import { LinkButton } from '../../common/LinkButton/LinkButton';
 
@@ -13,7 +13,7 @@ export enum ProjectType {
 
 export interface Project {
   readonly title: string;
-  readonly imageUrl: StaticImageData;
+  readonly imageUrl: string;
   readonly imageAlt: string;
   readonly description: string;
   readonly type: ProjectType;
@@ -77,6 +77,7 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({ project }) => {
           <Image
             src={imageUrl}
             alt={imageAlt}
+            loading="eager"
             fill
             style={{ objectFit: 'cover' }}
             sizes="(min-width: 768px) 500px, 100vw"
