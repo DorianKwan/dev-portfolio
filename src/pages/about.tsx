@@ -1,119 +1,49 @@
-import { useMemo } from 'react';
 import styled from '@emotion/styled';
-import { IconDefinition } from '@fortawesome/fontawesome-svg-core';
-import {
-  faBriefcase,
-  faCode,
-  faSchool,
-} from '@fortawesome/free-solid-svg-icons';
+import { faLocationDot } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import Image from 'next/image';
-import { Circles } from '~/app/components/background-accents/Circles/Circles';
 import { Heading } from '~/app/components/common/Heading/Heading';
 import { Page } from '~/app/components/layout/Page/Page';
-import {
-  PageContainer,
-  PageContentWrapper,
-} from '~/app/components/page-shared/shared.styled';
-import { AboutCard } from '~/app/components/page-specific/about/AboutCard/AboutCard';
+import { PageContainer } from '~/app/components/page-shared/shared.styled';
 import { theme } from '~/theme/theme';
-import { hexToRGBA } from '~/theme/utils';
-
-const aboutCardData: { icon: IconDefinition; title: string; text: string }[] = [
-  {
-    icon: faSchool,
-    title: 'Schooling',
-    text: 'I graduated from Lighthouse Labs in 2017 with a Web Development Diploma, funded by the First Nations Technology Council.',
-  },
-  {
-    icon: faCode,
-    title: 'My Journey',
-    text: 'After graduating, I worked at various start-ups and digital marketing agencies before discovering my passion for building custom web applications.',
-  },
-  {
-    icon: faBriefcase,
-    title: "What's Next",
-    text: "After my tenure at Prove AI, I'm seeking my next challenge. I'm most excited by early-stage startups where I can make a meaningful impact across the full stack.",
-  },
-];
-
-const skillImages = [
-  {
-    key: 'typescript',
-    src: '/png/typescript.png',
-    alt: 'TypeScript brand image',
-  },
-  {
-    key: 'javascript',
-    src: '/png/javascript.png',
-    alt: 'JavaScript brand image',
-  },
-  {
-    key: 'react',
-    src: '/png/react.png',
-    alt: 'React brand image',
-  },
-  {
-    key: 'nodejs',
-    src: '/png/nodejs.png',
-    alt: 'Node brand image',
-  },
-  {
-    key: 'redux',
-    src: '/png/redux.png',
-    alt: 'Redux brand image',
-  },
-  {
-    key: 'git',
-    src: '/png/git.png',
-    alt: 'Git brand image',
-  },
-  {
-    key: 'docker',
-    src: '/png/docker.png',
-    alt: 'Docker brand image',
-  },
-  {
-    key: 'kubernetes',
-    src: '/png/kubernetes.png',
-    alt: 'Kubernetes brand image',
-  },
-  {
-    key: 'postgres',
-    src: '/png/postgres.png',
-    alt: 'Postgres brand image',
-  },
-];
+import { hexToRGBA, pxToRem } from '~/theme/utils';
 
 const About: React.FC = () => {
-  const cards = useMemo(() => {
-    return aboutCardData.map(({ icon, title, text }) => {
-      return (
-        <AboutCard
-          key={title}
-          title={title}
-          icon={<FontAwesomeIcon icon={icon} />}>
-          <CardText>{text}</CardText>
-        </AboutCard>
-      );
-    });
-  }, []);
-
-  const skillLogos = useMemo(() => {
-    return skillImages.map(({ key, src, alt }) => {
-      return <Image key={key} src={src} alt={alt} width={75} height={75} />;
-    });
-  }, []);
-
   return (
     <Page>
       <PageContainer>
-        <Circles />
-        <PageContentWrapper gap="2rem">
-          <Heading>About</Heading>
-          <CardGrid>{cards}</CardGrid>
-          <Skills>{skillLogos}</Skills>
-        </PageContentWrapper>
+        <Heading>About</Heading>
+        <AboutLayout>
+          <PhotoWrapper>
+            <Image
+              src="/images/me.jpg"
+              alt="Bryce Sayers-Kwan"
+              fill
+              priority
+              loading="eager"
+              style={{ objectFit: 'cover', objectPosition: 'center top' }}
+              sizes="(min-width: 768px) 380px, 90vw"
+            />
+          </PhotoWrapper>
+          <ProfileContent>
+            <Heading type="h2">Bryce Sayers-Kwan</Heading>
+            <Title>Senior Software Engineer</Title>
+            <Location>
+              <FontAwesomeIcon icon={faLocationDot} />
+              Reno, NV, USA
+            </Location>
+            <Bio>
+              <p>
+                I&apos;m a full-stack software engineer. I started in 2017
+                attending Lighthouse Labs, where I built the foundation of my
+                technical stack. Since then, I've grown into a senior developer
+                who loves solving complex problems and shipping work that makes
+                someone's day. I've worked at startups, custom development
+                shops, digital marketing agencies, and mid-sized companies.
+              </p>
+            </Bio>
+          </ProfileContent>
+        </AboutLayout>
       </PageContainer>
     </Page>
   );
@@ -121,26 +51,81 @@ const About: React.FC = () => {
 
 export default About;
 
-const CardGrid = styled.div`
-  display: grid;
-  gap: 2rem;
-  grid-template-rows: 1fr 1fr 1fr;
+const AboutLayout = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2.5rem;
+  width: 100%;
+  max-width: ${pxToRem(1000)};
+  padding: 2rem 1rem 0 1rem;
+  z-index: 1;
 
   @media only screen and (min-width: ${theme.breakpoints.xmd}) {
-    grid-template-columns: 1fr 1fr 1fr;
-    grid-template-rows: unset;
+    flex-direction: row;
+    align-items: flex-start;
+    gap: 4rem;
   }
 `;
 
-const CardText = styled.p`
-  color: ${({ theme }) => hexToRGBA(theme.colors.white, 0.6)};
-  line-height: 1.75;
+const PhotoWrapper = styled.div`
+  position: relative;
+  width: min(${pxToRem(300)}, 90vw);
+  aspect-ratio: 1;
+  flex-shrink: 0;
+  border-radius: 1rem;
+  overflow: hidden;
+
+  @media only screen and (min-width: ${theme.breakpoints.xmd}) {
+    width: ${pxToRem(340)};
+  }
 `;
 
-const Skills = styled.div`
-  margin-top: 1rem;
+const ProfileContent = styled.div`
   display: flex;
-  justify-content: space-around;
-  gap: 1.75rem;
-  flex-wrap: wrap;
+  flex-direction: column;
+  gap: 0.5rem;
+  text-align: center;
+
+  @media only screen and (min-width: ${theme.breakpoints.xmd}) {
+    text-align: left;
+    padding-top: 0.5rem;
+  }
+`;
+
+const Title = styled.p`
+  font-size: 1.25rem;
+  color: ${({ theme }) => hexToRGBA(theme.colors.white, 0.5)};
+  margin: 0;
+`;
+
+const Location = styled.p`
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.4rem;
+  font-size: 0.95rem;
+  color: ${({ theme }) => hexToRGBA(theme.colors.white, 0.4)};
+  margin: 0.25rem 0 0.75rem;
+
+  svg {
+    font-size: 0.85rem;
+  }
+
+  @media only screen and (min-width: ${theme.breakpoints.xmd}) {
+    justify-content: flex-start;
+  }
+`;
+
+const Bio = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+
+  p {
+    font-size: 0.975rem;
+    line-height: 1.75;
+    color: ${({ theme }) => hexToRGBA(theme.colors.white, 0.6)};
+    margin: 0;
+  }
 `;
