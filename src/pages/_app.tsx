@@ -1,3 +1,4 @@
+import type { ReactElement, ReactNode } from 'react';
 import { css, Global } from '@emotion/react';
 import { config, library } from '@fortawesome/fontawesome-svg-core';
 import { faGithub } from '@fortawesome/free-brands-svg-icons';
@@ -9,6 +10,7 @@ import {
   faSchool,
 } from '@fortawesome/free-solid-svg-icons';
 import { Analytics } from '@vercel/analytics/next';
+import type { NextPage } from 'next';
 import type { AppProps } from 'next/app';
 import Head from 'next/head';
 import { AppWrapper } from '~/app/components/layout/AppWrapper/AppWrapper';
@@ -22,6 +24,10 @@ import { BebasNeue, OpenSans } from '~/app/fonts';
 import { theme } from '~/theme/theme';
 import '~/app/assets/styles/css-reset.css';
 import '@fortawesome/fontawesome-svg-core/styles.css';
+
+export type NextPageWithLayout<P = object, IP = P> = NextPage<P, IP> & {
+  getLayout?: (page: ReactElement) => ReactNode;
+};
 
 // without this, SSR and CSR render different DOM structures; causing a React hydration mismatch
 config.autoAddCss = false;
@@ -65,7 +71,15 @@ const globalStyles = css`
   }
 `;
 
-const App: React.FC<AppProps> = ({ Component, pageProps }) => {
+type AppPropsWithLayout = AppProps & {
+  Component: NextPageWithLayout;
+};
+
+const App = ({ Component, pageProps }: AppPropsWithLayout) => {
+  if (Component.getLayout) {
+    return Component.getLayout(<Component {...pageProps} />);
+  }
+
   return (
     <>
       <Head>
