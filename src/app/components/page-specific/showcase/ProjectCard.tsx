@@ -1,7 +1,9 @@
 import { useMemo } from 'react';
 import styled from '@emotion/styled';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import type { SanityImageSource } from '@sanity/image-url';
 import Image from 'next/image';
+import { urlForImage } from '~/lib/sanity/image';
 import { hexToRGBA, pxToRem } from '~/theme/utils';
 import { LinkButton } from '../../common/LinkButton/LinkButton';
 
@@ -11,10 +13,15 @@ export enum ProjectType {
   Website = 'website',
 }
 
+export interface SanityProjectImage {
+  asset: SanityImageSource;
+  alt?: string;
+}
+
 export interface Project {
+  readonly _id: string;
   readonly title: string;
-  readonly imageUrl: string;
-  readonly imageAlt: string;
+  readonly image: SanityProjectImage;
   readonly description: string;
   readonly type: ProjectType;
   readonly viewUrl?: string;
@@ -26,8 +33,13 @@ interface ProjectCardProps {
 }
 
 export const ProjectCard: React.FC<ProjectCardProps> = ({ project }) => {
-  const { title, imageUrl, imageAlt, description, type, viewUrl, githubUrl } =
-    project;
+  const { title, image, description, type, viewUrl, githubUrl } = project;
+
+  const imageUrl = urlForImage(image.asset)
+    .width(500)
+    .height(240)
+    .fit('crop')
+    .url();
 
   const cardActions = useMemo(() => {
     const actions: React.ReactNode[] = [];
@@ -41,15 +53,15 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({ project }) => {
               View Case Study
             </LinkButton>,
           );
-        case ProjectType.Project:
           break;
         case ProjectType.Website:
           actions.push(
             <LinkButton key="view-site" href={viewUrl} external>
-              View Site
               <FontAwesomeIcon icon="arrow-up-right-from-square" />
+              View Site
             </LinkButton>,
           );
+          break;
         default:
           break;
       }
@@ -76,7 +88,7 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({ project }) => {
         <CardImageWrapper>
           <Image
             src={imageUrl}
-            alt={imageAlt}
+            alt={image.alt ?? ''}
             loading="eager"
             fill
             style={{ objectFit: 'cover' }}
@@ -126,6 +138,7 @@ const CardDescription = styled.p`
 
 const CardSection = styled.section`
   display: grid;
+  grid-template-rows: 1fr auto;
   gap: 1.5rem;
 `;
 

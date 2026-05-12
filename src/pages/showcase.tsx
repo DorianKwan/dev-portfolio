@@ -1,69 +1,42 @@
-import { useMemo } from 'react';
 import styled from '@emotion/styled';
+import type { GetStaticProps } from 'next';
 import { Heading } from '~/app/components/common/Heading/Heading';
 import { Page } from '~/app/components/layout/Page/Page';
 import { PageContainer } from '~/app/components/page-shared/shared.styled';
 import {
   Project,
   ProjectCard,
-  ProjectType,
 } from '~/app/components/page-specific/showcase/ProjectCard';
+import { sanityClient } from '~/lib/sanity/client';
+import { projectsQuery } from '~/lib/sanity/queries';
 import { theme } from '~/theme/theme';
 
-const showcaseData: Project[] = [
-  {
-    title: 'Developer Portfolio: Take a look at this site itself',
-    imageUrl: '/png/portfolio.png',
-    imageAlt: 'image of my portfolio application',
-    description:
-      'Take a look at this site`s repository!  It`s the most up to date public code of mine.  Developed using Next.js, React, styled-components & TypeScript.',
-    type: ProjectType.Project,
-    githubUrl: 'https://github.com/DorianKwan/dev-portfolio',
-  },
-  {
-    title: 'Test Your Knowledge Quiz: For Fun Application',
-    imageUrl: '/png/quiz.png',
-    imageAlt: 'image of a simple quiz application',
-    description:
-      'Take a look at this for fun project I developed using Create React App.  It`s a simple quiz app that focuses on a simple and beautiful UI.',
-    type: ProjectType.Project,
-    githubUrl: 'https://github.com/DorianKwan/quiz-app',
-  },
-  {
-    title: 'Steelhaus: Scheduling, real-time data visualization & optimization',
-    imageUrl: '/png/steelhaus.png',
-    imageAlt: 'image of steelhaus project scheduling application',
-    description:
-      'Hardware to track machine data, software to make sense of it and easy to understand UI that anyone can use.  An application developed while at Launchcode.',
-    type: ProjectType.CaseStudy,
-    viewUrl: 'https://lc.dev/projects/steelhaus/',
-  },
-  {
-    title: 'Caret Legal: Digital Marketing WordPress Re-brand',
-    imageUrl: '/png/caret.png',
-    imageAlt: 'image of the caret legal site',
-    description:
-      'WordPress side re-brand / re-theme done in 2022 on the side working with Mercenary Digital.  I lead the project, including client-relations, and delivered delivered on time.',
-    type: ProjectType.Website,
-    viewUrl: 'https://caretlegal.com/',
-  },
-];
+interface ShowcaseProps {
+  projects: Project[];
+}
 
-const Showcase: React.FC = () => {
-  const projects = useMemo(() => {
-    return showcaseData.map(project => {
-      return <ProjectCard key={project.title} project={project} />;
-    });
-  }, []);
-
+const Showcase = ({ projects }: ShowcaseProps) => {
   return (
     <Page>
       <PageContainer>
         <Heading marginBottom="4rem">Showcase</Heading>
-        <ShowcaseGrid>{projects}</ShowcaseGrid>
+        <ShowcaseGrid>
+          {projects.map(project => (
+            <ProjectCard key={project._id} project={project} />
+          ))}
+        </ShowcaseGrid>
       </PageContainer>
     </Page>
   );
+};
+
+export const getStaticProps: GetStaticProps<ShowcaseProps> = async () => {
+  const projects = await sanityClient.fetch<Project[]>(projectsQuery);
+
+  return {
+    props: { projects },
+    revalidate: 60,
+  };
 };
 
 export default Showcase;
