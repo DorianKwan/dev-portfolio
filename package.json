@@ -16,6 +16,7 @@
     "prepare": "husky || true"
   },
   "dependencies": {
+    "@ai-sdk/anthropic": "^3.0.77",
     "@emotion/react": "^11.11.4",
     "@emotion/styled": "^11.11.5",
     "@fortawesome/fontawesome-svg-core": "^7.2.0",
@@ -30,6 +31,7 @@
     "@tsparticles/interaction-external-push": "^3.3.0",
     "@tsparticles/react": "^3.0.0",
     "@vercel/analytics": "^2.0.1",
+    "ai": "^6.0.180",
     "framer-motion": "^12.38.0",
     "next": "16.2.6",
     "next-sanity": "^12.4.5",
