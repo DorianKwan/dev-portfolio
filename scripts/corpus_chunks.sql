@@ -1,4 +1,4 @@
---- Query used in Supabase
+--- Store Vector Embeddings for Text Chunks
 CREATE EXTENSION IF NOT EXISTS vector;
 
 CREATE TABLE corpus_chunks (
