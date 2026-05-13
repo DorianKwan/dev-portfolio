@@ -7,3 +7,7 @@ export const getIsMobileNavOpen = (state: RootState) => {
 export const getIsContactDrawerOpen = (state: RootState) => {
   return state.app.isContactDrawerOpen;
 };
+
+export const getIsChatOpen = (state: RootState) => {
+  return state.app.isChatOpen;
+};
