@@ -16,7 +16,7 @@ type Message = { role: 'user' | 'assistant'; content: string; ts: number };
 const makeWelcome = (): Message => ({
   role: 'assistant',
   content:
-    "Hi! Ask me anything about Bryce's background, experience, or skills.",
+    'Hi, and thanks for checking out my portfolio.\n\nI am a RAG-based chat bot imitating as Bryce.\n\nYou can ask me about anything regarding my background, experience, or skills.',
   ts: Date.now(),
 });
 
