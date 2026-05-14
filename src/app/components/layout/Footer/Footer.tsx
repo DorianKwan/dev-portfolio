@@ -4,6 +4,7 @@ import Link from 'next/link';
 import { GithubIcon } from '~/app/components/icons/GithubIcon';
 import { LinkedInIcon } from '~/app/components/icons/LinkedInIcon';
 import { theme } from '~/theme/theme';
+import { pxToRem } from '~/theme/utils';
 import { Availability, AvailabilityStatus } from './Availability/Availability';
 
 interface FooterLink {
@@ -47,11 +48,13 @@ export const Footer: React.FC = () => {
 
   return (
     <StyledFooter>
-      <Availability availability={AvailabilityStatus.Available} />
+      <AvailabilityWrapper>
+        <Availability availability={AvailabilityStatus.Available} />
+      </AvailabilityWrapper>
       <FooterNav>
         <FooterLinks>{footerLinks}</FooterLinks>
       </FooterNav>
-      <Copyright>©2026 Bryce Sayers-Kwan. All Rights Reserved</Copyright>
+      <Copyright>© 2026 Bryce Sayers-Kwan</Copyright>
     </StyledFooter>
   );
 };
@@ -66,7 +69,7 @@ const StyledFooter = styled.footer<{ stickToBottom?: boolean }>`
 
   @media only screen and (min-width: ${theme.breakpoints.md}) {
     height: 6rem;
-    grid-template-columns: auto 1fr auto;
+    grid-template-columns: ${pxToRem(225)} 1fr ${pxToRem(225)};
     padding: 0 ${({ theme }) => theme.layoutSpacing.md};
   }
 
@@ -91,6 +94,7 @@ const Copyright = styled.p`
 
     @media only screen and (min-width: ${theme.breakpoints.md}) {
       order: initial;
+      margin-left: auto;
     }
   }
 `;
@@ -109,4 +113,8 @@ const FooterLinkWrapper = styled.li``;
 
 const FooterLink = styled(Link)`
   color: white;
+`;
+
+const AvailabilityWrapper = styled.div`
+  margin-right: auto;
 `;
