@@ -291,7 +291,7 @@ const CloseButton = styled.button`
   background: transparent;
   border: 1px solid ${hexToRGBA(theme.colors.white, 0.15)};
   color: ${hexToRGBA(theme.colors.white, 0.6)};
-  font-size: 1rem;
+  font-size: 1.25rem;
   cursor: pointer;
   transition:
     color 200ms ease-in-out,
@@ -321,14 +321,14 @@ const MessagesList = styled.div`
 
   @media (min-width: ${theme.breakpoints.sm}) {
     min-height: 20rem;
-    padding: 1.5rem 1rem 1.5rem 2rem;
+    padding: 1.5rem 1rem 1rem 1.5rem;
   }
 `;
 
 const bubbleBase = css`
   max-width: 85%;
   padding: 0.625rem 0.875rem;
-  font-size: 1rem;
+  font-size: 1.125rem;
   line-height: 1.75;
   word-break: break-word;
   border-radius: 0.75rem;
@@ -390,7 +390,6 @@ const BotBubble = styled.div`
 const UserBubble = styled.div`
   ${bubbleBase}
   align-self: flex-end;
-  font-size: 1rem;
   background: ${theme.colors.bluePurple};
   border: 1px solid ${hexToRGBA(theme.colors.lightPurple, 0.3)};
   color: ${theme.colors.text};
@@ -451,7 +450,8 @@ const SendButton = styled.button`
   background: ${theme.colors.bluePurple};
   border: 1px solid ${hexToRGBA(theme.colors.lightPurple, 0.3)};
   color: ${theme.colors.white};
-  font-size: 1.1rem;
+  font-size: 1.5rem;
+  line-height: 1;
   cursor: pointer;
   display: flex;
   align-items: center;
