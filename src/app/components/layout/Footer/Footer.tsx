@@ -47,11 +47,11 @@ export const Footer: React.FC = () => {
 
   return (
     <StyledFooter>
-      <Copyright>© 2026 Bryce Sayers-Kwan</Copyright>
+      <Availability availability={AvailabilityStatus.Available} />
       <FooterNav>
         <FooterLinks>{footerLinks}</FooterLinks>
       </FooterNav>
-      <Availability availability={AvailabilityStatus.Available} />
+      <Copyright>©2026 Bryce Sayers-Kwan. All Rights Reserved</Copyright>
     </StyledFooter>
   );
 };
