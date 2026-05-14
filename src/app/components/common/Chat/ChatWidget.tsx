@@ -22,13 +22,18 @@ const makeWelcome = (): Message => ({
 const formatTime = (ts: number) =>
   new Date(ts).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
 
-export const ChatWidget: React.FC = () => {
+export const ChatWidget = () => {
   const isOpen = useAppSelector(getIsChatOpen);
   const dispatch = useAppDispatch();
   const [messages, setMessages] = useState<Message[]>(() => [makeWelcome()]);
   const [input, setInput] = useState('');
   const [isGenerating, setIsGenerating] = useState(false);
-  const bottomRef = useRef<HTMLDivElement>(null);
+  const [isTypewriting, setIsTypewriting] = useState(false);
+  const [renderedContent, setRenderedContent] = useState('');
+  const streamTargetRef = useRef('');
+  const intervalRef = useRef<ReturnType<typeof setInterval> | null>(null);
+  const dotsRef = useRef<HTMLDivElement>(null);
+  const listRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
@@ -53,9 +58,56 @@ export const ChatWidget: React.FC = () => {
     return () => window.removeEventListener('keydown', onKeyDown);
   }, [isOpen, dispatch]);
 
+  // When generating starts: reset and kick off typewriter
   useEffect(() => {
-    bottomRef.current?.scrollIntoView({ behavior: 'smooth' });
-  }, [messages]);
+    if (!isGenerating) return;
+    streamTargetRef.current = '';
+    // eslint-disable-next-line react-hooks/set-state-in-effect
+    setRenderedContent('');
+    setIsTypewriting(true);
+  }, [isGenerating]);
+
+  // Run interval while typewriting; clean up when done
+  useEffect(() => {
+    if (!isTypewriting) return;
+    intervalRef.current = setInterval(() => {
+      setRenderedContent(prev => {
+        const target = streamTargetRef.current;
+        if (prev.length >= target.length) return prev;
+        return target.slice(0, prev.length + 2);
+      });
+    }, 20);
+    return () => {
+      if (intervalRef.current) clearInterval(intervalRef.current);
+    };
+  }, [isTypewriting]);
+
+  // Stop typewriter once stream is done and content is fully rendered
+  useEffect(() => {
+    if (!isTypewriting || isGenerating) return;
+    if (
+      renderedContent.length >= streamTargetRef.current.length &&
+      streamTargetRef.current.length > 0
+    ) {
+      setIsTypewriting(false);
+    }
+  }, [isTypewriting, isGenerating, renderedContent]);
+
+  const showTypingIndicator = isGenerating && renderedContent === '';
+
+  // Scroll to dots when they appear
+  useEffect(() => {
+    if (showTypingIndicator) {
+      dotsRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+  }, [showTypingIndicator]);
+
+  // Follow streaming text as it types in
+  useEffect(() => {
+    if (isTypewriting && listRef.current) {
+      listRef.current.scrollTop = listRef.current.scrollHeight;
+    }
+  }, [renderedContent, isTypewriting]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -75,6 +127,7 @@ export const ChatWidget: React.FC = () => {
       { role: 'user', content: question, ts: Date.now() },
     ]);
     setIsGenerating(true);
+    setRenderedContent('');
 
     try {
       const response = await fetch('/api/chat', {
@@ -100,39 +153,45 @@ export const ChatWidget: React.FC = () => {
       const decoder = new TextDecoder();
       const ts = Date.now();
 
+      streamTargetRef.current = '';
       setMessages(prev => [...prev, { role: 'assistant', content: '', ts }]);
 
+      let accumulated = '';
       while (true) {
         const { done, value } = await reader.read();
-
         if (done) break;
-
-        const chunk = decoder.decode(value, { stream: true });
-
-        setMessages(prev => {
-          const next = [...prev];
-          const last = next[next.length - 1];
-          next[next.length - 1] = { ...last, content: last.content + chunk };
-          return next;
-        });
+        accumulated += decoder.decode(value, { stream: true });
+        streamTargetRef.current = accumulated;
       }
+
+      setMessages(prev => {
+        const next = [...prev];
+        const last = next[next.length - 1];
+        if (last?.role === 'assistant') {
+          next[next.length - 1] = { ...last, content: accumulated };
+        }
+        return next;
+      });
     } catch (err) {
       const text = err instanceof Error ? err.message : 'Something went wrong.';
-      setMessages(prev => [
-        ...prev,
-        { role: 'assistant', content: text, ts: Date.now() },
-      ]);
+      setMessages(prev => {
+        const last = prev[prev.length - 1];
+        if (last?.role === 'assistant' && last.content === '') {
+          return [
+            ...prev.slice(0, -1),
+            { role: 'assistant', content: text, ts: Date.now() },
+          ];
+        }
+        return [...prev, { role: 'assistant', content: text, ts: Date.now() }];
+      });
     } finally {
       setIsGenerating(false);
       inputRef.current?.focus();
     }
   };
 
-  const showTypingIndicator =
-    isGenerating && messages[messages.length - 1]?.role === 'user';
-
   const isStreamingLast =
-    isGenerating && messages[messages.length - 1]?.role === 'assistant';
+    isTypewriting && messages[messages.length - 1]?.role === 'assistant';
 
   return (
     <WidgetRoot>
@@ -152,22 +211,29 @@ export const ChatWidget: React.FC = () => {
                 ✕
               </CloseButton>
             </PanelHeader>
-            <MessagesList>
+            <MessagesList ref={listRef}>
               {messages.map((msg, idx) => {
                 const isLast = idx === messages.length - 1;
-                const showCursor = isLast && isStreamingLast;
+                const isThisStreaming = isStreamingLast && isLast;
+                const content = isThisStreaming ? renderedContent : msg.content;
+                const showCursor = isThisStreaming;
 
-                return msg.role === 'assistant' ? (
-                  // eslint-disable-next-line react/no-array-index-key
-                  <BotBubble key={idx}>
-                    <MessageMeta>Bryce · {formatTime(msg.ts)}</MessageMeta>
-                    <MarkdownContent>
-                      <ReactMarkdown>
-                        {msg.content + (showCursor ? '▋' : '')}
-                      </ReactMarkdown>
-                    </MarkdownContent>
-                  </BotBubble>
-                ) : (
+                if (msg.role === 'assistant') {
+                  if (isThisStreaming && content === '') return null;
+                  return (
+                    // eslint-disable-next-line react/no-array-index-key
+                    <BotBubble key={idx}>
+                      <MessageMeta>Bryce · {formatTime(msg.ts)}</MessageMeta>
+                      <MarkdownContent>
+                        <ReactMarkdown>
+                          {content + (showCursor ? '▋' : '')}
+                        </ReactMarkdown>
+                      </MarkdownContent>
+                    </BotBubble>
+                  );
+                }
+
+                return (
                   // eslint-disable-next-line react/no-array-index-key
                   <UserBubble key={idx}>
                     <MessageMeta $isUser>
@@ -177,8 +243,9 @@ export const ChatWidget: React.FC = () => {
                   </UserBubble>
                 );
               })}
+
               {showTypingIndicator && (
-                <BotBubble key="typing">
+                <BotBubble ref={dotsRef} key="typing">
                   <Dots>
                     {[0, 0.2, 0.4].map((delay, i) => (
                       <Dot
@@ -196,7 +263,6 @@ export const ChatWidget: React.FC = () => {
                   </Dots>
                 </BotBubble>
               )}
-              <div ref={bottomRef} />
             </MessagesList>
             <InputRow onSubmit={e => void handleSubmit(e)} noValidate>
               <TextInput
