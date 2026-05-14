@@ -10,7 +10,7 @@ import { VoyageAIClient } from 'voyageai';
 
 const CORPUS_DIR = join(process.cwd(), 'corpus');
 const CHUNK_SIZE = 1500; // characters (~375 tokens)
-const CHUNK_OVERLAP = 200; // characters
+const CHUNK_OVERLAP = 400; // characters
 const EMBED_BATCH = 8; // chunks per Voyage API call
 const MODEL = 'voyage-4';
 
