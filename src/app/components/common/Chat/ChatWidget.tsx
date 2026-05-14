@@ -220,7 +220,6 @@ export const ChatWidget: React.FC = () => {
 
 const WidgetRoot = styled.div`
   position: fixed;
-  height: 100%;
   bottom: 0;
   left: 0;
   right: 0;
@@ -229,6 +228,7 @@ const WidgetRoot = styled.div`
   flex-direction: column;
   align-items: stretch;
   gap: 0;
+  pointer-events: none;
 
   @media (min-width: ${theme.breakpoints.sm}) {
     bottom: 1.5rem;
@@ -241,11 +241,13 @@ const WidgetRoot = styled.div`
 
 const Panel = styled(motion.div)`
   width: 100%;
+  height: 100dvh;
   background: ${theme.colors.background};
   border-top: 1px solid ${hexToRGBA(theme.colors.white, 0.1)};
   display: flex;
   flex-direction: column;
   overflow: hidden;
+  pointer-events: auto;
 
   @media (min-width: ${theme.breakpoints.sm}) {
     width: 40rem;
@@ -462,6 +464,7 @@ const FAB = styled.button<{ $isOpen: boolean }>`
   bottom: 1.25rem;
   right: 1.25rem;
   display: ${({ $isOpen }) => ($isOpen ? 'none' : 'flex')};
+  pointer-events: auto;
   width: 4.25rem;
   height: 4.25rem;
   border-radius: 50%;
