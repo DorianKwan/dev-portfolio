@@ -197,6 +197,7 @@ export const ChatWidget: React.FC = () => {
         )}
       </AnimatePresence>
       <FAB
+        $isOpen={isOpen}
         onClick={() => dispatch(setIsChatOpen(!isOpen))}
         aria-label={isOpen ? 'Close chat' : 'Chat with Bryce'}>
         {isOpen ? '✕' : <ChatIcon />}
@@ -207,24 +208,39 @@ export const ChatWidget: React.FC = () => {
 
 const WidgetRoot = styled.div`
   position: fixed;
-  bottom: 1.5rem;
-  right: 1.5rem;
+  bottom: 0;
+  left: 0;
+  right: 0;
   z-index: 1000;
   display: flex;
   flex-direction: column;
-  align-items: flex-end;
-  gap: 0.75rem;
+  align-items: stretch;
+  gap: 0;
+
+  @media (min-width: ${theme.breakpoints.sm}) {
+    bottom: 1.5rem;
+    right: 1.5rem;
+    left: auto;
+    align-items: flex-end;
+    gap: 0.75rem;
+  }
 `;
 
 const Panel = styled(motion.div)`
-  width: 40rem;
-  max-width: calc(100vw - 3rem);
+  width: 100%;
   background: ${theme.colors.background};
-  border: 1px solid ${hexToRGBA(theme.colors.white, 0.1)};
+  border-top: 1px solid ${hexToRGBA(theme.colors.white, 0.1)};
   display: flex;
   flex-direction: column;
   overflow: hidden;
-  max-height: calc(100dvh - 8rem);
+  max-height: 85dvh;
+
+  @media (min-width: ${theme.breakpoints.sm}) {
+    width: 40rem;
+    max-width: calc(100vw - 3rem);
+    border: 1px solid ${hexToRGBA(theme.colors.white, 0.1)};
+    max-height: calc(100dvh - 8rem);
+  }
 `;
 
 const PanelHeader = styled.div`
@@ -272,9 +288,13 @@ const MessagesList = styled.div`
   display: flex;
   flex-direction: column;
   gap: 0.75rem;
-  min-height: 20rem;
+  min-height: 0;
   scrollbar-width: thin;
   scrollbar-color: ${hexToRGBA(theme.colors.white, 0.1)} transparent;
+
+  @media (min-width: ${theme.breakpoints.sm}) {
+    min-height: 20rem;
+  }
 `;
 
 const bubbleBase = css`
@@ -419,7 +439,11 @@ const SendButton = styled.button`
   }
 `;
 
-const FAB = styled.button`
+const FAB = styled.button<{ $isOpen: boolean }>`
+  position: fixed;
+  bottom: 1.25rem;
+  right: 1.25rem;
+  display: ${({ $isOpen }) => ($isOpen ? 'none' : 'flex')};
   width: 4.25rem;
   height: 4.25rem;
   border-radius: 50%;
@@ -427,7 +451,6 @@ const FAB = styled.button`
   border: 1px solid ${hexToRGBA(theme.colors.lightPurple, 0.4)};
   color: ${theme.colors.white};
   cursor: pointer;
-  display: flex;
   align-items: center;
   justify-content: center;
   font-size: 1rem;
@@ -451,5 +474,12 @@ const FAB = styled.button`
     box-shadow:
       0 12px 40px ${hexToRGBA(theme.colors.lightPurple, 0.6)},
       0 4px 12px ${hexToRGBA(theme.colors.lightPurple, 0.3)};
+  }
+
+  @media (min-width: ${theme.breakpoints.sm}) {
+    position: static;
+    display: flex;
+    bottom: auto;
+    right: auto;
   }
 `;
