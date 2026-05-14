@@ -116,6 +116,7 @@ async function embedBatch(texts: string[]): Promise<number[][]> {
   const result = await voyage.embed({
     input: texts,
     model: MODEL,
+    inputType: 'document',
   });
 
   return result.data!.map(d => d.embedding!);

@@ -36,6 +36,7 @@ async function embedQuestion(question: string): Promise<number[]> {
   const result = await voyage.embed({
     input: [question],
     model: VOYAGE_EMBEDDING_MODEL,
+    inputType: 'query',
   });
 
   const embedding = result.data?.[0]?.embedding;
