@@ -15,8 +15,7 @@ type Message = { role: 'user' | 'assistant'; content: string; ts: number };
 
 const makeWelcome = (): Message => ({
   role: 'assistant',
-  content:
-    'Hi, my name is Bryce — a RAG-based AI version of him at least.\n\nI can answer anything regarding my background, experience, or skills.',
+  content: `Hi, I'm Bryce — well, a RAG-powered approximation of him. The real one is out there interviewing, but I can answer anything about his background, experience, and skills in the meantime. Ask away.`,
   ts: Date.now(),
 });
 
@@ -34,6 +33,16 @@ export const ChatWidget: React.FC = () => {
 
   useEffect(() => {
     if (isOpen) inputRef.current?.focus();
+  }, [isOpen]);
+
+  useEffect(() => {
+    const isMobile = window.matchMedia(
+      `(max-width: ${theme.breakpoints.sm})`,
+    ).matches;
+    if (isOpen && isMobile) document.body.style.overflow = 'hidden';
+    return () => {
+      document.body.style.overflow = '';
+    };
   }, [isOpen]);
 
   useEffect(() => {
