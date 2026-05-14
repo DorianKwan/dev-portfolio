@@ -111,15 +111,17 @@ The Ask Me bot uses RAG — markdown documents in `corpus/` are chunked, embedde
 corpus/
 ├── availability/    # Current availability and what I'm looking for
 ├── background/      # Personal background
-├── conversational/  # Conversational responses to unrelated questions
+├── conversational/  # Conversational answers to common recruiter questions
 ├── culture/         # Engineering culture and motivations
-├── faq/             # Common questions
+├── experience/      # Work history and role descriptions
+├── failures/        # Challenges, failures, and what I learned
+├── faq/             # Common Q&A
 ├── journal/         # Technical write-ups and project retrospectives
 ├── leadership/      # Leadership and team experience
-├── opinions/        # Engineering opinions
+├── opinions/        # Engineering opinions and preferences
 ├── projects/        # Project descriptions
-├── resume/          # Experience and skills (structured)
-└── skills/          # Skills detail
+├── skills/          # Skills detail by area
+└── stack/           # Preferred tech stack and tooling choices
 ```
 
 To re-embed after adding or editing documents:
