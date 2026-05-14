@@ -220,6 +220,7 @@ export const ChatWidget: React.FC = () => {
 
 const WidgetRoot = styled.div`
   position: fixed;
+  height: 100%;
   bottom: 0;
   left: 0;
   right: 0;
@@ -245,7 +246,6 @@ const Panel = styled(motion.div)`
   display: flex;
   flex-direction: column;
   overflow: hidden;
-  max-height: 85dvh;
 
   @media (min-width: ${theme.breakpoints.sm}) {
     width: 40rem;
@@ -266,7 +266,7 @@ const PanelHeader = styled.div`
 
 const PanelTitle = styled.h2`
   font-family: ${BebasNeue.style.fontFamily};
-  font-size: 1.5rem;
+  font-size: 1.75rem;
   color: ${theme.colors.white};
   letter-spacing: 0.05em;
 `;
@@ -299,22 +299,24 @@ const MessagesList = styled.div`
   padding: 1rem;
   display: flex;
   flex-direction: column;
-  gap: 0.75rem;
+  gap: 1.25rem;
   min-height: 0;
   scrollbar-width: thin;
   scrollbar-color: ${hexToRGBA(theme.colors.white, 0.1)} transparent;
 
   @media (min-width: ${theme.breakpoints.sm}) {
     min-height: 20rem;
+    padding: 1.5rem 1rem 1.5rem 2rem;
   }
 `;
 
 const bubbleBase = css`
-  max-width: 88%;
+  max-width: 85%;
   padding: 0.625rem 0.875rem;
   font-size: 1rem;
   line-height: 1.75;
   word-break: break-word;
+  border-radius: 0.75rem;
 `;
 
 const MessageMeta = styled.div<{ $isUser?: boolean }>`
@@ -448,6 +450,10 @@ const SendButton = styled.button`
   &:disabled {
     opacity: 0.4;
     cursor: not-allowed;
+  }
+
+  @media (min-width: ${theme.breakpoints.sm}) {
+    width: 4rem;
   }
 `;
 
