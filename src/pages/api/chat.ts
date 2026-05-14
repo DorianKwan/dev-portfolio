@@ -122,13 +122,23 @@ export default async function handler(
       model: anthropic(ANTHROPIC_CHAT_MODEL),
       system: buildSystemPrompt(chunks),
       messages: [...history, { role: 'user', content: question }],
+      maxRetries: 1,
     });
 
-    return result.pipeTextStreamToResponse(res);
+    result.pipeTextStreamToResponse(res);
   } catch (err) {
-    const message =
-      err instanceof Error ? err.message : 'Internal server error';
-    return res.status(500).json({ error: message });
+    const msg = err instanceof Error ? err.message : '';
+    const isOverloaded =
+      msg.includes('Overloaded') ||
+      msg.includes('529') ||
+      msg.includes('overloaded');
+    const userMessage = isOverloaded
+      ? 'The AI is a bit overloaded right now — try again in a moment.'
+      : 'Something went wrong. Please try again.';
+
+    if (!res.headersSent) {
+      res.status(isOverloaded ? 503 : 500).json({ error: userMessage });
+    }
   }
 }
 
