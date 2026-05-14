@@ -72,7 +72,9 @@ function chunkText(text: string, size: number, overlap: number): string[] {
 }
 
 function parseFile(filePath: string): Chunk[] {
-  const raw = readFileSync(filePath, 'utf-8');
+  const raw = readFileSync(filePath, 'utf-8')
+    .replace(/^---+\s*$/gm, '')
+    .trim();
   const source_file = relative(process.cwd(), filePath);
   const doc_type = docTypeFromPath(filePath);
 
