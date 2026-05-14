@@ -1,4 +1,6 @@
 import { createAnthropic } from '@ai-sdk/anthropic';
+import { Ratelimit } from '@upstash/ratelimit';
+import { Redis } from '@upstash/redis';
 import { streamText } from 'ai';
 import type { NextApiRequest, NextApiResponse } from 'next';
 import { VoyageAIClient } from 'voyageai';
@@ -11,24 +13,13 @@ type RetrievedChunk =
 const anthropic = createAnthropic({ apiKey: process.env.ANTHROPIC_API_KEY! });
 const voyage = new VoyageAIClient({ apiKey: process.env.VOYAGE_API_KEY! });
 
-const rateLimitMap = new Map<string, { count: number; resetAt: number }>();
-const RATE_LIMIT = 20;
-const RATE_WINDOW_MS = 60_000; // 20 minutes
-
-function isRateLimited(ip: string): boolean {
-  const now = Date.now();
-  const record = rateLimitMap.get(ip);
-
-  if (!record || now > record.resetAt) {
-    rateLimitMap.set(ip, { count: 1, resetAt: now + RATE_WINDOW_MS });
-    return false;
-  }
-
-  if (record.count >= RATE_LIMIT) return true;
-
-  record.count++;
-  return false;
-}
+const ratelimit = new Ratelimit({
+  redis: new Redis({
+    url: process.env.UPSTASH_REDIS_REST_URL!,
+    token: process.env.UPSTASH_REDIS_REST_TOKEN!,
+  }),
+  limiter: Ratelimit.slidingWindow(20, '1 m'),
+});
 
 const VOYAGE_EMBEDDING_MODEL = 'voyage-4';
 
@@ -101,7 +92,8 @@ export default async function handler(
     req.socket.remoteAddress ??
     'unknown';
 
-  if (isRateLimited(ip)) {
+  const { success } = await ratelimit.limit(ip);
+  if (!success) {
     return res.status(429).json({ error: 'Too many requests' });
   }
 
