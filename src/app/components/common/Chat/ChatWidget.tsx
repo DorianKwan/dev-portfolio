@@ -315,6 +315,10 @@ const MessagesList = styled.div`
   scrollbar-width: thin;
   scrollbar-color: ${hexToRGBA(theme.colors.white, 0.1)} transparent;
 
+  @media (min-width: ${theme.breakpoints.xxs}) {
+    padding: 1.25rem;
+  }
+
   @media (min-width: ${theme.breakpoints.sm}) {
     min-height: 20rem;
     padding: 1.5rem 1rem 1.5rem 2rem;
