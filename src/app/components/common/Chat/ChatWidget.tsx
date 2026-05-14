@@ -54,6 +54,12 @@ export const ChatWidget: React.FC = () => {
 
     if (!question || isGenerating) return;
 
+    // Capture history before appending new message; skip welcome at index 0, cap at 10
+    const history = messages
+      .slice(1)
+      .slice(-10)
+      .map(({ role, content }) => ({ role, content }));
+
     setInput('');
     setMessages(prev => [
       ...prev,
@@ -65,8 +71,14 @@ export const ChatWidget: React.FC = () => {
       const response = await fetch('/api/chat', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ question }),
+        body: JSON.stringify({ question, history }),
       });
+
+      if (response.status === 429) {
+        throw new Error(
+          "You've reached the message limit — try again in a minute.",
+        );
+      }
 
       if (!response.ok) {
         const json = (await response.json()) as { error?: string };

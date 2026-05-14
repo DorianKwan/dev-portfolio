@@ -104,7 +104,10 @@ export default async function handler(
     return res.status(429).json({ error: 'Too many requests' });
   }
 
-  const { question } = req.body as { question?: string };
+  const { question, history = [] } = req.body as {
+    question?: string;
+    history?: { role: 'user' | 'assistant'; content: string }[];
+  };
 
   if (!question?.trim()) {
     return res.status(400).json({ error: 'question is required' });
@@ -117,7 +120,7 @@ export default async function handler(
     const result = streamText({
       model: anthropic(ANTHROPIC_CHAT_MODEL),
       system: buildSystemPrompt(chunks),
-      messages: [{ role: 'user', content: question }],
+      messages: [...history, { role: 'user', content: question }],
     });
 
     return result.pipeTextStreamToResponse(res);
