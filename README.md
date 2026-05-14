@@ -80,6 +80,8 @@ ANTHROPIC_API_KEY=
 VOYAGE_API_KEY=
 SUPABASE_URL=
 SUPABASE_SECRET_KEY=
+UPSTASH_REDIS_REST_URL=
+UPSTASH_REDIS_REST_TOKEN=
 ```
 
 - **Resend** — required for the contact form (`/api/contact`). Without this the form will error; everything else works fine.
