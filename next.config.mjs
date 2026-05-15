@@ -1,5 +1,6 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
+  transpilePackages: ['voyageai', 'react-markdown'],
   images: {
     remotePatterns: [
       {

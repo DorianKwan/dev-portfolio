@@ -1,6 +1,7 @@
 {
   "cSpell.words": [
     "Bebas",
+    "bsayerskwan",
     "Cascadia",
     "commitlint",
     "Cossette",
@@ -9,15 +10,19 @@
     "fortawesome",
     "groq",
     "hotspot",
+    "ivfflat",
     "launchcode",
     "Neue",
+    "pgvector",
     "Pulumi",
     "Sidekiq",
     "Steelhaus",
+    "Supabase",
     "telehealth",
     "tsparticles",
     "upwork",
-    "vercel"
+    "vercel",
+    "voyageai"
   ],
   "js/ts.tsdk.path": "node_modules/typescript/lib"
 }

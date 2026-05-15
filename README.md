@@ -23,28 +23,37 @@ My personal portfolio site — built to show who I am, what I've shipped, and ho
 | Styling         | Emotion (styled-components API) |
 | Animation       | Framer Motion                   |
 | State           | Redux Toolkit                   |
-| Headless CMS    | Sanity                          |
 | Email           | Resend                          |
 | Testing         | Jest + React Testing Library    |
 | Package manager | pnpm                            |
 | Deployment      | Vercel                          |
+
+### Ask Me Bot
+
+| Layer      | Tech                     |
+| ---------- | ------------------------ |
+| Embeddings | Voyage AI (`voyage-4`)   |
+| Vector DB  | Supabase (pgvector)      |
+| LLM        | Claude Haiku (Anthropic) |
+| Streaming  | Vercel AI SDK            |
 
 ---
 
 ## Pages
 
 - **`/`** — Home
-- **`/about`** — About me
 - **`/experience`** — Work history, skills, and timeline (tab-toggled via query params)
-- **`/showcase`** — Projects (content managed via Sanity)
-- **`/contact`** — CTA to open a slide-in drawer contact form, accessible from the header
-- **`/studio`** — Sanity Studio (embedded, content editor)
+- **`/showcase`** — Projects
+- **`/about`** — About me
+- **`/contact`** — CTA to contact me via email form
+
+A slide-in contact drawer is accessible from the header on every page.
 
 ---
 
 ## Local Setup
 
-**Prerequisites:** Node 20+, pnpm
+**Prerequisites:** Node 22+, pnpm
 
 ```bash
 # Install dependencies
@@ -62,17 +71,21 @@ Create a `.env.local` at the root (see `.env.example` for all keys):
 
 ```env
 # Contact form (Resend)
-RESEND_API_KEY=your_resend_api_key
-SENDER_EMAIL=your_sender_email
-RECEIVER_EMAIL=your_receiver_email
+RESEND_API_KEY=
+SENDER_EMAIL=
+RECEIVER_EMAIL=
 
-# Sanity CMS
-NEXT_PUBLIC_SANITY_PROJECT_ID=your_project_id
-NEXT_PUBLIC_SANITY_DATASET=production
+# Ask Me Bot
+ANTHROPIC_API_KEY=
+VOYAGE_API_KEY=
+SUPABASE_URL=
+SUPABASE_SECRET_KEY=
+UPSTASH_REDIS_REST_URL=
+UPSTASH_REDIS_REST_TOKEN=
 ```
 
-- **Resend** — required for the contact form (`/api/contact`). Without this key the form will error; everything else works fine without it.
-- **Sanity** — required for the Showcase page and Studio. Without these vars the Showcase will render empty and `/studio` will not load. Create a project at [sanity.io/manage](https://sanity.io/manage) or via `pnpm dlx sanity@latest init`.
+- **Resend** — required for the contact form (`/api/contact`). Without this the form will error; everything else works fine.
+- **Anthropic + Voyage AI + Supabase** — required for the Ask Me chat bot. Without these the `/api/chat` route will fail. See [Corpus & Ingestion](#corpus--ingestion) below.
 
 ---
 
@@ -87,6 +100,41 @@ pnpm test:watch   # Run tests in watch mode
 pnpm lint         # Lint
 pnpm lint:fix     # Lint + auto-fix
 pnpm tsc          # Type check (no emit)
+pnpm ingest       # Embed corpus docs and upsert into Supabase
+```
+
+---
+
+## Corpus & Ingestion
+
+The Ask Me bot uses RAG — markdown documents in `corpus/` are chunked, embedded via Voyage AI, and stored in Supabase (pgvector). The ingest script is incremental: it hashes each chunk and skips anything already in the database. **Corpus docs for this site are git ignored**. But here is the structure:
+
+```
+corpus/
+├── availability/    # Current availability and what I'm looking for
+├── background/      # Personal background
+├── conversational/  # Conversational answers to common recruiter questions
+├── culture/         # Engineering culture and motivations
+├── experience/      # Work history and role descriptions
+├── failures/        # Challenges, failures, and what I learned
+├── faq/             # Common Q&A
+├── journal/         # Technical write-ups and project retrospectives
+├── leadership/      # Leadership and team experience
+├── opinions/        # Engineering opinions and preferences
+├── projects/        # Project descriptions
+├── skills/          # Skills detail by area
+└── stack/           # Preferred tech stack and tooling choices
+```
+
+To re-embed after adding or editing documents:
+
+```bash
+# Incremental — only embeds new chunks
+pnpm ingest
+
+# Full reset — clear the table first, then re-ingest
+# Run in Supabase SQL editor: truncate table corpus_chunks;
+pnpm ingest
 ```
 
 ---
@@ -105,20 +153,20 @@ Commit format: `type(optional-scope): subject` — max 100 chars.
 ## Project Structure
 
 ```
+corpus/                # RAG source documents (markdown)
+scripts/
+└── ingest.ts          # Corpus embedding + Supabase ingestion script
 src/
 ├── app/
 │   ├── components/
-│   │   ├── common/        # Shared UI (Button, Heading, etc.)
-│   │   ├── icons/         # SVG icon components
-│   │   ├── layout/        # Page shell, Header, Nav
+│   │   ├── common/    # Shared UI (Button, Heading, Chat, etc.)
+│   │   ├── icons/     # SVG icon components
+│   │   ├── layout/    # Page shell, Header, Nav
 │   │   └── page-specific/ # Per-page feature components
-│   └── studio/            # Sanity Studio (App Router route)
+│   └── fonts.ts
 ├── lib/
-│   └── sanity/            # Sanity client, GROQ queries, image builder
-├── pages/                 # Next.js pages + API routes (Pages Router)
-├── store/                 # Redux store + slices
-└── theme/                 # Design tokens + utils
-
-sanity/
-└── schemaTypes/           # Sanity document schemas
+│   └── supabase/      # Supabase client + generated database types
+├── pages/             # Next.js pages + API routes (Pages Router)
+├── store/             # Redux store + slices
+└── theme/             # Design tokens + utils
 ```

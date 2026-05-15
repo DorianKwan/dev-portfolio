@@ -138,8 +138,8 @@ const Nav = styled(motion.nav)`
   display: grid;
   grid-template-rows: auto 1fr auto;
   gap: 1rem;
-  width: 100vw;
-  height: 100vh;
+  width: 100%;
+  height: 100dvh;
   background-color: ${({ theme }) => theme.colors.bluePurple};
   padding-top: 1.5rem;
 `;

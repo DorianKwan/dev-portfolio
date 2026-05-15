@@ -1,5 +1,6 @@
 import styled from '@emotion/styled';
 import { AnimatePresence, motion } from 'framer-motion';
+import { ChatWidget } from '~/app/components/common/Chat/ChatWidget';
 import { ContactDrawer } from '~/app/components/page-specific/contact/ContactDrawer';
 import { useAppSelector } from '~/app/store/hooks';
 import { getIsMobileNavOpen } from '~/app/store/selectors/app-selectors';
@@ -19,6 +20,7 @@ export const AppWrapper: React.FC<AppWrapperProps> = ({ children }) => {
         animate={{ opacity: 1, transition: { duration: 1 } }}>
         {children}
         <ContactDrawer />
+        <ChatWidget />
       </Wrapper>
     </AnimatePresence>
   );
