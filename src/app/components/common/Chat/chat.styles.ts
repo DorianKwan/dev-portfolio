@@ -7,7 +7,7 @@ import { hexToRGBA } from '~/theme/utils';
 
 export const WidgetRoot = styled.div`
   position: fixed;
-  bottom: 0;
+  top: 0;
   left: 0;
   right: 0;
   z-index: 1000;
@@ -18,6 +18,7 @@ export const WidgetRoot = styled.div`
   pointer-events: none;
 
   @media (min-width: ${theme.breakpoints.sm}) {
+    top: auto;
     bottom: 1.5rem;
     right: 1.5rem;
     left: auto;
@@ -28,7 +29,7 @@ export const WidgetRoot = styled.div`
 
 export const Panel = styled(motion.div)`
   width: 100%;
-  height: 100dvh;
+  height: var(--visual-height, 100dvh);
   background: ${theme.colors.background};
   border-top: 1px solid ${hexToRGBA(theme.colors.white, 0.1)};
   display: flex;
@@ -37,6 +38,7 @@ export const Panel = styled(motion.div)`
   pointer-events: auto;
 
   @media (min-width: ${theme.breakpoints.sm}) {
+    height: auto;
     width: 40rem;
     max-width: calc(100vw - 3rem);
     border: 1px solid ${hexToRGBA(theme.colors.white, 0.1)};

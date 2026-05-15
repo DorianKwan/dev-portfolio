@@ -71,6 +71,23 @@ export const ChatWidget = () => {
     return () => window.removeEventListener('keydown', onKeyDown);
   }, [isOpen, dispatch]);
 
+  useEffect(() => {
+    const vv = window.visualViewport;
+
+    if (!vv) return;
+
+    const update = () =>
+      document.documentElement.style.setProperty(
+        '--visual-height',
+        `${vv.height}px`,
+      );
+
+    vv.addEventListener('resize', update);
+    update();
+
+    return () => vv.removeEventListener('resize', update);
+  }, []);
+
   const showSuggestions = messages.length === 1 && !isGenerating;
 
   return (
