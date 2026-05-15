@@ -153,12 +153,14 @@ export const ChatWidget = () => {
 
             <InputRow onSubmit={e => void handleSubmit(e)} noValidate>
               <TextInput
+                id="chat"
                 ref={inputRef}
                 value={input}
                 onChange={e => setInput(e.target.value)}
                 placeholder="Ask a question..."
                 disabled={isGenerating}
                 aria-label="Your question"
+                enterKeyHint="send"
               />
               <SendButton
                 type="submit"
