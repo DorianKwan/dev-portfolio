@@ -48,16 +48,24 @@ export const PanelHeader = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 1rem 1.25rem;
+  padding: 0.75rem 1rem;
   border-bottom: 1px solid ${hexToRGBA(theme.colors.white, 0.08)};
   flex-shrink: 0;
+
+  @media (min-width: ${theme.breakpoints.sm}) {
+    padding: 1rem 1.25rem;
+  }
 `;
 
 export const PanelTitle = styled.h2`
   font-family: ${BebasNeue.style.fontFamily};
-  font-size: 1.75rem;
+  font-size: 1.35rem;
   color: ${theme.colors.white};
   letter-spacing: 0.05em;
+
+  @media (min-width: ${theme.breakpoints.sm}) {
+    font-size: 1.75rem;
+  }
 `;
 
 export const CloseButton = styled.button`
@@ -105,11 +113,17 @@ export const MessagesList = styled.div`
 
 const bubbleBase = css`
   max-width: 85%;
-  padding: 0.625rem 0.875rem;
-  font-size: 1.125rem;
-  line-height: 1.75;
+  padding: 0.5rem 0.75rem;
+  font-size: 0.9rem;
+  line-height: 1.6;
   word-break: break-word;
   border-radius: 0.75rem;
+
+  @media (min-width: ${theme.breakpoints.sm}) {
+    padding: 0.625rem 0.875rem;
+    font-size: 1.125rem;
+    line-height: 1.75;
+  }
 `;
 
 export const MessageMeta = styled.div<{ $isUser?: boolean }>`
@@ -121,7 +135,11 @@ export const MessageMeta = styled.div<{ $isUser?: boolean }>`
 
 export const MarkdownContent = styled.div`
   color: ${theme.colors.text};
-  font-size: 1rem;
+  font-size: 0.875rem;
+
+  @media (min-width: ${theme.breakpoints.sm}) {
+    font-size: 1rem;
+  }
 
   p {
     margin: 0 0 0.6rem;
@@ -191,9 +209,13 @@ export const Dot = styled(motion.span)`
 export const InputRow = styled.form`
   display: flex;
   gap: 0.5rem;
-  padding: 0.75rem 1rem;
+  padding: 0.5rem 0.75rem;
   border-top: 1px solid ${hexToRGBA(theme.colors.white, 0.08)};
   flex-shrink: 0;
+
+  @media (min-width: ${theme.breakpoints.sm}) {
+    padding: 0.75rem 1rem;
+  }
 `;
 
 export const TextInput = styled.input`
@@ -201,11 +223,15 @@ export const TextInput = styled.input`
   background: ${hexToRGBA(theme.colors.white, 0.04)};
   border: 1px solid ${hexToRGBA(theme.colors.white, 0.15)};
   color: ${hexToRGBA(theme.colors.white, 0.85)};
-  padding: 0.75rem 1rem;
+  padding: 0.5rem 0.75rem;
   font-size: 1rem;
   font-family: inherit;
   outline: none;
   transition: border-color 200ms ease-in-out;
+
+  @media (min-width: ${theme.breakpoints.sm}) {
+    padding: 0.75rem 1rem;
+  }
 
   &::placeholder {
     color: ${hexToRGBA(theme.colors.white, 0.3)};
