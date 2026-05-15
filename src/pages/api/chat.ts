@@ -41,8 +41,8 @@ async function retrieveChunks(embedding: number[]): Promise<RetrievedChunk[]> {
   const { data, error } = await supabase
     .rpc('match_corpus_chunks', {
       query_embedding: embedding,
-      match_count: 5,
-      match_threshold: 0.5,
+      match_count: 8,
+      match_threshold: 0.3,
     })
     .overrideTypes<RetrievedChunk[], { merge: false }>();
 
