@@ -117,7 +117,7 @@ export const MobileNav = () => {
 };
 
 const MobileNavWrapper = styled.div`
-  z-index: 2;
+  z-index: 1001;
   display: block;
 
   @media only screen and (min-width: ${theme.breakpoints.xmd}) {
