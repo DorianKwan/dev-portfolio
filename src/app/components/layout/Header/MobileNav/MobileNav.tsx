@@ -4,6 +4,8 @@ import { motion, Variants } from 'framer-motion';
 import Link from 'next/link';
 import { Blink } from '~/app/components/special/Blink';
 import { BebasNeue } from '~/app/fonts';
+import { useAppSelector } from '~/app/store/hooks';
+import { getIsChatOpen } from '~/app/store/selectors/app-selectors';
 import { useMobileNav } from '~/hooks/use-mobile-nav';
 import { theme } from '~/theme/theme';
 import { HamburgerButton } from './HamburgerButton/HamburgerButton';
@@ -79,6 +81,7 @@ const footerVariants = {
 
 export const MobileNav = () => {
   const { isOpen, toggleIsOpen, pathname, lastPath } = useMobileNav();
+  const isChatOpen = useAppSelector(getIsChatOpen);
 
   const navLinks = useMemo(() => {
     return navigationLinks.map(({ name, to, key }, index) => {
@@ -99,7 +102,7 @@ export const MobileNav = () => {
   const animation = isOpen ? 'open' : 'closed';
 
   return (
-    <MobileNavWrapper>
+    <MobileNavWrapper $hidden={isChatOpen}>
       <HamburgerButton isOpen={isOpen} setIsOpen={toggleIsOpen} />
       <Nav initial={false} animate={animation} variants={navVariants}>
         <LogoWrapper>
@@ -116,9 +119,9 @@ export const MobileNav = () => {
   );
 };
 
-const MobileNavWrapper = styled.div`
-  z-index: 2;
-  display: block;
+const MobileNavWrapper = styled.div<{ $hidden?: boolean }>`
+  z-index: 1001;
+  display: ${({ $hidden }) => ($hidden ? 'none' : 'block')};
 
   @media only screen and (min-width: ${theme.breakpoints.xmd}) {
     display: none;

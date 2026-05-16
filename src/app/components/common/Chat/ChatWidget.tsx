@@ -1,23 +1,31 @@
-import { useEffect, useRef, useState } from 'react';
+import { useEffect } from 'react';
 import ReactMarkdown from 'react-markdown';
-import { css } from '@emotion/react';
-import styled from '@emotion/styled';
-import { AnimatePresence, motion } from 'framer-motion';
-import { BebasNeue } from '~/app/fonts';
+import { AnimatePresence } from 'framer-motion';
 import { useAppDispatch, useAppSelector } from '~/app/store/hooks';
 import { getIsChatOpen } from '~/app/store/selectors/app-selectors';
 import { setIsChatOpen } from '~/app/store/slices/app-slice';
 import { theme } from '~/theme/theme';
-import { hexToRGBA } from '~/theme/utils';
+import {
+  BotBubble,
+  CloseButton,
+  Dot,
+  Dots,
+  FAB,
+  InputRow,
+  MarkdownContent,
+  MessageMeta,
+  MessagesList,
+  Panel,
+  PanelHeader,
+  PanelTitle,
+  SendButton,
+  TextInput,
+  UserBubble,
+  WidgetRoot,
+} from './chat.styles';
+import { ChatSuggestions } from './ChatSuggestions';
+import { useChatStream } from './useChatStream';
 import { ChatIcon } from '../../icons/ChatIcon';
-
-type Message = { role: 'user' | 'assistant'; content: string; ts: number };
-
-const makeWelcome = (): Message => ({
-  role: 'assistant',
-  content: `Hi, I'm Bryce — well, a RAG-powered approximation of him. The real one is out there interviewing, but I can answer anything about his background, experience, and skills in the meantime. Ask away.`,
-  ts: Date.now(),
-});
 
 const formatTime = (ts: number) =>
   new Date(ts).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
@@ -25,20 +33,25 @@ const formatTime = (ts: number) =>
 export const ChatWidget = () => {
   const isOpen = useAppSelector(getIsChatOpen);
   const dispatch = useAppDispatch();
-  const [messages, setMessages] = useState<Message[]>(() => [makeWelcome()]);
-  const [input, setInput] = useState('');
-  const [isGenerating, setIsGenerating] = useState(false);
-  const [isTypewriting, setIsTypewriting] = useState(false);
-  const [renderedContent, setRenderedContent] = useState('');
-  const streamTargetRef = useRef('');
-  const intervalRef = useRef<ReturnType<typeof setInterval> | null>(null);
-  const dotsRef = useRef<HTMLDivElement>(null);
-  const listRef = useRef<HTMLDivElement>(null);
-  const inputRef = useRef<HTMLInputElement>(null);
+
+  const {
+    messages,
+    input,
+    setInput,
+    isGenerating,
+    renderedContent,
+    showTypingIndicator,
+    isStreamingLast,
+    dotsRef,
+    listRef,
+    inputRef,
+    handleSubmit,
+    handleSuggestion,
+  } = useChatStream();
 
   useEffect(() => {
     if (isOpen) inputRef.current?.focus();
-  }, [isOpen]);
+  }, [isOpen, inputRef]);
 
   useEffect(() => {
     const isMobile = window.matchMedia(
@@ -58,140 +71,24 @@ export const ChatWidget = () => {
     return () => window.removeEventListener('keydown', onKeyDown);
   }, [isOpen, dispatch]);
 
-  // When generating starts: reset and kick off typewriter
   useEffect(() => {
-    if (!isGenerating) return;
-    streamTargetRef.current = '';
-    // eslint-disable-next-line react-hooks/set-state-in-effect
-    setRenderedContent('');
-    setIsTypewriting(true);
-  }, [isGenerating]);
+    const vv = window.visualViewport;
 
-  // Run interval while typewriting; clean up when done
-  useEffect(() => {
-    if (!isTypewriting) return;
-    intervalRef.current = setInterval(() => {
-      setRenderedContent(prev => {
-        const target = streamTargetRef.current;
-        if (prev.length >= target.length) return prev;
-        return target.slice(0, prev.length + 2);
-      });
-    }, 20);
-    return () => {
-      if (intervalRef.current) clearInterval(intervalRef.current);
-    };
-  }, [isTypewriting]);
+    if (!vv) return;
 
-  // Stop typewriter once stream is done and content is fully rendered
-  useEffect(() => {
-    if (!isTypewriting || isGenerating) return;
-    if (
-      renderedContent.length >= streamTargetRef.current.length &&
-      streamTargetRef.current.length > 0
-    ) {
-      setIsTypewriting(false);
-    }
-  }, [isTypewriting, isGenerating, renderedContent]);
+    const update = () =>
+      document.documentElement.style.setProperty(
+        '--visual-height',
+        `${vv.height}px`,
+      );
 
-  const showTypingIndicator = isGenerating && renderedContent === '';
+    vv.addEventListener('resize', update);
+    update();
 
-  // Scroll to dots when they appear
-  useEffect(() => {
-    if (showTypingIndicator) {
-      dotsRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' });
-    }
-  }, [showTypingIndicator]);
+    return () => vv.removeEventListener('resize', update);
+  }, []);
 
-  // Follow streaming text as it types in
-  useEffect(() => {
-    if (isTypewriting && listRef.current) {
-      listRef.current.scrollTop = listRef.current.scrollHeight;
-    }
-  }, [renderedContent, isTypewriting]);
-
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    const question = input.trim();
-
-    if (!question || isGenerating) return;
-
-    // Capture history before appending new message; skip welcome at index 0, cap at 10
-    const history = messages
-      .slice(1)
-      .slice(-10)
-      .map(({ role, content }) => ({ role, content }));
-
-    setInput('');
-    setMessages(prev => [
-      ...prev,
-      { role: 'user', content: question, ts: Date.now() },
-    ]);
-    setIsGenerating(true);
-    setRenderedContent('');
-
-    try {
-      const response = await fetch('/api/chat', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ question, history }),
-      });
-
-      if (response.status === 429) {
-        throw new Error(
-          "You've reached the message limit — try again in a minute.",
-        );
-      }
-
-      if (!response.ok) {
-        const json = (await response.json()) as { error?: string };
-        throw new Error(json.error ?? 'Something went wrong.');
-      }
-
-      if (!response.body) throw new Error('No response body.');
-
-      const reader = response.body.getReader();
-      const decoder = new TextDecoder();
-      const ts = Date.now();
-
-      streamTargetRef.current = '';
-      setMessages(prev => [...prev, { role: 'assistant', content: '', ts }]);
-
-      let accumulated = '';
-      while (true) {
-        const { done, value } = await reader.read();
-        if (done) break;
-        accumulated += decoder.decode(value, { stream: true });
-        streamTargetRef.current = accumulated;
-      }
-
-      setMessages(prev => {
-        const next = [...prev];
-        const last = next[next.length - 1];
-        if (last?.role === 'assistant') {
-          next[next.length - 1] = { ...last, content: accumulated };
-        }
-        return next;
-      });
-    } catch (err) {
-      const text = err instanceof Error ? err.message : 'Something went wrong.';
-      setMessages(prev => {
-        const last = prev[prev.length - 1];
-        if (last?.role === 'assistant' && last.content === '') {
-          return [
-            ...prev.slice(0, -1),
-            { role: 'assistant', content: text, ts: Date.now() },
-          ];
-        }
-        return [...prev, { role: 'assistant', content: text, ts: Date.now() }];
-      });
-    } finally {
-      setIsGenerating(false);
-      inputRef.current?.focus();
-    }
-  };
-
-  const isStreamingLast =
-    isTypewriting && messages[messages.length - 1]?.role === 'assistant';
+  const showSuggestions = messages.length === 1 && !isGenerating;
 
   return (
     <WidgetRoot>
@@ -211,6 +108,7 @@ export const ChatWidget = () => {
                 ✕
               </CloseButton>
             </PanelHeader>
+
             <MessagesList ref={listRef}>
               {messages.map((msg, idx) => {
                 const isLast = idx === messages.length - 1;
@@ -263,15 +161,23 @@ export const ChatWidget = () => {
                   </Dots>
                 </BotBubble>
               )}
+
+              <ChatSuggestions
+                visible={showSuggestions}
+                onSelect={handleSuggestion}
+              />
             </MessagesList>
+
             <InputRow onSubmit={e => void handleSubmit(e)} noValidate>
               <TextInput
+                id="chat"
                 ref={inputRef}
                 value={input}
                 onChange={e => setInput(e.target.value)}
                 placeholder="Ask a question..."
                 disabled={isGenerating}
                 aria-label="Your question"
+                enterKeyHint="send"
               />
               <SendButton
                 type="submit"
@@ -283,6 +189,7 @@ export const ChatWidget = () => {
           </Panel>
         )}
       </AnimatePresence>
+
       <FAB
         $isOpen={isOpen}
         onClick={() => dispatch(setIsChatOpen(!isOpen))}
@@ -292,294 +199,3 @@ export const ChatWidget = () => {
     </WidgetRoot>
   );
 };
-
-const WidgetRoot = styled.div`
-  position: fixed;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  z-index: 1000;
-  display: flex;
-  flex-direction: column;
-  align-items: stretch;
-  gap: 0;
-  pointer-events: none;
-
-  @media (min-width: ${theme.breakpoints.sm}) {
-    bottom: 1.5rem;
-    right: 1.5rem;
-    left: auto;
-    align-items: flex-end;
-    gap: 0.75rem;
-  }
-`;
-
-const Panel = styled(motion.div)`
-  width: 100%;
-  height: 100dvh;
-  background: ${theme.colors.background};
-  border-top: 1px solid ${hexToRGBA(theme.colors.white, 0.1)};
-  display: flex;
-  flex-direction: column;
-  overflow: hidden;
-  pointer-events: auto;
-
-  @media (min-width: ${theme.breakpoints.sm}) {
-    width: 40rem;
-    max-width: calc(100vw - 3rem);
-    border: 1px solid ${hexToRGBA(theme.colors.white, 0.1)};
-    max-height: calc(100dvh - 8rem);
-  }
-`;
-
-const PanelHeader = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 1rem 1.25rem;
-  border-bottom: 1px solid ${hexToRGBA(theme.colors.white, 0.08)};
-  flex-shrink: 0;
-`;
-
-const PanelTitle = styled.h2`
-  font-family: ${BebasNeue.style.fontFamily};
-  font-size: 1.75rem;
-  color: ${theme.colors.white};
-  letter-spacing: 0.05em;
-`;
-
-const CloseButton = styled.button`
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 2.5rem;
-  height: 2.5rem;
-  background: transparent;
-  border: 1px solid ${hexToRGBA(theme.colors.white, 0.15)};
-  color: ${hexToRGBA(theme.colors.white, 0.6)};
-  font-size: 1.25rem;
-  cursor: pointer;
-  transition:
-    color 200ms ease-in-out,
-    border-color 200ms ease-in-out;
-
-  &:hover,
-  &:focus {
-    color: ${theme.colors.white};
-    border-color: ${hexToRGBA(theme.colors.white, 0.4)};
-  }
-`;
-
-const MessagesList = styled.div`
-  flex: 1;
-  overflow-y: auto;
-  padding: 1rem;
-  display: flex;
-  flex-direction: column;
-  gap: 1.25rem;
-  min-height: 0;
-  scrollbar-width: thin;
-  scrollbar-color: ${hexToRGBA(theme.colors.white, 0.1)} transparent;
-
-  @media (min-width: ${theme.breakpoints.xxs}) {
-    padding: 1.25rem;
-  }
-
-  @media (min-width: ${theme.breakpoints.sm}) {
-    min-height: 20rem;
-    padding: 1.5rem 1rem 1rem 1.5rem;
-  }
-`;
-
-const bubbleBase = css`
-  max-width: 85%;
-  padding: 0.625rem 0.875rem;
-  font-size: 1.125rem;
-  line-height: 1.75;
-  word-break: break-word;
-  border-radius: 0.75rem;
-`;
-
-const MessageMeta = styled.div<{ $isUser?: boolean }>`
-  font-size: 0.75rem;
-  color: ${({ $isUser }) =>
-    hexToRGBA(theme.colors.white, $isUser ? 0.45 : 0.35)};
-  margin-bottom: 0.3rem;
-`;
-
-const MarkdownContent = styled.div`
-  color: ${theme.colors.text};
-  font-size: 1rem;
-
-  p {
-    margin: 0 0 0.6rem;
-
-    &:last-child {
-      margin-bottom: 0;
-    }
-  }
-
-  strong {
-    font-weight: 600;
-    color: ${theme.colors.white};
-  }
-
-  em {
-    font-style: italic;
-  }
-
-  ul,
-  ol {
-    margin: 0.25rem 0 0.6rem;
-    padding-left: 1.25rem;
-  }
-
-  li {
-    margin-bottom: 0.25rem;
-  }
-
-  code {
-    font-family: monospace;
-    background: ${hexToRGBA(theme.colors.white, 0.1)};
-    padding: 0.1em 0.35em;
-    font-size: 0.82em;
-  }
-`;
-
-const BotBubble = styled.div`
-  ${bubbleBase}
-  align-self: flex-start;
-  background: ${hexToRGBA(theme.colors.white, 0.05)};
-  border: 1px solid ${hexToRGBA(theme.colors.white, 0.08)};
-`;
-
-const UserBubble = styled.div`
-  ${bubbleBase}
-  align-self: flex-end;
-  background: ${theme.colors.bluePurple};
-  border: 1px solid ${hexToRGBA(theme.colors.lightPurple, 0.3)};
-  color: ${theme.colors.text};
-  line-height: 1.75;
-`;
-
-const Dots = styled.div`
-  display: flex;
-  gap: 0.3rem;
-  align-items: center;
-  height: 1.1rem;
-`;
-
-const Dot = styled(motion.span)`
-  width: 0.35rem;
-  height: 0.35rem;
-  border-radius: 50%;
-  background: ${hexToRGBA(theme.colors.white, 0.5)};
-`;
-
-const InputRow = styled.form`
-  display: flex;
-  gap: 0.5rem;
-  padding: 0.75rem 1rem;
-  border-top: 1px solid ${hexToRGBA(theme.colors.white, 0.08)};
-  flex-shrink: 0;
-`;
-
-const TextInput = styled.input`
-  flex: 1;
-  background: ${hexToRGBA(theme.colors.white, 0.04)};
-  border: 1px solid ${hexToRGBA(theme.colors.white, 0.15)};
-  color: ${hexToRGBA(theme.colors.white, 0.85)};
-  padding: 0.75rem 1rem;
-  font-size: 1rem;
-  font-family: inherit;
-  outline: none;
-  transition: border-color 200ms ease-in-out;
-
-  &::placeholder {
-    color: ${hexToRGBA(theme.colors.white, 0.3)};
-  }
-
-  &:focus {
-    border-color: ${theme.colors.lightPurple};
-  }
-
-  &:disabled {
-    opacity: 0.5;
-    cursor: not-allowed;
-  }
-`;
-
-const SendButton = styled.button`
-  width: 2.75rem;
-  align-self: stretch;
-  flex-shrink: 0;
-  background: ${theme.colors.bluePurple};
-  border: 1px solid ${hexToRGBA(theme.colors.lightPurple, 0.3)};
-  color: ${theme.colors.white};
-  font-size: 1.5rem;
-  line-height: 1;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transition: filter 200ms ease-in-out;
-
-  &:hover:not(:disabled) {
-    filter: brightness(130%);
-  }
-
-  &:disabled {
-    opacity: 0.4;
-    cursor: not-allowed;
-  }
-
-  @media (min-width: ${theme.breakpoints.sm}) {
-    width: 4rem;
-  }
-`;
-
-const FAB = styled.button<{ $isOpen: boolean }>`
-  position: fixed;
-  bottom: 1.25rem;
-  right: 1.25rem;
-  display: ${({ $isOpen }) => ($isOpen ? 'none' : 'flex')};
-  pointer-events: auto;
-  width: 4.25rem;
-  height: 4.25rem;
-  border-radius: 50%;
-  background: ${theme.colors.bluePurple};
-  border: 1px solid ${hexToRGBA(theme.colors.lightPurple, 0.4)};
-  color: ${theme.colors.white};
-  cursor: pointer;
-  align-items: center;
-  justify-content: center;
-  font-size: 1rem;
-  flex-shrink: 0;
-  box-shadow:
-    0 8px 32px ${hexToRGBA(theme.colors.lightPurple, 0.45)},
-    0 2px 8px ${hexToRGBA(theme.colors.lightPurple, 0.2)};
-  transition:
-    filter 200ms ease-in-out,
-    transform 200ms ease-in-out,
-    box-shadow 200ms ease-in-out;
-
-  svg {
-    width: 1.6rem;
-    height: 1.6rem;
-  }
-
-  &:hover {
-    filter: brightness(130%);
-    transform: scale(1.06);
-    box-shadow:
-      0 12px 40px ${hexToRGBA(theme.colors.lightPurple, 0.6)},
-      0 4px 12px ${hexToRGBA(theme.colors.lightPurple, 0.3)};
-  }
-
-  @media (min-width: ${theme.breakpoints.sm}) {
-    position: static;
-    display: flex;
-    bottom: auto;
-    right: auto;
-  }
-`;

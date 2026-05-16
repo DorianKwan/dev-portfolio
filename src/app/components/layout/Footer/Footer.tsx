@@ -116,5 +116,10 @@ const FooterLink = styled(Link)`
 `;
 
 const AvailabilityWrapper = styled.div`
-  margin-right: auto;
+  order: 2;
+
+  @media only screen and (min-width: ${theme.breakpoints.md}) {
+    order: initial;
+    margin-right: auto;
+  }
 `;
