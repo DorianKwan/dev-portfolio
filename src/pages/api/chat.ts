@@ -2,7 +2,8 @@ import { Ratelimit } from '@upstash/ratelimit';
 import type { NextApiRequest, NextApiResponse } from 'next';
 import { getChatResponse, setChatResponse } from '~/lib/cache/chat-cache';
 import { redis } from '~/lib/redis/client';
-import { type ChatMessage, streamChatResponse } from '~/services/chat-service';
+import { sanitizeHistory } from '~/lib/utils/sanitize-history';
+import { streamChatResponse } from '~/services/chat-service';
 
 const ratelimit = new Ratelimit({
   redis,
@@ -10,27 +11,6 @@ const ratelimit = new Ratelimit({
 });
 
 const MAX_QUESTION_LENGTH = 2000;
-const MAX_HISTORY_ITEMS = 10;
-const MAX_HISTORY_ITEM_LENGTH = 1000;
-const VALID_ROLES = new Set(['user', 'assistant']);
-
-function sanitizeHistory(raw: unknown[]): ChatMessage[] {
-  return (Array.isArray(raw) ? raw : [])
-    .filter(
-      (item): item is { role: 'user' | 'assistant'; content: string } =>
-        typeof item === 'object' &&
-        item !== null &&
-        'role' in item &&
-        'content' in item &&
-        VALID_ROLES.has((item as { role: unknown }).role as string) &&
-        typeof (item as { content: unknown }).content === 'string',
-    )
-    .slice(-MAX_HISTORY_ITEMS)
-    .map(item => ({
-      role: item.role,
-      content: item.content.slice(0, MAX_HISTORY_ITEM_LENGTH),
-    }));
-}
 
 async function streamAndCache(
   result: Awaited<ReturnType<typeof streamChatResponse>>,
