@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import ReactMarkdown from 'react-markdown';
 import { AnimatePresence } from 'framer-motion';
 import { useAppDispatch, useAppSelector } from '~/app/store/hooks';
@@ -18,6 +18,7 @@ import {
   Panel,
   PanelHeader,
   PanelTitle,
+  ScrollToBottomFAB,
   SendButton,
   TextInput,
   UserBubble,
@@ -121,6 +122,31 @@ export const ChatWidget = () => {
     return () => vv.removeEventListener('resize', update);
   }, []);
 
+  const [showScrollFAB, setShowScrollFAB] = useState(false);
+
+  useEffect(() => {
+    const el = listRef.current;
+    if (!el || !isOpen) return;
+
+    const onScroll = () => {
+      const distanceFromBottom =
+        el.scrollHeight - el.scrollTop - el.clientHeight;
+      setShowScrollFAB(distanceFromBottom > 100);
+    };
+
+    el.addEventListener('scroll', onScroll);
+    onScroll();
+
+    return () => el.removeEventListener('scroll', onScroll);
+  }, [isOpen, listRef]);
+
+  const scrollToBottom = () => {
+    listRef.current?.scrollTo({
+      top: listRef.current.scrollHeight,
+      behavior: 'smooth',
+    });
+  };
+
   const showSuggestions = messages.length === 1 && !isGenerating;
 
   return (
@@ -208,6 +234,21 @@ export const ChatWidget = () => {
                 onSelect={handleSuggestion}
               />
             </MessagesList>
+
+            <AnimatePresence>
+              {showScrollFAB && (
+                <ScrollToBottomFAB
+                  key="scroll-fab"
+                  onClick={scrollToBottom}
+                  initial={{ opacity: 0, scale: 0.8, x: '-50%' }}
+                  animate={{ opacity: 1, scale: 1, x: '-50%' }}
+                  exit={{ opacity: 0, scale: 0.8, x: '-50%' }}
+                  transition={{ duration: 0.15 }}
+                  aria-label="Scroll to bottom">
+                  ↓
+                </ScrollToBottomFAB>
+              )}
+            </AnimatePresence>
 
             <InputRow onSubmit={e => void handleSubmit(e)} noValidate>
               <TextInput

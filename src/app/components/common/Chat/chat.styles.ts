@@ -37,6 +37,7 @@ export const WidgetRoot = styled.div<{ $isOpen: boolean }>`
 `;
 
 export const Panel = styled(motion.div)`
+  position: relative;
   width: 100%;
   height: var(--visual-height, 100dvh);
   transition: height 120ms ease-out;
@@ -369,6 +370,33 @@ export const SendButton = styled.button`
 
   @media (min-width: ${theme.breakpoints.sm}) {
     width: 4rem;
+  }
+`;
+
+export const ScrollToBottomFAB = styled(motion.button)`
+  position: absolute;
+  bottom: 5.5rem;
+  left: 50%;
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.5rem;
+  height: 2.5rem;
+  padding-bottom: 0.25rem;
+  border-radius: 50%;
+  background: ${theme.colors.bluePurple};
+  border: 1px solid ${hexToRGBA(theme.colors.lightPurple, 0.4)};
+  color: ${theme.colors.white};
+  font-size: 1.25rem;
+  cursor: pointer;
+  box-shadow:
+    0 4px 12px ${hexToRGBA(theme.colors.lightPurple, 0.25)},
+    0 2px 4px ${hexToRGBA(theme.colors.lightPurple, 0.12)};
+  transition: filter 200ms ease-in-out;
+
+  &:hover {
+    filter: brightness(130%);
   }
 `;
 
