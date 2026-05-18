@@ -116,7 +116,7 @@ export const MessagesList = styled.div`
 const bubbleBase = css`
   max-width: 85%;
   padding: 0.5rem 0.75rem;
-  font-size: 0.9rem;
+  font-size: 0.875rem;
   line-height: 1.6;
   word-break: break-word;
   border-radius: 0.75rem;
@@ -145,6 +145,13 @@ export const MarkdownContent = styled.div`
 
   p {
     margin: 0 0 0.6rem;
+    font-size: 0.875rem;
+    line-height: 1.6;
+
+    @media (min-width: ${theme.breakpoints.sm}) {
+      font-size: 1.125rem;
+      line-height: 1.75;
+    }
 
     &:last-child {
       margin-bottom: 0;
