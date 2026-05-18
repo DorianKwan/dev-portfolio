@@ -18,9 +18,10 @@ export interface ChatStreamState {
   isStreamingLast: boolean;
   dotsRef: React.RefObject<HTMLDivElement | null>;
   listRef: React.RefObject<HTMLDivElement | null>;
-  inputRef: React.RefObject<HTMLInputElement | null>;
+  inputRef: React.RefObject<HTMLTextAreaElement | null>;
   handleSubmit: (e: React.FormEvent) => void;
   handleSuggestion: (text: string) => void;
+  sendMessage: () => void;
 }
 
 export function useChatStream(): ChatStreamState {
@@ -34,7 +35,7 @@ export function useChatStream(): ChatStreamState {
   const wasGeneratingRef = useRef(false);
   const dotsRef = useRef<HTMLDivElement>(null);
   const listRef = useRef<HTMLDivElement>(null);
-  const inputRef = useRef<HTMLInputElement>(null);
+  const inputRef = useRef<HTMLTextAreaElement>(null);
 
   // When generating starts: reset and kick off typewriter
   useEffect(() => {
@@ -205,6 +206,10 @@ export function useChatStream(): ChatStreamState {
     void submit(text);
   };
 
+  const sendMessage = () => {
+    void submit(input.trim());
+  };
+
   return {
     messages,
     input,
@@ -219,5 +224,6 @@ export function useChatStream(): ChatStreamState {
     inputRef,
     handleSubmit,
     handleSuggestion,
+    sendMessage,
   };
 }

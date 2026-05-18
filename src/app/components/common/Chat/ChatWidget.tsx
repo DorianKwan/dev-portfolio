@@ -47,6 +47,7 @@ export const ChatWidget = () => {
     inputRef,
     handleSubmit,
     handleSuggestion,
+    sendMessage,
   } = useChatStream();
 
   useEffect(() => {
@@ -57,7 +58,9 @@ export const ChatWidget = () => {
     const isMobile = window.matchMedia(
       `(max-width: ${theme.breakpoints.sm})`,
     ).matches;
+
     if (isOpen && isMobile) document.body.style.overflow = 'hidden';
+
     return () => {
       document.body.style.overflow = '';
     };
@@ -67,9 +70,20 @@ export const ChatWidget = () => {
     const onKeyDown = (e: KeyboardEvent) => {
       if (e.key === 'Escape' && isOpen) dispatch(setIsChatOpen(false));
     };
+
     window.addEventListener('keydown', onKeyDown);
+
     return () => window.removeEventListener('keydown', onKeyDown);
   }, [isOpen, dispatch]);
+
+  useEffect(() => {
+    const el = inputRef.current;
+
+    if (!el) return;
+
+    el.style.height = 'auto';
+    el.style.height = `${el.scrollHeight}px`;
+  }, [input, inputRef]);
 
   useEffect(() => {
     const vv = window.visualViewport;
@@ -173,7 +187,14 @@ export const ChatWidget = () => {
                 id="chat"
                 ref={inputRef}
                 value={input}
+                rows={1}
                 onChange={e => setInput(e.target.value)}
+                onKeyDown={e => {
+                  if (e.key === 'Enter' && !e.shiftKey) {
+                    e.preventDefault();
+                    sendMessage();
+                  }
+                }}
                 placeholder="Ask a question..."
                 disabled={isGenerating}
                 aria-label="Your question"

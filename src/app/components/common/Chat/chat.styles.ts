@@ -227,6 +227,7 @@ export const Dot = styled(motion.span)`
 
 export const InputRow = styled.form`
   display: flex;
+  align-items: flex-end;
   gap: 0.5rem;
   padding: 0.5rem 0.75rem;
   border-top: 1px solid ${hexToRGBA(theme.colors.white, 0.08)};
@@ -237,7 +238,7 @@ export const InputRow = styled.form`
   }
 `;
 
-export const TextInput = styled.input`
+export const TextInput = styled.textarea`
   flex: 1;
   background: ${hexToRGBA(theme.colors.white, 0.04)};
   border: 1px solid ${hexToRGBA(theme.colors.white, 0.15)};
@@ -245,7 +246,11 @@ export const TextInput = styled.input`
   padding: 0.5rem 0.75rem;
   font-size: 1rem;
   font-family: inherit;
+  line-height: 1.5;
   outline: none;
+  resize: none;
+  overflow-y: auto;
+  max-height: 8rem;
   transition: border-color 200ms ease-in-out;
 
   @media (min-width: ${theme.breakpoints.sm}) {
@@ -268,7 +273,7 @@ export const TextInput = styled.input`
 
 export const SendButton = styled.button`
   width: 2.75rem;
-  align-self: stretch;
+  height: 2.75rem;
   flex-shrink: 0;
   background: ${theme.colors.bluePurple};
   border: 1px solid ${hexToRGBA(theme.colors.lightPurple, 0.3)};
