@@ -131,7 +131,11 @@ export const ChatWidget = () => {
               </CloseButton>
             </PanelHeader>
 
-            <MessagesList ref={listRef}>
+            <MessagesList
+              ref={listRef}
+              aria-live="polite"
+              aria-relevant="additions text"
+              aria-atomic="false">
               {messages.map((msg, idx) => {
                 const isLast = idx === messages.length - 1;
                 const isThisStreaming = isStreamingLast && isLast;
