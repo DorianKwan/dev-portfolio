@@ -67,10 +67,14 @@ export const ChatWidget = () => {
       `(max-width: ${theme.breakpoints.sm})`,
     ).matches;
 
-    if (isOpen && isMobile) document.body.style.overflow = 'hidden';
+    if (isOpen && isMobile) {
+      document.body.style.overflow = 'hidden';
+      document.documentElement.style.overflow = 'hidden';
+    }
 
     return () => {
       document.body.style.overflow = '';
+      document.documentElement.style.overflow = '';
     };
   }, [isOpen]);
 
