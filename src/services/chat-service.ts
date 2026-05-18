@@ -1,6 +1,7 @@
 import { createAnthropic } from '@ai-sdk/anthropic';
 import { streamText } from 'ai';
 import { VoyageAIClient } from 'voyageai';
+import { getEmbedding, setEmbedding } from '~/lib/cache/chat-cache';
 import { supabase } from '~/lib/supabase/client';
 import type { Database } from '~/lib/supabase/database.types';
 
@@ -16,6 +17,9 @@ const CLAUDE_MODEL = 'claude-haiku-4-5-20251001';
 export type ChatMessage = { role: 'user' | 'assistant'; content: string };
 
 async function embedQuestion(question: string): Promise<number[]> {
+  const cached = await getEmbedding(question);
+  if (cached) return cached;
+
   const result = await voyage.embed({
     input: [question],
     model: VOYAGE_MODEL,
@@ -25,6 +29,8 @@ async function embedQuestion(question: string): Promise<number[]> {
   const embedding = result.data?.[0]?.embedding;
 
   if (!embedding) throw new Error('Voyage returned no embedding');
+
+  void setEmbedding(question, embedding);
 
   return embedding;
 }
