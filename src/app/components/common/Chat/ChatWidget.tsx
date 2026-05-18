@@ -30,6 +30,14 @@ import { ChatIcon } from '../../icons/ChatIcon';
 const formatTime = (ts: number) =>
   new Date(ts).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
 
+// Convert single newlines to paragraph breaks only outside code fences/spans,
+// so ReactMarkdown doesn't inject blank lines inside code blocks.
+const toMarkdownParagraphs = (content: string): string =>
+  content
+    .split(/(```[\s\S]*?```|`[^`\n]*`)/g)
+    .map((part, i) => (i % 2 === 0 ? part.replace(/\n/g, '\n\n') : part))
+    .join('');
+
 export const ChatWidget = () => {
   const isOpen = useAppSelector(getIsChatOpen);
   const dispatch = useAppDispatch();
@@ -151,7 +159,11 @@ export const ChatWidget = () => {
                     <MessageMeta $isUser>
                       You · {formatTime(msg.ts)}
                     </MessageMeta>
-                    {msg.content}
+                    <MarkdownContent>
+                      <ReactMarkdown>
+                        {toMarkdownParagraphs(msg.content)}
+                      </ReactMarkdown>
+                    </MarkdownContent>
                   </UserBubble>
                 );
               })}
