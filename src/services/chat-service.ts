@@ -88,6 +88,7 @@ export async function streamChatResponse(
     model: anthropic(CLAUDE_MODEL),
     system: buildSystemPrompt(chunks),
     messages: [...history, { role: 'user', content: question }],
+    maxOutputTokens: 600,
     maxRetries: 1,
   });
 }
