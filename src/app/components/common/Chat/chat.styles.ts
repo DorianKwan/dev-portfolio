@@ -5,7 +5,7 @@ import { BebasNeue } from '~/app/fonts';
 import { theme } from '~/theme/theme';
 import { hexToRGBA } from '~/theme/utils';
 
-export const WidgetRoot = styled.div`
+export const WidgetRoot = styled.div<{ $isOpen: boolean }>`
   position: fixed;
   top: 0;
   left: 0;
@@ -17,6 +17,13 @@ export const WidgetRoot = styled.div`
   gap: 0;
   pointer-events: none;
 
+  ${({ $isOpen }) =>
+    $isOpen &&
+    css`
+      bottom: 0;
+      background: ${theme.colors.background};
+    `}
+
   @media (min-width: ${theme.breakpoints.sm}) {
     top: auto;
     bottom: 1.5rem;
@@ -24,12 +31,14 @@ export const WidgetRoot = styled.div`
     left: auto;
     align-items: flex-end;
     gap: 0.75rem;
+    background: none;
   }
 `;
 
 export const Panel = styled(motion.div)`
   width: 100%;
   height: var(--visual-height, 100dvh);
+  transition: height 120ms ease-out;
   background: ${theme.colors.background};
   border-top: 1px solid ${hexToRGBA(theme.colors.white, 0.1)};
   display: flex;
@@ -39,6 +48,7 @@ export const Panel = styled(motion.div)`
 
   @media (min-width: ${theme.breakpoints.sm}) {
     height: auto;
+    transition: none;
     width: 40rem;
     max-width: calc(100vw - 3rem);
     border: 1px solid ${hexToRGBA(theme.colors.white, 0.1)};

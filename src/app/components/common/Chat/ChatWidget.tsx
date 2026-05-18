@@ -91,7 +91,7 @@ export const ChatWidget = () => {
   const showSuggestions = messages.length === 1 && !isGenerating;
 
   return (
-    <WidgetRoot>
+    <WidgetRoot $isOpen={isOpen}>
       <AnimatePresence>
         {isOpen && (
           <Panel
