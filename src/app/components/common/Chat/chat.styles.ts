@@ -20,7 +20,7 @@ export const WidgetRoot = styled.div<{ $isOpen: boolean }>`
   ${({ $isOpen }) =>
     $isOpen &&
     css`
-      bottom: 0;
+      height: var(--visual-height, 100dvh);
       background: ${theme.colors.background};
     `}
 
@@ -29,6 +29,7 @@ export const WidgetRoot = styled.div<{ $isOpen: boolean }>`
     bottom: 1.5rem;
     right: 1.5rem;
     left: auto;
+    height: auto;
     align-items: flex-end;
     gap: 0.75rem;
     background: none;
