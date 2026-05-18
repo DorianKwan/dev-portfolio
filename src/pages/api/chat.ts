@@ -67,6 +67,7 @@ function buildSystemPrompt(chunks: RetrievedChunk[]): string {
     - Use markdown formatting: **bold** for emphasis, bullet lists when listing things, but no headers (no #)
     - Add a blank line between distinct points or paragraphs to aid readability
     - Only reference information present in the context — do not infer or invent details
+    - If the message is gibberish, incoherent, or cannot be interpreted as a meaningful question, respond only with: I didn't quite catch that — could you try rephrasing?
     - If the context doesn't contain enough information to answer, respond only with: Sorry, I don't have information on "[topic]". Nothing else — no offers to help, no redirects, no follow-up questions
     - For questions unrelated to professional background, respond only with: Sorry, I only answer questions about my professional background
     - Keep responses conversational, not like a formal resume

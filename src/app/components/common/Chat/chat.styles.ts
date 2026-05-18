@@ -5,7 +5,7 @@ import { BebasNeue } from '~/app/fonts';
 import { theme } from '~/theme/theme';
 import { hexToRGBA } from '~/theme/utils';
 
-export const WidgetRoot = styled.div`
+export const WidgetRoot = styled.div<{ $isOpen: boolean }>`
   position: fixed;
   top: 0;
   left: 0;
@@ -17,6 +17,13 @@ export const WidgetRoot = styled.div`
   gap: 0;
   pointer-events: none;
 
+  ${({ $isOpen }) =>
+    $isOpen &&
+    css`
+      bottom: 0;
+      background: ${theme.colors.background};
+    `}
+
   @media (min-width: ${theme.breakpoints.sm}) {
     top: auto;
     bottom: 1.5rem;
@@ -24,12 +31,14 @@ export const WidgetRoot = styled.div`
     left: auto;
     align-items: flex-end;
     gap: 0.75rem;
+    background: none;
   }
 `;
 
 export const Panel = styled(motion.div)`
   width: 100%;
   height: var(--visual-height, 100dvh);
+  transition: height 120ms ease-out;
   background: ${theme.colors.background};
   border-top: 1px solid ${hexToRGBA(theme.colors.white, 0.1)};
   display: flex;
@@ -39,6 +48,7 @@ export const Panel = styled(motion.div)`
 
   @media (min-width: ${theme.breakpoints.sm}) {
     height: auto;
+    transition: none;
     width: 40rem;
     max-width: calc(100vw - 3rem);
     border: 1px solid ${hexToRGBA(theme.colors.white, 0.1)};
@@ -116,35 +126,24 @@ export const MessagesList = styled.div`
 const bubbleBase = css`
   max-width: 85%;
   padding: 0.5rem 0.75rem;
-  font-size: 0.9rem;
-  line-height: 1.6;
   word-break: break-word;
   border-radius: 0.75rem;
 
   @media (min-width: ${theme.breakpoints.sm}) {
     padding: 0.625rem 0.875rem;
-    font-size: 1.125rem;
-    line-height: 1.75;
   }
 `;
 
-export const MessageMeta = styled.div<{ $isUser?: boolean }>`
-  font-size: 0.75rem;
-  color: ${({ $isUser }) =>
-    hexToRGBA(theme.colors.white, $isUser ? 0.45 : 0.35)};
-  margin-bottom: 0.3rem;
-`;
-
-export const MarkdownContent = styled.div`
-  color: ${theme.colors.text};
-  font-size: 0.875rem;
-
-  @media (min-width: ${theme.breakpoints.sm}) {
-    font-size: 1rem;
-  }
-
+const markdownContentStyles = css`
   p {
     margin: 0 0 0.6rem;
+    font-size: 0.875rem;
+    line-height: 1.6;
+
+    @media (min-width: ${theme.breakpoints.sm}) {
+      font-size: 1.125rem;
+      line-height: 1.75;
+    }
 
     &:last-child {
       margin-bottom: 0;
@@ -164,6 +163,7 @@ export const MarkdownContent = styled.div`
   ol {
     margin: 0.25rem 0 0.6rem;
     padding-left: 1.25rem;
+    list-style-image: unset; // override css-reset
   }
 
   li {
@@ -172,9 +172,53 @@ export const MarkdownContent = styled.div`
 
   code {
     font-family: monospace;
-    background: ${hexToRGBA(theme.colors.white, 0.1)};
     padding: 0.1em 0.35em;
     font-size: 0.82em;
+    border-radius: 3px;
+  }
+
+  pre {
+    padding: 0.75rem;
+    border-radius: 0.5rem;
+    overflow-x: auto;
+    margin: 0.25rem 0;
+
+    &:last-child {
+      margin-bottom: 0;
+    }
+
+    code {
+      background: none;
+      padding: 0;
+      font-size: 0.82em;
+      line-height: 1.6;
+    }
+  }
+`;
+
+export const MessageMeta = styled.div<{ $isUser?: boolean }>`
+  font-size: 0.75rem;
+  color: ${({ $isUser }) =>
+    hexToRGBA(theme.colors.white, $isUser ? 0.45 : 0.35)};
+  margin-bottom: 0.3rem;
+`;
+
+export const MarkdownContent = styled.div`
+  ${markdownContentStyles}
+  color: ${theme.colors.text};
+  font-size: 0.875rem;
+
+  @media (min-width: ${theme.breakpoints.sm}) {
+    font-size: 1rem;
+  }
+
+  code {
+    background: ${hexToRGBA(theme.colors.white, 0.1)};
+  }
+
+  pre {
+    background: ${hexToRGBA(theme.colors.white, 0.05)};
+    border: 1px solid ${hexToRGBA(theme.colors.white, 0.08)};
   }
 `;
 
@@ -192,6 +236,49 @@ export const UserBubble = styled.div`
   border: 1px solid ${hexToRGBA(theme.colors.lightPurple, 0.3)};
   color: ${theme.colors.text};
   line-height: 1.75;
+
+  p {
+    margin: 0 0 0.6rem;
+    font-size: 0.875rem;
+    line-height: 1.6;
+
+    @media (min-width: ${theme.breakpoints.sm}) {
+      font-size: 1.125rem;
+      line-height: 1.75;
+    }
+
+    &:last-child {
+      margin-bottom: 0;
+    }
+  }
+
+  code {
+    font-family: monospace;
+    background: ${hexToRGBA(theme.colors.white, 0.15)};
+    padding: 0.1em 0.35em;
+    font-size: 0.82em;
+    border-radius: 3px;
+  }
+
+  pre {
+    background: ${hexToRGBA(theme.colors.background, 0.6)};
+    border: 1px solid ${hexToRGBA(theme.colors.white, 0.1)};
+    padding: 0.75rem;
+    border-radius: 0.5rem;
+    overflow-x: auto;
+    margin: 0.25rem 0;
+
+    &:last-child {
+      margin-bottom: 0;
+    }
+
+    code {
+      background: none;
+      padding: 0;
+      font-size: 0.82em;
+      line-height: 1.6;
+    }
+  }
 `;
 
 export const Dots = styled.div`
@@ -210,6 +297,7 @@ export const Dot = styled(motion.span)`
 
 export const InputRow = styled.form`
   display: flex;
+  align-items: flex-end;
   gap: 0.5rem;
   padding: 0.5rem 0.75rem;
   border-top: 1px solid ${hexToRGBA(theme.colors.white, 0.08)};
@@ -220,7 +308,7 @@ export const InputRow = styled.form`
   }
 `;
 
-export const TextInput = styled.input`
+export const TextInput = styled.textarea`
   flex: 1;
   background: ${hexToRGBA(theme.colors.white, 0.04)};
   border: 1px solid ${hexToRGBA(theme.colors.white, 0.15)};
@@ -228,7 +316,11 @@ export const TextInput = styled.input`
   padding: 0.5rem 0.75rem;
   font-size: 1rem;
   font-family: inherit;
+  line-height: 1.5;
   outline: none;
+  resize: none;
+  overflow-y: auto;
+  max-height: 10rem;
   transition: border-color 200ms ease-in-out;
 
   @media (min-width: ${theme.breakpoints.sm}) {
@@ -251,7 +343,7 @@ export const TextInput = styled.input`
 
 export const SendButton = styled.button`
   width: 2.75rem;
-  align-self: stretch;
+  height: 2.75rem;
   flex-shrink: 0;
   background: ${theme.colors.bluePurple};
   border: 1px solid ${hexToRGBA(theme.colors.lightPurple, 0.3)};

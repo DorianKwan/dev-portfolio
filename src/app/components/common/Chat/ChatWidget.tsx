@@ -30,6 +30,14 @@ import { ChatIcon } from '../../icons/ChatIcon';
 const formatTime = (ts: number) =>
   new Date(ts).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
 
+// Convert single newlines to paragraph breaks only outside code fences/spans,
+// so ReactMarkdown doesn't inject blank lines inside code blocks.
+const toMarkdownParagraphs = (content: string): string =>
+  content
+    .split(/(```[\s\S]*?```|`[^`\n]*`)/g)
+    .map((part, i) => (i % 2 === 0 ? part.replace(/\n/g, '\n\n') : part))
+    .join('');
+
 export const ChatWidget = () => {
   const isOpen = useAppSelector(getIsChatOpen);
   const dispatch = useAppDispatch();
@@ -47,6 +55,7 @@ export const ChatWidget = () => {
     inputRef,
     handleSubmit,
     handleSuggestion,
+    sendMessage,
   } = useChatStream();
 
   useEffect(() => {
@@ -57,7 +66,9 @@ export const ChatWidget = () => {
     const isMobile = window.matchMedia(
       `(max-width: ${theme.breakpoints.sm})`,
     ).matches;
+
     if (isOpen && isMobile) document.body.style.overflow = 'hidden';
+
     return () => {
       document.body.style.overflow = '';
     };
@@ -67,9 +78,20 @@ export const ChatWidget = () => {
     const onKeyDown = (e: KeyboardEvent) => {
       if (e.key === 'Escape' && isOpen) dispatch(setIsChatOpen(false));
     };
+
     window.addEventListener('keydown', onKeyDown);
+
     return () => window.removeEventListener('keydown', onKeyDown);
   }, [isOpen, dispatch]);
+
+  useEffect(() => {
+    const el = inputRef.current;
+
+    if (!el) return;
+
+    el.style.height = 'auto';
+    el.style.height = `${el.scrollHeight}px`;
+  }, [input, inputRef]);
 
   useEffect(() => {
     const vv = window.visualViewport;
@@ -91,7 +113,7 @@ export const ChatWidget = () => {
   const showSuggestions = messages.length === 1 && !isGenerating;
 
   return (
-    <WidgetRoot>
+    <WidgetRoot $isOpen={isOpen}>
       <AnimatePresence>
         {isOpen && (
           <Panel
@@ -109,7 +131,11 @@ export const ChatWidget = () => {
               </CloseButton>
             </PanelHeader>
 
-            <MessagesList ref={listRef}>
+            <MessagesList
+              ref={listRef}
+              aria-live="polite"
+              aria-relevant="additions text"
+              aria-atomic="false">
               {messages.map((msg, idx) => {
                 const isLast = idx === messages.length - 1;
                 const isThisStreaming = isStreamingLast && isLast;
@@ -137,7 +163,11 @@ export const ChatWidget = () => {
                     <MessageMeta $isUser>
                       You · {formatTime(msg.ts)}
                     </MessageMeta>
-                    {msg.content}
+                    <MarkdownContent>
+                      <ReactMarkdown>
+                        {toMarkdownParagraphs(msg.content)}
+                      </ReactMarkdown>
+                    </MarkdownContent>
                   </UserBubble>
                 );
               })}
@@ -173,7 +203,14 @@ export const ChatWidget = () => {
                 id="chat"
                 ref={inputRef}
                 value={input}
+                rows={1}
                 onChange={e => setInput(e.target.value)}
+                onKeyDown={e => {
+                  if (e.key === 'Enter' && !e.shiftKey) {
+                    e.preventDefault();
+                    sendMessage();
+                  }
+                }}
                 placeholder="Ask a question..."
                 disabled={isGenerating}
                 aria-label="Your question"
